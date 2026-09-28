@@ -1,18 +1,19 @@
-_:
+{ host, ... }:
 
 {
   imports = [
+    ./agent-skills
     ./editor
     ./opencode
     ./packages
+    ./security
     ./shell
     ./terminal
     ./vcs/git.nix
   ];
 
   home = {
-    username = "yumx";
-    homeDirectory = /Users/yumx;
+    inherit (host) homeDirectory username;
     stateVersion = "26.05";
   };
 }

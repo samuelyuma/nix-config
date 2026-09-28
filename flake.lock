@@ -1,5 +1,41 @@
 {
   "nodes": {
+    "agent-skills-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789145426,
+        "narHash": "sha256-Wf+7Qzt8+nz4TXPCbWnMjOAdzbVM6blW9J6JP+YhSy8=",
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "rev": "5133c874553c6c295654d8de4e3f62c95736b9c6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "type": "github"
+      }
+    },
+    "caveman": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789871836,
+        "narHash": "sha256-xJVk0LfkCxmRBasTZoMAlpaDMbFn0musoLYnCMRHbEU=",
+        "owner": "JuliusBrussee",
+        "repo": "caveman",
+        "rev": "3ee70a102609e550bd2e68004bf5990a9341c851",
+        "type": "github"
+      },
+      "original": {
+        "owner": "JuliusBrussee",
+        "repo": "caveman",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -58,6 +94,22 @@
         "type": "github"
       }
     },
+    "grill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789726349,
+        "narHash": "sha256-L3CpIT2DeI+fUFl9fcygojtQo2DzEen69rMD1XqR1vM=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -75,6 +127,38 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "humanizer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788725873,
+        "narHash": "sha256-tC7vHxHDzTRgpsF7i6YnKWhAbrkeclspRJVK1osRE24=",
+        "owner": "blader",
+        "repo": "humanizer",
+        "rev": "9862685f575c65a8247f90369951df1b3416e3d6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "blader",
+        "repo": "humanizer",
+        "type": "github"
+      }
+    },
+    "i-have-adhd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789836285,
+        "narHash": "sha256-UExi0k71MOtLwqVaFRGhgvqq6+jxwbQxZZVZxceHGrw=",
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
+        "rev": "839872f9d1cd634fed642b4589ce7226199cc15f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
         "type": "github"
       }
     },
@@ -150,14 +234,54 @@
         "type": "github"
       }
     },
+    "ponytail": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789396482,
+        "narHash": "sha256-PES5XrSYx0VBXWVHEDRykGy0SAmJfV/luzy8Gfg0aAQ=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "e3ba2aa6f1e6f0bc4d69eb09c9f0d0a93af56156",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
+        "agent-skills-nix": "agent-skills-nix",
+        "caveman": "caveman",
         "git-hooks": "git-hooks",
+        "grill": "grill",
         "home-manager": "home-manager",
+        "humanizer": "humanizer",
+        "i-have-adhd": "i-have-adhd",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
-        "sops-nix": "sops-nix"
+        "ponytail": "ponytail",
+        "rtk": "rtk",
+        "sops-nix": "sops-nix",
+        "superpowers": "superpowers"
+      }
+    },
+    "rtk": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789773080,
+        "narHash": "sha256-Bs1NA0EPeiEAOmhPxSH8S8emhRq5a38docVAbGqFeuM=",
+        "owner": "rtk-ai",
+        "repo": "rtk",
+        "rev": "0924356b4caba4989607227b7c8824d3d8098719",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rtk-ai",
+        "repo": "rtk",
+        "type": "github"
       }
     },
     "sops-nix": {
@@ -177,6 +301,22 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "superpowers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789777895,
+        "narHash": "sha256-rgeJhjQyABYlhlyFRmgyhbZmmmIPPNkch4CXyTkGEyM=",
+        "owner": "obra",
+        "repo": "superpowers",
+        "rev": "5bf4e78011075bcfc0dc295f0724994cd123ee71",
+        "type": "github"
+      },
+      "original": {
+        "owner": "obra",
+        "repo": "superpowers",
         "type": "github"
       }
     },

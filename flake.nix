@@ -25,22 +25,70 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agent-skills-nix = {
+      url = "github:Kyure-A/agent-skills-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ponytail = {
+      url = "github:DietrichGebert/ponytail";
+      flake = false;
+    };
+    caveman = {
+      url = "github:JuliusBrussee/caveman";
+      flake = false;
+    };
+    superpowers = {
+      url = "github:obra/superpowers";
+      flake = false;
+    };
+    rtk = {
+      url = "github:rtk-ai/rtk";
+      flake = false;
+    };
+    i-have-adhd = {
+      url = "github:ayghri/i-have-adhd";
+      flake = false;
+    };
+    humanizer = {
+      url = "github:blader/humanizer";
+      flake = false;
+    };
+    grill = {
+      url = "github:mattpocock/skills";
+      flake = false;
+    };
   };
 
   outputs =
-    {
+    inputs@{
       self,
       git-hooks,
       nix-darwin,
       home-manager,
       sops-nix,
       nixvim,
+      agent-skills-nix,
+      ponytail,
+      caveman,
+      superpowers,
+      rtk,
+      i-have-adhd,
+      humanizer,
+      grill,
       nixpkgs,
       ...
     }:
     let
-      pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-      localChecks = git-hooks.lib.aarch64-darwin.run {
+      host = rec {
+        username = "yumx";
+        homeDirectory = "/Users/${username}";
+        dotfilesDirectory = "${homeDirectory}/Code/Config/dotfiles";
+        system = "aarch64-darwin";
+      };
+      pkgs = nixpkgs.legacyPackages.${host.system};
+      localChecks = git-hooks.lib.${host.system}.run {
         src = ./.;
 
         hooks = {
@@ -84,21 +132,21 @@
       '';
     in
     {
-      formatter.aarch64-darwin = pkgs.nixfmt-tree;
+      formatter.${host.system} = pkgs.nixfmt-tree;
 
-      packages.aarch64-darwin.activate = activate;
+      packages.${host.system}.activate = activate;
 
-      apps.aarch64-darwin.activate = {
+      apps.${host.system}.activate = {
         type = "app";
         program = "${activate}/bin/activate";
       };
 
-      checks.aarch64-darwin = {
+      checks.${host.system} = {
         darwin = self.darwinConfigurations.darwin.system;
         hooks = localChecks;
       };
 
-      devShells.aarch64-darwin.default = pkgs.mkShellNoCC {
+      devShells.${host.system}.default = pkgs.mkShellNoCC {
         inherit (localChecks) shellHook;
 
         packages = with pkgs; [
@@ -109,7 +157,8 @@
       };
 
       darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+        inherit (host) system;
+        specialArgs = { inherit host inputs; };
 
         modules = [
           ./configurations/darwin
@@ -118,13 +167,15 @@
           {
             home-manager = {
               backupFileExtension = "hm-backup";
+              extraSpecialArgs = { inherit host inputs; };
               sharedModules = [
                 nixvim.homeModules.nixvim
                 sops-nix.homeManagerModules.sops
+                agent-skills-nix.homeManagerModules.default
               ];
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.yumx = import ./modules/home;
+              users.${host.username} = import ./modules/home;
             };
           }
         ];

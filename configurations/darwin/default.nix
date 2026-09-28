@@ -1,12 +1,12 @@
-{ ... }:
+{ host, ... }:
 
 {
   imports = [ ../../modules/darwin ];
 
   nix.enable = false;
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  system.primaryUser = "yumx";
+  nixpkgs.hostPlatform = host.system;
+  system.primaryUser = host.username;
   system.stateVersion = 6;
 
-  users.users.yumx.home = /Users/yumx;
+  users.users.${host.username}.home = host.homeDirectory;
 }
