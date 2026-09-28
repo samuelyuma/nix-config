@@ -44,8 +44,6 @@ in
   };
 
   sops = lib.mkIf hasGitPat {
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    defaultSopsFile = secretsYaml;
     secrets."github/personal_access_token" = { };
     templates."git-credentials" = {
       path = "${config.home.homeDirectory}/.git-credentials";

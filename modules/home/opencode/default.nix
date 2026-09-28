@@ -6,6 +6,8 @@
 }:
 
 let
+  basicMemoryVersion = "0.23.2";
+
   zenFreeModels = [
     "opencode/muse-spark-1.3-contributor-free"
     { model = "opencode/muse-spark-1.2-contributor-free"; }
@@ -41,40 +43,56 @@ let
     "writing"
   ];
 
-  omoPinSpec = pkgs.writeText "omo-pin-spec.json" (
-    builtins.toJSON {
-      primary = builtins.head zenFreeModels;
-      models = zenFreeModels;
-      agents = omoAgentNames;
-      categories = omoCategoryNames;
-    }
+  primaryModel = builtins.head zenFreeModels;
+  omoAgents = builtins.listToAttrs (
+    map (name: {
+      inherit name;
+      value.model = primaryModel;
+    }) omoAgentNames
+  );
+  omoCategories = builtins.listToAttrs (
+    map (name: {
+      inherit name;
+      value.models = zenFreeModels;
+    }) omoCategoryNames
   );
 in
 {
-  home.packages = with pkgs; [
-    sops
-    age
-  ];
+  home.file.".omo/omo.jsonc" = {
+    force = true;
+    text = builtins.toJSON {
+      "$schema" =
+        "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/omo.schema.json";
+      "[opencode]" = {
+        agents = omoAgents;
+        categories = omoCategories;
+        codegraph = { };
+      };
+      "[codex]".codegraph = { };
+      codegraph = { };
+      _migrations = [
+        "2026-07-codex-config-jsonc"
+        "2026-08-reasoning-unification"
+      ];
+    };
+  };
 
   sops = {
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-    defaultSopsFile = ../../../secrets/secrets.yaml;
     secrets."github/mcp_token" = { };
     templates."opencode.jsonc" = {
       path = "${config.xdg.configHome}/opencode/opencode.jsonc";
+      mode = "0400";
       content = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
         plugin = [
-          "oh-my-openagent@latest"
-          "@dietrichgebert/ponytail"
+          "oh-my-openagent@4.19.4"
+          "@dietrichgebert/ponytail@4.10.0"
         ];
         mcp = {
           playwright = {
             type = "local";
             command = [
-              "npx"
-              "-y"
-              "@playwright/mcp@latest"
+              "${pkgs.playwright-mcp}/bin/playwright-mcp"
               "--browser=chromium"
             ];
             enabled = true;
@@ -98,14 +116,9 @@ in
             ];
             enabled = true;
           };
-          postgres = {
-            type = "local";
-            command = [
-              "npx"
-              "-y"
-              "@henkey/postgres-mcp-server@latest"
-            ];
-            environment.DATABASE_URL = "postgresql://REPLACE_WITH_READONLY_DSN";
+          tinyfish = {
+            type = "remote";
+            url = "https://agent.tinyfish.ai/mcp";
             enabled = true;
           };
         };
@@ -114,45 +127,15 @@ in
   };
 
   home.activation = {
-    pinOmoModel = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      $DRY_RUN_CMD ${pkgs.python3}/bin/python3 - <<'EOF'
-      import json, os
-      spec = json.load(open("${omoPinSpec}"))
-      path = os.path.expanduser("~/.omo/omo.jsonc")
-      try:
-          with open(path) as f:
-              cfg = json.load(f)
-      except (FileNotFoundError, json.JSONDecodeError):
-          cfg = {}
-      op = cfg.setdefault("[opencode]", {})
-      changed = False
-      agents = op.setdefault("agents", {})
-      for name in spec["agents"]:
-          entry = agents.setdefault(name, {})
-          entry.pop("models", None)
-          entry.pop("fallback_models", None)
-          if entry.get("model") != spec["primary"]:
-              entry["model"] = spec["primary"]
-              changed = True
-      cats = op.setdefault("categories", {})
-      for name in spec["categories"]:
-          entry = cats.setdefault(name, {})
-          entry.pop("model", None)
-          entry.pop("fallback_models", None)
-          if entry.get("models") != spec["models"]:
-              entry["models"] = [m for m in spec["models"]]
-              changed = True
-      if changed:
-          with open(path, "w") as f:
-              json.dump(cfg, f, indent=2)
-          print("pinned omo agents/categories to Zen free models")
-      EOF
-    '';
-
     installBasicMemory = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
-      if [ ! -x "${config.home.homeDirectory}/.local/bin/basic-memory" ]; then
-        $DRY_RUN_CMD ${pkgs.uv}/bin/uv tool install basic-memory \
+      basic_memory="${config.home.homeDirectory}/.local/bin/basic-memory"
+      installed_version=""
+      if [ -x "$basic_memory" ]; then
+        installed_version="$($basic_memory --version 2>/dev/null | ${pkgs.gawk}/bin/awk '{ print $NF }' || true)"
+      fi
+      if [ "$installed_version" != "${basicMemoryVersion}" ]; then
+        $DRY_RUN_CMD ${pkgs.uv}/bin/uv tool install --force "basic-memory==${basicMemoryVersion}" \
           || echo "warning: basic-memory install failed (offline?) - rerun activation later"
       fi
     '';
