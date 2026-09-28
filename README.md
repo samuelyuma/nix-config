@@ -21,12 +21,18 @@ Declarative configuration for my system settings.
     ├── darwin
     │   └── default.nix
     └── home
+        ├── agent-skills
+        │   └── default.nix
         ├── default.nix
         ├── editor
-        │   └── default.nix
+        │   ├── default.nix
+        │   ├── languages.nix
+        │   └── testing.nix
         ├── opencode
         │   └── default.nix
         ├── packages
+        │   └── default.nix
+        ├── security
         │   └── default.nix
         ├── shell
         │   ├── default.nix
@@ -126,6 +132,11 @@ nix run .#activate
 exec zsh -l
 <package> --version
 ```
+
+OpenCode plugins and `basic-memory` are also pinned, but they are not sourced
+from nixpkgs. Update their explicit versions in `modules/home/opencode`, run
+the checks above, and activate. The Playwright MCP and shell plugins are
+provided by the locked nixpkgs input.
 
 #### Removing a Homebrew cask
 

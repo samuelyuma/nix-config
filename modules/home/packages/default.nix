@@ -1,4 +1,18 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+let
+  rtk = pkgs.rustPlatform.buildRustPackage {
+    pname = "rtk";
+    version = "0.48.0";
+    src = inputs.rtk;
+    cargoLock.lockFile = "${inputs.rtk}/Cargo.lock";
+    doCheck = false;
+  };
+in
 
 {
   home.packages = with pkgs; [
@@ -9,7 +23,6 @@
 
     # Shell tools
     gum
-    zinit
 
     # Files and text
     bat
@@ -36,12 +49,13 @@
     go
     golangci-lint
     gopls
+    (lib.lowPrio corepack)
     nodejs
-    pnpm
+    rtk
     typst
     uv
-    yarn
     repomix
+    code2prompt
 
     # Containers and migrations
     colima

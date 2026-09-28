@@ -1,12 +1,13 @@
-{ config, pkgs, ... }:
+{
+  config,
+  host,
+  pkgs,
+  ...
+}:
 
 {
-  home.sessionVariables = {
-    SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-  };
-
   home.sessionPath = [
-    "/etc/profiles/per-user/yumx/bin"
+    "/etc/profiles/per-user/${host.username}/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
     "/opt/homebrew/bin"
@@ -30,6 +31,32 @@
     zsh = {
       enable = true;
       enableCompletion = true;
+      autosuggestion.enable = true;
+      historySubstringSearch.enable = true;
+      syntaxHighlighting.enable = true;
+
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "bun"
+          "docker"
+          "git"
+          "uv"
+        ];
+      };
+
+      plugins = [
+        {
+          name = "zsh-completions";
+          src = pkgs.zsh-completions;
+          file = "share/zsh/site-functions";
+        }
+        {
+          name = "fzf-tab";
+          src = pkgs.zsh-fzf-tab;
+          file = "share/fzf-tab/fzf-tab.plugin.zsh";
+        }
+      ];
 
       shellAliases = {
         v = "nvim";
@@ -52,8 +79,8 @@
         cdi = "zi";
         path = "print -l $path";
 
-        zshconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/shell/default.nix";
-        ghosttyconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/terminal/ghostty.conf";
+        zshconf = "nano ${host.dotfilesDirectory}/modules/home/shell/default.nix";
+        ghosttyconf = "nano ${host.dotfilesDirectory}/modules/home/terminal/ghostty.conf";
       };
 
       initContent = ''
@@ -62,23 +89,6 @@
           export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
           exec /bin/zsh -l
         }
-
-        ZINIT_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/zinit"
-        zstyle ':zinit:config' home-dir "$ZINIT_HOME"
-        source "${pkgs.zinit}/share/zinit/zinit.zsh"
-
-        zinit snippet OMZL::git.zsh
-        zinit snippet OMZP::git
-        zinit snippet OMZ::plugins/uv/uv.plugin.zsh
-        zinit snippet OMZ::plugins/bun/bun.plugin.zsh
-        zinit snippet OMZ::plugins/docker/docker.plugin.zsh
-
-        zinit ice blockf atload"zicompinit; zicdreplay"
-        zinit light zsh-users/zsh-completions
-        zinit light Aloxaf/fzf-tab
-        zinit light zsh-users/zsh-autosuggestions
-        zinit light zsh-users/zsh-history-substring-search
-        zinit light zsh-users/zsh-syntax-highlighting
 
         unalias zi 2>/dev/null || true
         eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
