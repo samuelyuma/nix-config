@@ -18,7 +18,6 @@
     "/usr/sbin"
     "/sbin"
     "${config.home.homeDirectory}/.local/bin"
-    "${config.home.homeDirectory}/.opencode/bin"
   ];
 
   programs = {

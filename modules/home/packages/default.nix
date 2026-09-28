@@ -12,6 +12,8 @@ let
     cargoLock.lockFile = "${inputs.rtk}/Cargo.lock";
     doCheck = false;
   };
+
+  opencodeV2 = pkgs.callPackage ./opencode.nix { };
 in
 
 {
@@ -34,6 +36,7 @@ in
     # Terminal applications
     jnv
     lazydocker
+    opencodeV2
     serpl
 
     # Development utilities

@@ -138,6 +138,10 @@ from nixpkgs. Update their explicit versions in `modules/home/opencode`, run
 the checks above, and activate. The Playwright MCP and shell plugins are
 provided by the locked nixpkgs input.
 
+The OpenCode CLI is pinned at 2.0.18 in `modules/home/packages/opencode.nix`.
+Update its version and archive hash together, then activate; the package
+disables OpenCode's self-updater so Nix remains the version owner.
+
 #### Removing a Homebrew cask
 
 Delete the entry from the `casks` list in `modules/darwin/default.nix`,

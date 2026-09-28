@@ -84,23 +84,23 @@ in
       mode = "0400";
       content = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
-        plugin = [
+        plugins = [
           "oh-my-openagent@4.19.4"
           "@dietrichgebert/ponytail@4.10.0"
         ];
-        mcp = {
+        mcp.servers = {
           playwright = {
             type = "local";
             command = [
               "${pkgs.playwright-mcp}/bin/playwright-mcp"
               "--browser=chromium"
             ];
-            enabled = true;
+            disabled = false;
           };
           github = {
             type = "remote";
             url = "https://api.githubcopilot.com/mcp";
-            enabled = true;
+            disabled = false;
             oauth = false;
             headers = {
               Authorization = "Bearer ${config.sops.placeholder."github/mcp_token"}";
@@ -114,12 +114,12 @@ in
               "${config.home.homeDirectory}/.local/bin/basic-memory"
               "mcp"
             ];
-            enabled = true;
+            disabled = false;
           };
           tinyfish = {
             type = "remote";
             url = "https://agent.tinyfish.ai/mcp";
-            enabled = true;
+            disabled = false;
           };
         };
       };
