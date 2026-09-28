@@ -18,7 +18,7 @@
       "macs-fan-control"
       "markdown-preview"
       "microsoft-word"
-      "notion"
+      "obsidian"
       "opencode-desktop"
       "spotify"
       "steam"
