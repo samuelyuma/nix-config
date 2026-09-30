@@ -50,6 +50,22 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
+    scientific-agent-skills = {
+      url = "github:k-dense-ai/scientific-agent-skills";
+      flake = false;
+    };
+    vercel-skills = {
+      url = "github:vercel-labs/skills";
+      flake = false;
+    };
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
+    bahasa-indonesia-skill = {
+      url = "github:ajipurn/bahasa-indonesia-skill";
+      flake = false;
+    };
 
     # Package source (consumed by pkgs/).
     rtk = {

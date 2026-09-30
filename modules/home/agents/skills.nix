@@ -2,11 +2,12 @@
 
 let
   regexOf = names: "(${lib.concatStringsSep "|" names})";
-  fromInput = input: names: {
+  fromInputAt = input: subdir: names: {
     inherit input;
-    subdir = "skills";
+    inherit subdir;
     filter.nameRegex = regexOf names;
   };
+  fromInput = input: fromInputAt input "skills";
 in
 {
   programs.agent-skills = {
@@ -38,10 +39,8 @@ in
         "caveman-discover"
         "caveman-stats"
         "caveman-commit"
-        "investigate-first"
         "surgical-patch"
         "safe-refactor"
-        "verify-and-stop"
         "cavecrew"
         "lean-build"
         "migration"
@@ -59,16 +58,22 @@ in
         "writing-plans"
         "requesting-code-review"
         "receiving-code-review"
-        "writing-skills"
         "verification-before-completion"
         "subagent-driven-development"
       ];
       i-have-adhd = fromInput "i-have-adhd" [ "i-have-adhd" ];
       humanizer.input = "humanizer";
-      grill = fromInput "grill" [
-        "grill-me"
-        "batch-grill-me"
+      grill = fromInputAt "grill" "skills/productivity" [
+        "writing-for-agents"
       ];
+      matt-engineering = fromInputAt "grill" "skills/engineering" [
+        "research"
+        "to-spec"
+      ];
+      scientific-agent-skills = fromInput "scientific-agent-skills" [ "markdown-mermaid-writing" ];
+      vercel-skills = fromInput "vercel-skills" [ "find-skills" ];
+      anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
+      bahasa-indonesia-skill = fromInput "bahasa-indonesia-skill" [ "bahasa-indonesia" ];
     };
 
     skills.enableAll = true;

@@ -20,6 +20,38 @@
         "type": "github"
       }
     },
+    "anthropic-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790648403,
+        "narHash": "sha256-PRBkTEGNwT73EFCvuTprzIBGiG+UGSYiaCkY7Ji13us=",
+        "owner": "anthropics",
+        "repo": "skills",
+        "rev": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
+    "bahasa-indonesia-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787503184,
+        "narHash": "sha256-oKapi+HjWBftGhUPMN5lVRynZ+LGoKtHi5ojqEQkOK0=",
+        "owner": "ajipurn",
+        "repo": "bahasa-indonesia-skill",
+        "rev": "6a0fe159c2d6840a20abfd1441d622d48e1a80a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ajipurn",
+        "repo": "bahasa-indonesia-skill",
+        "type": "github"
+      }
+    },
     "caveman": {
       "flake": false,
       "locked": {
@@ -253,6 +285,8 @@
     "root": {
       "inputs": {
         "agent-skills-nix": "agent-skills-nix",
+        "anthropic-skills": "anthropic-skills",
+        "bahasa-indonesia-skill": "bahasa-indonesia-skill",
         "caveman": "caveman",
         "git-hooks": "git-hooks",
         "grill": "grill",
@@ -264,8 +298,10 @@
         "nixvim": "nixvim",
         "ponytail": "ponytail",
         "rtk": "rtk",
+        "scientific-agent-skills": "scientific-agent-skills",
         "sops-nix": "sops-nix",
-        "superpowers": "superpowers"
+        "superpowers": "superpowers",
+        "vercel-skills": "vercel-skills"
       }
     },
     "rtk": {
@@ -282,6 +318,22 @@
         "owner": "rtk-ai",
         "ref": "v0.48.0",
         "repo": "rtk",
+        "type": "github"
+      }
+    },
+    "scientific-agent-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790724862,
+        "narHash": "sha256-pG6UWM9LqbM9MyEc0YkA/xeOGJU0L8Z1G9GDxOuKD3Q=",
+        "owner": "k-dense-ai",
+        "repo": "scientific-agent-skills",
+        "rev": "65d6e786832e2c52832713117bbbf5096b56f77f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "k-dense-ai",
+        "repo": "scientific-agent-skills",
         "type": "github"
       }
     },
@@ -335,6 +387,22 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "vercel-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790626857,
+        "narHash": "sha256-fXt5TGhQAsyY7ewnjp+42kzxA5RDXHoVAdLj5p9f8ZY=",
+        "owner": "vercel-labs",
+        "repo": "skills",
+        "rev": "3694740352eeef5cdd689af694c485f1ff62eec3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "skills",
         "type": "github"
       }
     }
