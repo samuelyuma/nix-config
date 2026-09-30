@@ -10,11 +10,13 @@ let
 
   zenFreeModels = [
     "opencode/muse-spark-1.3-contributor-free"
-    { model = "opencode/muse-spark-1.2-contributor-free"; }
-    { model = "opencode/nemotron-3.5-lightning-free"; }
-    { model = "opencode/nemotron-3-ultra-free"; }
-    { model = "opencode/mimo-v2.5-free"; }
+    { model = "opencode/big-pickle"; }
+    { model = "opencode/space-bunny-free"; }
+    { model = "opencode/longcat-2.5-preview-free"; }
+    { model = "opencode/mimo-v2.6-flash-free"; }
     { model = "opencode/ling-3.0-flash-fin-free"; }
+    { model = "opencode/nemotron-3-ultra-free"; }
+    { model = "opencode/nemotron-3.5-lightning-free"; }
   ];
 
   omoAgentNames = [
@@ -77,6 +79,14 @@ in
     };
   };
 
+  xdg.configFile."opencode/cli.json" = {
+    force = true;
+    text = builtins.toJSON {
+      "$schema" = "https://opencode.ai/v2/cli.json";
+      plugins = [ ];
+    };
+  };
+
   sops = {
     secrets."github/mcp_token" = { };
     templates."opencode.jsonc" = {
@@ -84,10 +94,7 @@ in
       mode = "0400";
       content = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
-        plugins = [
-          "oh-my-openagent@4.19.4"
-          "@dietrichgebert/ponytail@4.10.0"
-        ];
+        plugins = [ ];
         mcp.servers = {
           playwright = {
             type = "local";
@@ -127,6 +134,14 @@ in
   };
 
   home.activation = {
+    cleanupLegacyTuiJson = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      tui_json="${config.xdg.configHome}/opencode/tui.json"
+      if [ -f "$tui_json" ]; then
+        if ${pkgs.ripgrep}/bin/rg -q "oh-my-openagent" "$tui_json" 2>/dev/null; then
+          $DRY_RUN_CMD rm -f "$tui_json"
+        fi
+      fi
+    '';
     installBasicMemory = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
       basic_memory="${config.home.homeDirectory}/.local/bin/basic-memory"
