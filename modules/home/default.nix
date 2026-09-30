@@ -2,9 +2,8 @@
 
 {
   imports = [
-    ./agent-skills
+    ./agents
     ./editor
-    ./opencode
     ./packages
     ./security
     ./shell

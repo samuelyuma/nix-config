@@ -3,34 +3,29 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-
     nixvim.url = "github:nix-community/nixvim";
-
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     agent-skills-nix = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Skill sources (consumed by modules/home/agents/skills.nix)
     ponytail = {
       url = "github:DietrichGebert/ponytail";
       flake = false;
@@ -41,10 +36,6 @@
     };
     superpowers = {
       url = "github:obra/superpowers";
-      flake = false;
-    };
-    rtk = {
-      url = "github:rtk-ai/rtk";
       flake = false;
     };
     i-have-adhd = {
@@ -59,109 +50,59 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
+
+    # Package source (consumed by pkgs/).
+    rtk = {
+      url = "github:rtk-ai/rtk/v0.48.0";
+      flake = false;
+    };
   };
 
   outputs =
     inputs@{
       self,
-      git-hooks,
+      nixpkgs,
       nix-darwin,
       home-manager,
       sops-nix,
       nixvim,
       agent-skills-nix,
-      ponytail,
-      caveman,
-      superpowers,
-      rtk,
-      i-have-adhd,
-      humanizer,
-      grill,
-      nixpkgs,
       ...
     }:
     let
-      host = rec {
-        username = "yumx";
-        homeDirectory = "/Users/${username}";
-        dotfilesDirectory = "${homeDirectory}/Code/Config/dotfiles";
-        system = "aarch64-darwin";
-      };
+      host = import ./flake/hosts.nix;
       pkgs = nixpkgs.legacyPackages.${host.system};
-      localChecks = git-hooks.lib.${host.system}.run {
-        src = ./.;
-
-        hooks = {
-          nixfmt = {
-            enable = true;
-            entry = "${pkgs.nixfmt-tree}/bin/treefmt --ci";
-            files = "\\.nix$";
-            pass_filenames = false;
-          };
-
-          statix = {
-            enable = true;
-            entry = "${pkgs.statix}/bin/statix check .";
-            files = "\\.nix$";
-            pass_filenames = false;
-          };
-
-          deadnix = {
-            enable = true;
-            entry = "${pkgs.deadnix}/bin/deadnix .";
-            files = "\\.nix$";
-            pass_filenames = false;
-          };
-
-          flake-check = {
-            enable = true;
-            name = "nix flake check";
-            entry = "${pkgs.nix}/bin/nix flake check --no-update-lock-file --print-build-logs";
-            always_run = true;
-            pass_filenames = false;
-            stages = [ "pre-push" ];
-          };
-        };
+      localChecks = import ./flake/git-hooks.nix { inherit inputs pkgs host; };
+      activate = import ./flake/activate.nix {
+        inherit
+          inputs
+          pkgs
+          host
+          self
+          ;
       };
-      activate = pkgs.writeShellScriptBin "activate" ''
-        exec /usr/bin/sudo /usr/bin/env \
-          HOME=/var/root \
-          PATH=/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:$PATH \
-          ${nix-darwin.packages.aarch64-darwin.darwin-rebuild}/bin/darwin-rebuild \
-          switch --flake "${self.outPath}#darwin"
-      '';
     in
     {
       formatter.${host.system} = pkgs.nixfmt-tree;
-
-      packages.${host.system}.activate = activate;
-
+      packages.${host.system} = {
+        inherit activate;
+        opencode = pkgs.callPackage ./pkgs/opencode { };
+        rtk = pkgs.callPackage ./pkgs/rtk.nix { src = inputs.rtk; };
+      };
       apps.${host.system}.activate = {
         type = "app";
         program = "${activate}/bin/activate";
       };
-
       checks.${host.system} = {
         darwin = self.darwinConfigurations.darwin.system;
         hooks = localChecks;
       };
-
-      devShells.${host.system}.default = pkgs.mkShellNoCC {
-        inherit (localChecks) shellHook;
-
-        packages = with pkgs; [
-          deadnix
-          nixfmt-tree
-          statix
-        ];
-      };
-
+      devShells.${host.system}.default = import ./flake/devshell.nix { inherit pkgs localChecks; };
       darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
         inherit (host) system;
         specialArgs = { inherit host inputs; };
-
         modules = [
-          ./configurations/darwin
+          ./hosts/darwin
           home-manager.darwinModules.home-manager
           sops-nix.darwinModules.sops
           {

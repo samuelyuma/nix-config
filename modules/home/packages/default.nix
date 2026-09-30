@@ -2,18 +2,11 @@
   pkgs,
   lib,
   inputs,
+  host,
   ...
 }:
 let
-  rtk = pkgs.rustPlatform.buildRustPackage {
-    pname = "rtk";
-    version = "0.48.0";
-    src = inputs.rtk;
-    cargoLock.lockFile = "${inputs.rtk}/Cargo.lock";
-    doCheck = false;
-  };
-
-  opencodeV2 = pkgs.callPackage ./opencode.nix { };
+  inherit (inputs.self.packages.${host.system}) opencode rtk;
 in
 
 {
@@ -36,7 +29,7 @@ in
     # Terminal applications
     jnv
     lazydocker
-    opencodeV2
+    opencode
     serpl
 
     # Development utilities
