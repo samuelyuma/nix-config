@@ -102,8 +102,10 @@
       formatter.${host.system} = pkgs.nixfmt-tree;
       packages.${host.system} = {
         inherit activate;
+        docker-credential-osxkeychain = pkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
         opencode = pkgs.callPackage ./pkgs/opencode { };
         rtk = pkgs.callPackage ./pkgs/rtk.nix { src = inputs.rtk; };
+        workshop-runner = pkgs.callPackage ./pkgs/workshop-runner.nix { };
       };
       apps.${host.system}.activate = {
         type = "app";

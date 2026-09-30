@@ -6,7 +6,12 @@
   ...
 }:
 let
-  inherit (inputs.self.packages.${host.system}) opencode rtk;
+  inherit (inputs.self.packages.${host.system})
+    docker-credential-osxkeychain
+    opencode
+    rtk
+    workshop-runner
+    ;
 in
 
 {
@@ -40,7 +45,6 @@ in
     # Language and development tooling
     air
     bun
-    cargo
     dotnet-sdk_10
     go
     golangci-lint
@@ -48,17 +52,19 @@ in
     (lib.lowPrio corepack)
     nodejs
     rtk
+    rustup
     typst
     uv
     repomix
     code2prompt
+    workshop-runner
 
     # Containers and migrations
     colima
     docker
     docker-buildx
     docker-compose
-    docker-credential-helpers
+    docker-credential-osxkeychain
     go-migrate
 
     # macOS utilities

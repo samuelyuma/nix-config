@@ -28,3 +28,5 @@ nix build .#darwinConfigurations.darwin.system
 Entering the development shell installs Git hooks. Formatting and lint checks run before commits, and the full flake check runs before pushes.
 
 Apply the configuration yourself with `nix run .#activate`. The command handles elevation internally. Reload the shell afterward with `exec zsh -l`. Roll back a problematic generation with `sudo darwin-rebuild --rollback`.
+
+Before using Rust tools on a fresh installation, run `rustup default stable` once to install and select the default toolchain. The workshop runner uses its `cargo` command.
