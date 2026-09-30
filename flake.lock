@@ -298,9 +298,11 @@
         "nixvim": "nixvim",
         "ponytail": "ponytail",
         "rtk": "rtk",
+        "scandinavian-design": "scandinavian-design",
         "scientific-agent-skills": "scientific-agent-skills",
         "sops-nix": "sops-nix",
         "superpowers": "superpowers",
+        "taste-skill": "taste-skill",
         "vercel-skills": "vercel-skills"
       }
     },
@@ -318,6 +320,22 @@
         "owner": "rtk-ai",
         "ref": "v0.48.0",
         "repo": "rtk",
+        "type": "github"
+      }
+    },
+    "scandinavian-design": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787418173,
+        "narHash": "sha256-skc8e1caOGzKlwtyAspeKxEawuTl5ysqAd244y2BkSc=",
+        "owner": "ericzakariasson",
+        "repo": "scandinavian-design",
+        "rev": "295742307b97fa0fb848f9be2d6e229ca517c736",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ericzakariasson",
+        "repo": "scandinavian-design",
         "type": "github"
       }
     },
@@ -387,6 +405,22 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "taste-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790413310,
+        "narHash": "sha256-1X7XrXi2mivzmrqa9+zkIHs0uFUoXaqhOXQIHqK8lV0=",
+        "owner": "Leonxlnx",
+        "repo": "taste-skill",
+        "rev": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Leonxlnx",
+        "repo": "taste-skill",
         "type": "github"
       }
     },

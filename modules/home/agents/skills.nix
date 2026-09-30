@@ -74,8 +74,18 @@ in
       vercel-skills = fromInput "vercel-skills" [ "find-skills" ];
       anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
       bahasa-indonesia-skill = fromInput "bahasa-indonesia-skill" [ "bahasa-indonesia" ];
+      scandinavian-design = fromInput "scandinavian-design" [ "scandinavian-design" ];
+      taste-skill = {
+        input = "taste-skill";
+        subdir = "skills";
+        filter.nameRegex = "^$";
+      };
     };
 
     skills.enableAll = true;
+    skills.explicit.design-taste-frontend = {
+      from = "taste-skill";
+      path = "taste-skill";
+    };
   };
 }

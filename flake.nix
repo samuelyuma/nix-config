@@ -66,6 +66,14 @@
       url = "github:ajipurn/bahasa-indonesia-skill";
       flake = false;
     };
+    scandinavian-design = {
+      url = "github:ericzakariasson/scandinavian-design";
+      flake = false;
+    };
+    taste-skill = {
+      url = "github:Leonxlnx/taste-skill";
+      flake = false;
+    };
 
     # Package source (consumed by pkgs/).
     rtk = {
