@@ -74,6 +74,7 @@ in
       vercel-skills = fromInput "vercel-skills" [ "find-skills" ];
       anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
       bahasa-indonesia-skill = fromInput "bahasa-indonesia-skill" [ "bahasa-indonesia" ];
+      md-writer-skills = fromInputAt "md-writer-skills" "skills/docs" [ "md-writer" ];
       scandinavian-design = fromInput "scandinavian-design" [ "scandinavian-design" ];
       taste-skill = {
         input = "taste-skill";

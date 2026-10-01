@@ -66,6 +66,10 @@
       url = "github:ajipurn/bahasa-indonesia-skill";
       flake = false;
     };
+    md-writer-skills = {
+      url = "github:skrrt-sh/skills";
+      flake = false;
+    };
     scandinavian-design = {
       url = "github:ericzakariasson/scandinavian-design";
       flake = false;
