@@ -36,38 +36,6 @@
         "type": "github"
       }
     },
-    "bahasa-indonesia-skill": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787503184,
-        "narHash": "sha256-oKapi+HjWBftGhUPMN5lVRynZ+LGoKtHi5ojqEQkOK0=",
-        "owner": "ajipurn",
-        "repo": "bahasa-indonesia-skill",
-        "rev": "6a0fe159c2d6840a20abfd1441d622d48e1a80a1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ajipurn",
-        "repo": "bahasa-indonesia-skill",
-        "type": "github"
-      }
-    },
-    "caveman": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1789871836,
-        "narHash": "sha256-xJVk0LfkCxmRBasTZoMAlpaDMbFn0musoLYnCMRHbEU=",
-        "owner": "JuliusBrussee",
-        "repo": "caveman",
-        "rev": "3ee70a102609e550bd2e68004bf5990a9341c851",
-        "type": "github"
-      },
-      "original": {
-        "owner": "JuliusBrussee",
-        "repo": "caveman",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -194,22 +162,6 @@
         "type": "github"
       }
     },
-    "md-writer-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1788625343,
-        "narHash": "sha256-bWwJVxt4HMkXDvQXsDUNN3lQbd1HhKFwupe8/rdPJxs=",
-        "owner": "skrrt-sh",
-        "repo": "skills",
-        "rev": "e0ca4b81f3177e64c802eee4d515c990d09cf57d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "skrrt-sh",
-        "repo": "skills",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -302,25 +254,18 @@
       "inputs": {
         "agent-skills-nix": "agent-skills-nix",
         "anthropic-skills": "anthropic-skills",
-        "bahasa-indonesia-skill": "bahasa-indonesia-skill",
-        "caveman": "caveman",
         "git-hooks": "git-hooks",
         "grill": "grill",
         "home-manager": "home-manager",
         "humanizer": "humanizer",
         "i-have-adhd": "i-have-adhd",
-        "md-writer-skills": "md-writer-skills",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "ponytail": "ponytail",
         "rtk": "rtk",
-        "scandinavian-design": "scandinavian-design",
-        "scientific-agent-skills": "scientific-agent-skills",
         "sops-nix": "sops-nix",
-        "superpowers": "superpowers",
-        "taste-skill": "taste-skill",
-        "vercel-skills": "vercel-skills"
+        "superpowers": "superpowers"
       }
     },
     "rtk": {
@@ -337,38 +282,6 @@
         "owner": "rtk-ai",
         "ref": "v0.48.0",
         "repo": "rtk",
-        "type": "github"
-      }
-    },
-    "scandinavian-design": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787418173,
-        "narHash": "sha256-skc8e1caOGzKlwtyAspeKxEawuTl5ysqAd244y2BkSc=",
-        "owner": "ericzakariasson",
-        "repo": "scandinavian-design",
-        "rev": "295742307b97fa0fb848f9be2d6e229ca517c736",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ericzakariasson",
-        "repo": "scandinavian-design",
-        "type": "github"
-      }
-    },
-    "scientific-agent-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790724862,
-        "narHash": "sha256-pG6UWM9LqbM9MyEc0YkA/xeOGJU0L8Z1G9GDxOuKD3Q=",
-        "owner": "k-dense-ai",
-        "repo": "scientific-agent-skills",
-        "rev": "65d6e786832e2c52832713117bbbf5096b56f77f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "k-dense-ai",
-        "repo": "scientific-agent-skills",
         "type": "github"
       }
     },
@@ -422,38 +335,6 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "taste-skill": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790413310,
-        "narHash": "sha256-1X7XrXi2mivzmrqa9+zkIHs0uFUoXaqhOXQIHqK8lV0=",
-        "owner": "Leonxlnx",
-        "repo": "taste-skill",
-        "rev": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Leonxlnx",
-        "repo": "taste-skill",
-        "type": "github"
-      }
-    },
-    "vercel-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790626857,
-        "narHash": "sha256-fXt5TGhQAsyY7ewnjp+42kzxA5RDXHoVAdLj5p9f8ZY=",
-        "owner": "vercel-labs",
-        "repo": "skills",
-        "rev": "3694740352eeef5cdd689af694c485f1ff62eec3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vercel-labs",
-        "repo": "skills",
         "type": "github"
       }
     }

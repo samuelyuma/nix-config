@@ -30,10 +30,6 @@
       url = "github:DietrichGebert/ponytail";
       flake = false;
     };
-    caveman = {
-      url = "github:JuliusBrussee/caveman";
-      flake = false;
-    };
     superpowers = {
       url = "github:obra/superpowers";
       flake = false;
@@ -50,35 +46,10 @@
       url = "github:mattpocock/skills";
       flake = false;
     };
-    scientific-agent-skills = {
-      url = "github:k-dense-ai/scientific-agent-skills";
-      flake = false;
-    };
-    vercel-skills = {
-      url = "github:vercel-labs/skills";
-      flake = false;
-    };
     anthropic-skills = {
       url = "github:anthropics/skills";
       flake = false;
     };
-    bahasa-indonesia-skill = {
-      url = "github:ajipurn/bahasa-indonesia-skill";
-      flake = false;
-    };
-    md-writer-skills = {
-      url = "github:skrrt-sh/skills";
-      flake = false;
-    };
-    scandinavian-design = {
-      url = "github:ericzakariasson/scandinavian-design";
-      flake = false;
-    };
-    taste-skill = {
-      url = "github:Leonxlnx/taste-skill";
-      flake = false;
-    };
-
     # Package source (consumed by pkgs/).
     rtk = {
       url = "github:rtk-ai/rtk/v0.48.0";
