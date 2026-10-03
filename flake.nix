@@ -81,6 +81,16 @@
       checks.${host.system} = {
         darwin = self.darwinConfigurations.darwin.system;
         hooks = localChecks;
+        sops-activation-order =
+          let
+            dag = import (home-manager.outPath + "/modules/lib/dag.nix") { inherit (pkgs) lib; };
+            activation =
+              self.darwinConfigurations.darwin.config.home-manager.users.${host.username}.home.activation;
+            order = map (entry: entry.name) (dag.topoSort activation).result;
+            index = name: pkgs.lib.lists.findFirstIndex (entry: entry == name) null order;
+          in
+          assert index "setupLaunchAgents" < index "sops-nix";
+          pkgs.runCommand "sops-activation-order" { } "touch $out";
       };
       devShells.${host.system}.default = import ./flake/devshell.nix { inherit pkgs localChecks; };
       darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {

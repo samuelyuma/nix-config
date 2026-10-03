@@ -1,16 +1,11 @@
 {
   config,
+  host,
   lib,
   pkgs,
   ...
 }:
 
-let
-  secretsYaml = ../../../secrets/secrets.yaml;
-  hasGitPat =
-    builtins.pathExists secretsYaml
-    && lib.hasInfix "personal_access_token" (builtins.readFile secretsYaml);
-in
 {
   programs.git = {
     enable = true;
@@ -36,14 +31,14 @@ in
       fetch.prune = true;
       rebase.autoStash = true;
       credential.helper =
-        if hasGitPat then
+        if host.githubGitCredentials then
           "store --file ${config.home.homeDirectory}/.git-credentials"
         else
           "cache --timeout=86400";
     };
   };
 
-  sops = lib.mkIf hasGitPat {
+  sops = lib.mkIf host.githubGitCredentials {
     secrets."github/personal_access_token" = { };
     templates."git-credentials" = {
       path = "${config.home.homeDirectory}/.git-credentials";

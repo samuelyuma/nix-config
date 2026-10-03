@@ -1,11 +1,14 @@
 {
   config,
   host,
+  lib,
   pkgs,
   ...
 }:
 
 {
+  home.sessionVariables.BAT_THEME = "base16";
+
   home.sessionPath = [
     "/etc/profiles/per-user/${host.username}/bin"
     "/run/current-system/sw/bin"
@@ -82,17 +85,15 @@
         ghosttyconf = "nano ${host.dotfilesDirectory}/modules/home/terminal/ghostty.conf";
       };
 
-      initContent = ''
+      initContent = lib.mkOrder 850 ''
         reload() {
           unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
           export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
           exec /bin/zsh -l
         }
 
+        # Clear Oh My Zsh's alias before Home Manager initializes zoxide.
         unalias zi 2>/dev/null || true
-        eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
-
-        export BAT_THEME="base16"
       '';
     };
 
@@ -111,14 +112,14 @@
       enable = true;
       enableZshIntegration = true;
       defaultCommand = "fd --type f --hidden --follow --exclude .git";
-      fileWidget.command = "fd --type f --hidden --follow --exclude .git";
+      fileWidget.command = config.programs.fzf.defaultCommand;
       changeDirWidget.command = "fd --type d --hidden --follow --exclude .git";
       historyWidget.command = "";
     };
 
     zoxide = {
       enable = true;
-      enableZshIntegration = false;
+      enableZshIntegration = true;
     };
   };
 }

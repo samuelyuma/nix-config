@@ -67,7 +67,7 @@ nix run .#activate
 
 ## Secrets (sops-nix)
 
-GitHub tokens in `modules/home/agents/mcp.nix` (MCP) and `modules/home/vcs`
+GitHub tokens in `modules/darwin/mcp.nix` (MCP) and `modules/home/vcs`
 (git push/pull) are injected from `secrets/secrets.yaml`, which stays
 encrypted in git. First-time setup:
 
@@ -111,12 +111,26 @@ github:
 nix run .#activate
 ```
 
-Until `github/personal_access_token` exists in `secrets.yaml`, git keeps
-using an in-memory cache (this git is built without osxkeychain support);
-the sops-rendered `~/.git-credentials` takes over automatically on the
-first activation after you add it.
+Set `githubGitCredentials = false` in `flake/hosts.nix` until you configure
+`github/personal_access_token`. Git then uses an in-memory cache (this git
+is built without osxkeychain support). Set the flag to `true` and activate
+to use the sops-rendered `~/.git-credentials`.
 
 To add another secret later, add it under a new key in
 `secrets/secrets.yaml` via `sops secrets/secrets.yaml`, reference it in
 nix as `config.sops.placeholder."<section>/<key>"`, and re-run activation.
 Rotate any token that ever sat in plaintext config on the provider side.
+
+MCP settings for Codex, OpenCode, and Antigravity are declared together in
+`modules/darwin/mcp.nix`. sops-nix renders their configuration files during
+system activation, with ownership and permissions restricted to the configured
+user. Codex reads MCP defaults from `/etc/codex/config.toml`, keeping
+`~/.codex/config.toml` available for its own settings. See the
+[Codex configuration layers](https://learn.chatgpt.com/docs/config-file/config-basic)
+and [sops-nix templates](https://github.com/Mic92/sops-nix#templates).
+
+When migrating from the previous MCP merger, remove the block between
+`# BEGIN nix-config MCP servers` and `# END nix-config MCP servers` from
+`~/.codex/config.toml` once. Also remove any separate definitions for the same
+managed server names (`playwright`, `github`, `nixos`, and `context7`). User-level
+entries override system defaults. Other Codex settings can remain in that file.

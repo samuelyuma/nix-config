@@ -6,13 +6,15 @@
   ...
 }:
 let
-  antigravity-acp = pkgs.antigravity-acp.overrideAttrs (_: {
-    version = "1.3.0";
-    src = pkgs.fetchurl {
-      url = "https://dl.google.com/agy-extensions/releases/macos/agy-acp-server-1.3.0-darwin-arm64.zip";
-      hash = "sha256-fNlwRfe0/oEXWhB83xb5xRSE48eKUWLK5BUzi7aqW4g=";
-    };
-  });
+  antigravity-acp = pkgs.antigravity-acp.overrideAttrs (
+    finalAttrs: _: {
+      version = "1.3.0";
+      src = pkgs.fetchurl {
+        url = "https://dl.google.com/agy-extensions/releases/macos/agy-acp-server-${finalAttrs.version}-darwin-arm64.zip";
+        hash = "sha256-fNlwRfe0/oEXWhB83xb5xRSE48eKUWLK5BUzi7aqW4g=";
+      };
+    }
+  );
 
   inherit (inputs.self.packages.${host.system})
     docker-credential-osxkeychain

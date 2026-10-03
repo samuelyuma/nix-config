@@ -3,6 +3,7 @@
   stdenvNoCC,
   fetchurl,
   gnutar,
+  makeWrapper,
   ripgrep,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -21,6 +22,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     gnutar
+    makeWrapper
   ];
 
   installPhase = ''
@@ -29,14 +31,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     tar -xzf "$src" -C "$TMPDIR" package/bin/opencode
     install -Dm755 "$TMPDIR/package/bin/opencode" "$out/libexec/opencode"
 
-    mkdir -p "$out/bin"
-    cat > "$out/bin/opencode" <<EOF
-    #!/bin/sh
-    export OPENCODE_DISABLE_AUTOUPDATE=true
-    export PATH="${lib.makeBinPath [ ripgrep ]}:\$PATH"
-    exec "$out/libexec/opencode" "\$@"
-    EOF
-    chmod 755 "$out/bin/opencode"
+    makeWrapper "$out/libexec/opencode" "$out/bin/opencode" \
+      --set OPENCODE_DISABLE_AUTOUPDATE true \
+      --prefix PATH : "${lib.makeBinPath [ ripgrep ]}"
 
     runHook postInstall
   '';

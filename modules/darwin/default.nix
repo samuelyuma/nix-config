@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ./mcp.nix ];
+
   fonts.packages = [ pkgs.nerd-fonts.geist-mono ];
 
   homebrew = {
