@@ -23,6 +23,10 @@ let
       command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
       args = [ ];
     };
+    sequential-thinking = {
+      command = "${pkgs.mcp-server-sequential-thinking}/bin/mcp-server-sequential-thinking";
+      args = [ ];
+    };
     context7 = {
       url = "https://mcp.context7.com/mcp";
       headers = {
