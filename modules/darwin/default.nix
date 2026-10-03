@@ -22,6 +22,7 @@
       "opencode-desktop"
       "spotify"
       "steam"
+      "t3-code"
       "tailscale-app"
       "telegram"
       "the-unarchiver"
