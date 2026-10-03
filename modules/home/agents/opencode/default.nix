@@ -7,8 +7,6 @@
 
 {
   imports = [
-    ./basic-memory.nix
-    ./mcp.nix
     ./omo.nix
   ];
 

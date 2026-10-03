@@ -46,10 +46,8 @@ exec zsh -l
 <package> --version
 ```
 
-OpenCode plugins and `basic-memory` are also pinned, but they are not sourced
-from nixpkgs. Update their explicit versions in `modules/home/agents/opencode`, run
-the checks above, and activate. The Playwright MCP and shell plugins are
-provided by the locked nixpkgs input.
+The Playwright and mcp-nixos MCP servers and shell plugins are provided by the
+locked nixpkgs input.
 
 The OpenCode CLI is pinned in `pkgs/opencode/default.nix`.
 Update its version and archive hash together, then activate; the package
@@ -69,7 +67,7 @@ nix run .#activate
 
 ## Secrets (sops-nix)
 
-GitHub tokens in `modules/home/agents/opencode` (MCP) and `modules/home/vcs`
+GitHub tokens in `modules/home/agents/mcp.nix` (MCP) and `modules/home/vcs`
 (git push/pull) are injected from `secrets/secrets.yaml`, which stays
 encrypted in git. First-time setup:
 

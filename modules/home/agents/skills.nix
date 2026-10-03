@@ -17,13 +17,6 @@ in
 
     sources = {
       local.path = ./skills;
-      ponytail = fromInput "ponytail" [
-        "ponytail"
-        "ponytail-review"
-      ];
-      superpowers = fromInput "superpowers" [ "verification-before-completion" ];
-      i-have-adhd = fromInput "i-have-adhd" [ "i-have-adhd" ];
-      humanizer.input = "humanizer";
       grill = fromInputAt "grill" "skills/productivity" [
         "grilling"
         "writing-for-agents"
@@ -35,7 +28,6 @@ in
         "grill-with-docs"
         "improve-codebase-architecture"
         "tdd"
-        "to-tickets"
         "research"
         "to-spec"
       ];

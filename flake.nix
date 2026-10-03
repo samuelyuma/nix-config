@@ -26,22 +26,6 @@
     };
 
     # Skill sources (consumed by modules/home/agents/skills.nix)
-    ponytail = {
-      url = "github:DietrichGebert/ponytail";
-      flake = false;
-    };
-    superpowers = {
-      url = "github:obra/superpowers";
-      flake = false;
-    };
-    i-have-adhd = {
-      url = "github:ayghri/i-have-adhd";
-      flake = false;
-    };
-    humanizer = {
-      url = "github:blader/humanizer";
-      flake = false;
-    };
     grill = {
       url = "github:mattpocock/skills";
       flake = false;
