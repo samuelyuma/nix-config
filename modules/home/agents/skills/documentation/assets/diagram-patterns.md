@@ -1,6 +1,6 @@
 # Diagram Patterns
 
-Starting shapes for common flows. Replace the generic names with the real ones from the repo. Quote labels that contain punctuation.
+Starting shapes for common flows. These are examples, not project facts. Keep only supported nodes, branches, and relationships, using names from the evidence. Quote labels that contain punctuation.
 
 ## CI/CD Pipeline (Flowchart)
 

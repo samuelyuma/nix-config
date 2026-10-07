@@ -5,6 +5,7 @@
 - Use Title Case for headings in chat replies and Markdown you write. Preserve names and acronyms such as DNS and VPS.
 - Keep code, documentation, commit messages, and PR text in normal prose.
 - In chat replies, lead with the next action. Number multi-step instructions. Skip preambles and recaps.
+- For human-facing prose, explanations, summaries, and edits, follow the writing skill and its matching use-case reference.
 
 ## Working Style
 

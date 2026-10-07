@@ -27,9 +27,7 @@ in
         "domain-modeling"
         "grill-with-docs"
         "improve-codebase-architecture"
-        "tdd"
-        "research"
-        "to-spec"
+        "retro"
       ];
       anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
     };

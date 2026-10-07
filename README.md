@@ -30,6 +30,26 @@ Apply the configuration yourself with `nix run .#activate`. The command handles 
 
 Before using Rust tools on a fresh installation, run `rustup default stable` once to install and select the default toolchain. The workshop runner uses its `cargo` command.
 
+## Agent Skills
+
+Skills are selected in [skills.nix](modules/home/agents/skills.nix) and installed
+into `~/.codex/skills` and `~/.config/opencode/skills` during activation.
+
+Personal skills live in `modules/home/agents/skills/`:
+
+- [writing](modules/home/agents/skills/writing/SKILL.md): clear prose for chat,
+  documents, PR descriptions, commit messages, and code comments.
+- [documentation](modules/home/agents/skills/documentation/SKILL.md): READMEs,
+  guides, release notes, changelogs, reports, and proposals, with questions for
+  missing information.
+- [research](modules/home/agents/skills/research/SKILL.md): investigate questions,
+  verify claims, and compare options. Answers in chat by default; writes a file
+  when requested.
+
+Other skill sources and selections are listed in `skills.nix`. Repository
+maintenance skills live in `.agents/skills/`. Edit the source files, then
+activate to update the installed skills.
+
 ## Updating
 
 ### Updating Packages
