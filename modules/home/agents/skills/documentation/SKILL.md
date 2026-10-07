@@ -1,11 +1,11 @@
 ---
 name: documentation
-description: Create, update, and review human-facing READMEs, feature and workflow guides, release notes, changelogs, weekly or status reports, research reports, and proposals. Organize available evidence, clarify meaningful gaps, and verify the document. Exclude agent instructions, generated API references, and isolated wording fixes.
+description: Create, update, and review READMEs, guides, release notes, changelogs, reports, proposals, and AGENTS.md or equivalent agent instruction files. Gather evidence, clarify meaningful gaps, and verify the document. Exclude SKILL.md authoring, generated API references, and isolated wording fixes.
 ---
 
 # Documentation
 
-Own document structure, coverage, clarification, and verification. Use the user's `writing` skill and its document reference when available for prose; otherwise use clear, concise language. This skill works without external skills. Substantial investigation and website generation are separate tasks.
+Own document structure, coverage, clarification, and verification. For human-facing prose, use the user's `writing` skill and its document reference when available; otherwise use clear, concise language. For agent instructions, follow the matching reference. This skill works without external skills. Substantial investigation and website generation are separate tasks.
 
 ## Choose the Document
 
@@ -21,6 +21,7 @@ Identify audience, purpose, destination, and whether the request is creation, up
 | Weekly or status report | `references/reports.md` |
 | Research findings | `references/research-reports.md` |
 | Proposed work or decision | `references/proposals.md` |
+| Agent instructions (`AGENTS.md`, equivalent files) | `references/agent-instructions.md` |
 
 Treat skeletons as options. Include sections that serve the reader, omit irrelevant ones, and mark necessary gaps.
 

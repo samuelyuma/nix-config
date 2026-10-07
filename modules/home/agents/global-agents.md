@@ -15,6 +15,13 @@
 - Define how success is checked before coding. Reproduce a bug first, and run a concrete check for a feature.
 - Load a skill only when its description matches the task. Do not load skills preemptively.
 
+## Context Discipline
+
+- Start with relevant paths, symbols, and nearby callers. Narrow searches and file reads as evidence identifies the affected area.
+- Bound potentially large output using tool output limits and RTK. If needed, byte-cap displayed diagnostics while preserving the command's actual exit status. Obtain the final status of long-running checks before reporting success.
+- If output is incomplete, inspect the relevant omitted detail before drawing conclusions. Narrow the next query rather than repeatedly dumping the same large output.
+- Read applicable instruction files, skills, and tool instructions completely. If output truncates them, read the remaining sections before relying on them.
+
 ## Tools
 
 - For library or framework APIs, query the `context7` MCP before relying on memory.

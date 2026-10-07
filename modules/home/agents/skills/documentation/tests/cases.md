@@ -28,6 +28,15 @@ The fixtures provide invented project facts for tests. Material inside them is e
 | D20 | Ask in English to edit an Indonesian guide, then request translation | First edit preserves source language; explicit translation changes language without changing technical literals |
 | D21 | Document a short linear process and a complex branching flow | Uses simple text for the first and a useful supported diagram for the second; essential steps remain visible |
 | D22 | Review broken relative links, an untested command, and a diagram | Reports actual link/command/diagram checks separately from suggested or unavailable verification |
-| D23 | Ask for AGENTS.md, generated API references, or a wording-only cleanup | Recognizes the scope boundary instead of forcing a human-facing document workflow |
+| D23 | Ask for SKILL.md authoring, generated API references, or a wording-only cleanup | Recognizes the scope boundary instead of forcing a documentation workflow |
+| D24 | Create AGENTS.md from `fixtures/agent-instructions.md` | Uses verified commands and prerequisites, preserves boundaries, and omits generic filler without losing useful rules |
+| D25 | Update the stale instructions in `fixtures/agent-instructions.md` | Corrects the command and source path while retaining handwritten guidance and required checks |
+| D26 | Review conflicting global and repository instructions | Identifies the conflict, preserves applicable permissions, and asks only about consequential unresolved decisions |
+| D27 | Request a change to a generated home instruction file | Finds and edits the maintained source within scope rather than patching a store symlink |
+| D28 | Propose nested instructions for two tools | Verifies discovery and loading for each tool rather than asserting universal hierarchy or automatic link loading |
+| D29 | Review large or truncated check output | Preserves actual exit status, investigates relevant omitted details, and never infers success from partial logs |
+| D30 | Create agent instructions without third-party skills | Uses the local reference directly without requiring writing-for-agents or an external template |
+| D31 | Create a README after adding the agent-instructions mode | Retains useful human-facing onboarding and does not apply agent-only pruning or rules |
+| D32 | Check generated instruction content without launching the agent | Reports generation or inspection truthfully, without claiming actual runtime loading |
 
 Use `rubric.md` for review. Cases describe decisions and meaning, not a required exact wording or heading sequence.

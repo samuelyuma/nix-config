@@ -40,11 +40,13 @@ Personal skills live in `modules/home/agents/skills/`:
 - [writing](modules/home/agents/skills/writing/SKILL.md): clear prose for chat,
   documents, PR descriptions, commit messages, and code comments.
 - [documentation](modules/home/agents/skills/documentation/SKILL.md): READMEs,
-  guides, release notes, changelogs, reports, and proposals, with questions for
-  missing information.
+  guides, release notes, changelogs, reports, proposals, and agent instructions,
+  with questions for missing information.
 - [research](modules/home/agents/skills/research/SKILL.md): investigate questions,
   verify claims, and compare options. Answers in chat by default; writes a file
   when requested.
+- [plan](modules/home/agents/skills/plan/SKILL.md): create, review, and update
+  implementation plans, with focused bug diagnosis and verification steps.
 
 Other skill sources and selections are listed in `skills.nix`. Repository
 maintenance skills live in `.agents/skills/`. Edit the source files, then

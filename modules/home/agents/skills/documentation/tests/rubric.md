@@ -12,6 +12,7 @@ Evaluate the actual document, clarification questions, and verification report. 
 | Presentation | Structure serves the reader; rich elements earn their place; required instructions remain visible |
 | Verification | Checks are appropriate and reported truthfully; inspection is distinct from execution and rendering |
 | Independence | Uses local guidance without requiring third-party skills; loads references relevant to the task |
+| Agent Instructions | Matches global/project scope and source ownership, preserves required checks and permissions, and verifies tool-specific loading claims |
 
 Treat invented facts, lost consequential conditions, false completion/release claims, hidden material unknowns, unauthorized rewrites, and falsely reported checks as failures. Classify presentation issues by their effect on usability rather than a word count or exact format.
 

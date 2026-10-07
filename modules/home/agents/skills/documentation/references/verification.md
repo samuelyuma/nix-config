@@ -8,6 +8,7 @@ Before delivery, check the requested scope and document type against the result.
 - Check release and reporting boundaries. Preserve conditions, exceptions, negations, measurements, units, and required order.
 - Ensure focused updates retain useful handwritten material and citations. Explain meaningful removals; check that a reorganization was requested.
 - Keep unresolved material questions visible and drafts labelled. Remove markers only when resolved. A lack of evidence is not proof of absence.
+- For agent instructions, also apply the scope, ownership, and permission checks in `agent-instructions.md`; a generation check does not establish runtime loading.
 
 ## Commands and Links
 
