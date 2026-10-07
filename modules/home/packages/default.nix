@@ -50,6 +50,7 @@ in
 
     # Development utilities
     dotenv-cli
+    moon
     pipreqs
     tree-sitter
 

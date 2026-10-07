@@ -17,6 +17,7 @@
       "ghostty"
       "google-chrome"
       "helium-browser"
+      "linearmouse"
       "macs-fan-control"
       "markdown-preview"
       "microsoft-word"
