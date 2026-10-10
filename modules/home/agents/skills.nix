@@ -17,6 +17,7 @@ in
 
     sources = {
       local.path = ./skills;
+      agent-browser = fromInput "agent-browser" [ "agent-browser" ];
       grill = fromInputAt "grill" "skills/productivity" [
         "grilling"
         "writing-for-agents"

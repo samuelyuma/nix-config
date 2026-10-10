@@ -7,10 +7,6 @@
 let
   homeConfig = config.home-manager.users.${host.username};
   servers = {
-    playwright = {
-      command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
-      args = [ "--browser=chromium" ];
-    };
     github = {
       url = "https://api.githubcopilot.com/mcp";
       headers = {

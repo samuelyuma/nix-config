@@ -49,6 +49,7 @@ in
     serpl
 
     # Development utilities
+    agent-browser
     dotenv-cli
     moon
     pipreqs

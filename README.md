@@ -68,8 +68,9 @@ exec zsh -l
 <package> --version
 ```
 
-The Playwright and mcp-nixos MCP servers and shell plugins are provided by the
-locked nixpkgs input.
+The agent-browser CLI, MCP servers, and shell plugins are provided by the
+locked nixpkgs input. The agent-browser skill comes from its pinned upstream
+repository.
 
 The OpenCode CLI is pinned in `pkgs/opencode/default.nix`.
 Update its version and archive hash together, then activate; the package
@@ -154,5 +155,6 @@ and [sops-nix templates](https://github.com/Mic92/sops-nix#templates).
 When migrating from the previous MCP merger, remove the block between
 `# BEGIN nix-config MCP servers` and `# END nix-config MCP servers` from
 `~/.codex/config.toml` once. Also remove any separate definitions for the same
-managed server names (`playwright`, `github`, `nixos`, and `context7`). User-level
+managed server names (`github`, `nixos`, `sequential-thinking`, and `context7`),
+and obsolete `playwright` entries. User-level
 entries override system defaults. Other Codex settings can remain in that file.

@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "agent-browser": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791569197,
+        "narHash": "sha256-8Og2ruMaY+ObT9WiYqCyoXAcwZ/6t2g6SeU3+wF15ck=",
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "rev": "44af39842650f0bb9c1afb7354df9a82921d4f09",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "type": "github"
+      }
+    },
     "agent-skills-nix": {
       "inputs": {
         "nixpkgs": [
@@ -204,6 +220,7 @@
     },
     "root": {
       "inputs": {
+        "agent-browser": "agent-browser",
         "agent-skills-nix": "agent-skills-nix",
         "anthropic-skills": "anthropic-skills",
         "git-hooks": "git-hooks",

@@ -26,6 +26,10 @@
     };
 
     # Skill sources (consumed by modules/home/agents/skills.nix)
+    agent-browser = {
+      url = "github:vercel-labs/agent-browser";
+      flake = false;
+    };
     grill = {
       url = "github:mattpocock/skills";
       flake = false;
