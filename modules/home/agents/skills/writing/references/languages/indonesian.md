@@ -1,50 +1,71 @@
 # Indonesian
 
-Read when writing in Indonesian. Use everyday language a developer would use with a teammate: natural, neither stiff nor forced slang.
+Read when the output is in Indonesian. Goal: a developer reads it once and knows who must do what. Natural and clear matters more than short.
 
-## Language and Terms
+## Eight Rules
 
-Follow the current request's language. A later English message gets an English response unless the user explicitly sets a continuing language preference. For editing, retain the source language unless translation is requested. English technical terms do not make an Indonesian answer English.
+1. **Explicit subject.** Write who acts: "Backend menolak request", "Frontend menampilkan notifikasi". Do not write a string of subjectless commands for system behavior.
+2. **Consistent modal words.** Use only these meanings:
+   - **harus**, **tidak boleh**: required or forbidden. Omitting it breaks something.
+   - **sebaiknya**: recommended, with a reason.
+   - **bisa**: optional.
+   - **perlu**: a prerequisite exists.
+3. **Term policy.**
+   - Keep in English: field and endpoint names, status values, protocol terms (cursor, header, payload, retry, token, stream), and common developer words (deploy, commit, branch, pull request, endpoint, cache, build, rollback, middleware, query, config).
+   - Write in Indonesian: ordinary verbs and nouns (kirim, simpan, tolak, ambil, riwayat pesan, pengguna, halaman, langkah, hasil, urutan).
+   - Do not write English word order inside an Indonesian sentence ("Pakai send logic yang sekarang", "Kembalikan sukses").
+4. **No noun piles.** At most two nouns in a row. Instead of "safe message mapper yang sudah ada", write "fungsi pemetaan pesan yang aman (sudah ada di `message_public.go`)".
+5. **No "yang sekarang" or "sebelumnya" without a name.** Name the thing: "endpoint v1", "handler di `handler.go`", "rencana di `plan-v1.md`". A new reader does not know what "now" means.
+6. **Define a term once.** First use gets a short clause: "cursor (penanda posisi halaman)", "idempotent (aman diulang tanpa efek ganda)". After that use the term alone.
+7. **Keep connectors.** Karena, supaya, sehingga, lalu, tetapi, jika, setelah. Removing them makes the logic unclear.
+8. **One sentence, one idea.** If a sentence has two "yang" clauses or three actions, split it.
 
-Keep established terms such as deploy, commit, pull request, branch, endpoint, query, middleware, cache, build, rollback, server, database, error, test, config, pipeline, and API. Keep commands, identifiers, paths, logs, and product names exact.
+## Voice
 
-Prefer server, database, error, browser, email, and device over stiff replacements such as peladen, pangkalan data, galat, peramban, surel, and gawai. Normal Indonesian words such as pengguna, fungsi, halaman, tabel, langkah, and hasil remain natural. Do not translate every noun into English.
+- Chat: "aku/kamu" only when a pronoun is needed. Avoid forced slang (gue, lo, nih, deh).
+- Documents and specs: neutral, no pronouns. Describe behavior with a subject ("Server mengirim..."). Use imperatives only for steps the reader performs ("Jalankan test.").
+- Follow an explicit request or author sample, including formal saya/Anda.
 
-## Tone
-
-- In chat, use aku/kamu when pronouns are needed. Avoid unnecessary pronouns.
-- In documents, use neutral or imperative wording: "Jalankan test." Use kita only for genuinely shared steps.
-- Follow an explicit voice request or separately supplied author sample, including formal saya/Anda when requested. An Anda in text being humanized is not itself a request for formal voice; use neutral wording when no intentional personal voice is evident.
-- Avoid forced gue/lo, nih/deh, and artificial friendliness. Natural words such as kalau, karena, supaya, dulu, lalu, bisa, coba, and sekarang are welcome.
-
-Use perlu for requirements, bisa for options, and coba for suggestions. Do not soften a required step into an optional one. Use wajib or harus when omission would break the process, and state the consequence.
-
-## Plain Wording
+## Stiff to Natural
 
 | Stiff | Natural |
 |---|---|
 | merupakan | adalah |
 | dikarenakan | karena |
-| apabila | kalau, jika |
+| apabila | jika, kalau |
 | terdapat | ada |
-| melakukan pengecekan | cek, mengecek |
-| melakukan pembuatan | membuat |
+| melakukan pengecekan | memeriksa, cek |
 | dapat melakukan | bisa |
 | guna, dalam rangka | untuk |
 | oleh karena itu | jadi |
 
-Choose replacements by context. Split long chains of yang and noun-heavy phrases rather than imposing a word count.
+Pick by context. Keep established loanwords (server, database, error, browser, email).
 
 ## Anti-Slop
 
-Start with the point instead of "Dalam era digital...", "Tidak dapat dipungkiri...", "Penting untuk dicatat...", or "Mari kita selami...". State concrete effects instead of tonggak penting, solusi inovatif, or a forced "tidak hanya X, tetapi juga Y". Finish without "Semoga membantu" or a repeating kesimpulan.
+Start with the point. Skip "Dalam era digital...", "Tidak dapat dipungkiri...", "Penting untuk dicatat...", "Mari kita selami...". Say the concrete effect instead of "solusi inovatif" or "tonggak penting". Do not end with "Semoga membantu".
 
-Before: "Anda harus melakukan instalasi dependensi terlebih dahulu dengan menjalankan perintah berikut."
+## Before and After
 
-After: "Install dependency dulu:"
+Before: "Pakai send logic yang sekarang untuk text dan media."
+After: "Endpoint v2 memakai logika pengiriman v1 untuk teks dan media."
 
-Before: "Caching memainkan peran yang sangat krusial dalam meningkatkan performa."
+Before: "Tolak request kirim yang memakai kedua jenis credential sekaligus."
+After: "Backend menolak request yang membawa bearer token dan API key sekaligus."
 
-After: "Caching bisa meningkatkan performa."
+Before: "Tampung event sementara saat inbox dan history sedang di-load."
+After: "Selama inbox dan riwayat pesan dimuat, frontend menyimpan event yang masuk di buffer. Setelah data selesai dimuat, frontend menggabungkan buffer itu dengan datanya."
 
-The second rewrite adds no measured gain or mechanism. Use `references/anti-slop.md` from the skill root for detailed cleanup patterns.
+Before: "Hitung pesan customer berstatus sent atau delivered, termasuk chat yang ditangani AI."
+After: "Server menghitung pesan customer yang berstatus `sent` atau `delivered`. Chat yang ditangani AI ikut dihitung."
+
+Before: "Cek akses ke business dan pastikan conversation memang milik business itu."
+After: "Server harus memeriksa dua hal di setiap request: pengguna punya akses ke business, dan conversation milik business itu."
+
+## Check Before Sending
+
+- Can I name the actor of every rule?
+- Is each rule marked as harus, sebaiknya, or bisa?
+- Does any phrase depend on context the reader does not have?
+- Is every technical term either standard or defined once?
+- Did shortening remove a subject or connector?

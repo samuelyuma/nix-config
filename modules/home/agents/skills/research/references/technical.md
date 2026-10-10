@@ -10,7 +10,7 @@ Read safe configuration schemas and names; never inspect secret values. Use exis
 
 ## Outside Sources
 
-Check official documentation, source, specifications, or release notes for the relevant version and platform. Use required documentation connectors when available. The latest documentation can describe behavior absent from the repository's pinned version; show the difference explicitly.
+Check official documentation, source, specifications, or release notes for the relevant version and platform. For library or framework behavior, follow `library-docs.md`. The latest documentation can describe behavior absent from the repository's pinned version; show the difference explicitly.
 
 Use `sources.md` for external evidence and conflicts. Forum reports can reveal a failure to investigate, but do not establish a general API guarantee. Inspect the original report's conditions and follow its primary references.
 

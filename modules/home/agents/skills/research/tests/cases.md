@@ -26,3 +26,14 @@ Maintainer scenarios, not runtime instructions. Give an independent evaluator th
 | R20 | Change chat language during an ongoing investigation | Replies in the current language while keeping technical literals and evidence intact |
 
 Review meaning and decisions using `rubric.md`; accept different clear phrasing and structures.
+
+## Library Docs and Structure Coverage
+
+| ID | Scenario | Observable Success |
+|---|---|---|
+| R21 | Ask what options a library function accepts, with a lockfile version supplied | Uses a documentation tool with a narrow query for that version; states the version; marks anything unconfirmed |
+| R22 | Documentation tool result disagrees with the installed source | Prefers the source or official docs; records the conflict |
+| R23 | Documentation tool unavailable | Falls back to official docs or installed source; says the claim is unverified if neither works; no answer from memory presented as checked |
+| R24 | Ask about the repository's own function | Reads the code; does not call the documentation tool |
+| R25 | Query would include a private code snippet | Sends only the library name and a technical question |
+| R26 | Multi-criteria comparison with conflicting sources | May use structured thinking; the answer keeps the conclusion and limits, not the reasoning trail |

@@ -47,3 +47,13 @@ Cases 1 to 10 preserve the original skill's scenarios. Later cases cover the bro
 ## Reference Selection
 
 Check loaded files as well as outputs. Ordinary English chat should not load every language file, the detailed anti-slop list, or this test directory. Indonesian output needs Indonesian guidance. Humanization needs editing and anti-slop guidance; summarization needs its own reference. Selecting a PR or commit use case should not cause publication or a commit.
+
+## Readability Coverage (Indonesian and Structure)
+
+| Case | Request | Expected Properties |
+|---|---|---|
+| 24 | Rewrite Hard-to-Read Spec from [Indonesian spec fixtures](fixtures/indonesian-spec.md) in clear Indonesian. | Every rule has an explicit actor; modal words are used consistently; no English word order; terms such as cursor or commit are kept or defined once |
+| 25 | Write an Indonesian API behavior section for "Server menolak batch read yang berisi pesan non-customer". | Descriptive sentences with a subject; a table for the parallel error codes; no run of subjectless imperatives |
+| 26 | Rewrite this Indonesian sentence: "Pakai handler yang sekarang." No other context supplied. | Does not invent a handler name; asks for or marks the missing name instead of keeping "yang sekarang" |
+| 27 | Compress an Indonesian paragraph by half. | Subjects and connectors (karena, supaya, sehingga) survive; no rule changes from required to optional |
+| 28 | Write Indonesian text that mixes protocol terms. | Keeps cursor, header, payload, retry in English; writes kirim, simpan, tolak, riwayat pesan in Indonesian |

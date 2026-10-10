@@ -1,17 +1,25 @@
 # Plan Verification
 
-Read before delivering any plan. Define how the implementer will demonstrate the requested outcome; planning checks establish plan quality, not completion of future work.
+Read before delivering any plan. A plan check shows the plan is sound. It does not show the future work is done.
 
 ## Define Success
 
-Use observable acceptance criteria tied to the user's behavior and constraints. Include important edge cases, compatibility requirements, and failure behavior when relevant. Avoid criteria that merely repeat the proposed implementation.
+Use observable acceptance criteria tied to the requested behavior and constraints. Include edge cases, compatibility, and failure behavior where they matter. Do not write criteria that only repeat the implementation.
 
-Find check commands in repository instructions, scripts, existing tests, or tool documentation. Preserve required project checks and add focused checks where they cover the change. Label proposed new tests and their location. If a command cannot be verified, state that limit and describe the intended check rather than inventing an invocation.
+Find commands in repository instructions, scripts, existing tests, or tool docs. Keep required project checks and add focused ones. Label new tests and where they go. If a command cannot be verified, say the intended check without inventing an invocation.
 
-For bug fixes, exercise the actual trigger and confirm expected behavior; an unrelated passing test is insufficient. For refactors, identify behavior to preserve and tests that reach it. For configuration changes, distinguish evaluation or build checks from runtime application. Follow environment-specific permission rules for any execution.
+- Bug fix: exercise the real trigger and confirm the expected behavior. An unrelated passing test is not enough.
+- Refactor: name the behavior to preserve and the tests that reach it.
+- Config change: separate evaluation or build checks from applying it at runtime.
 
 ## Check the Plan
 
-Confirm that each consequential change has a meaningful completion check, prerequisites precede dependent work, and important unknowns remain visible. Keep verification proportional: a wording change does not require a new test suite, while a behavioral change needs evidence covering the affected behavior.
+- Each consequential change has a completion check.
+- Prerequisites come before dependent work.
+- Open decisions are collected in one section and marked at their steps.
+- Material unknowns stay visible.
+- Detail matches the task: a wording change does not need a new test suite.
 
-List checks actually run with their real outcomes and limits, separately from checks to run during implementation. Inspection, a suggested test, a successful build, and runtime validation establish different things. A ready plan means the work is sufficiently specified; it does not mean the implementation or its tests have passed.
+## Where Results Go
+
+The plan lists checks to run later. Checks actually run during planning, with their real results and limits, go in the chat reply, not inside the plan. Inspection, a suggested test, a successful build, and a runtime check prove different things. A ready plan means the work is specified, not that it has passed.

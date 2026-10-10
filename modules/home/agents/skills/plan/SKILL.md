@@ -1,43 +1,35 @@
 ---
 name: plan
-description: Create, review, and update implementation plans for repository features, bug fixes, refactors, and configuration changes. Ground steps in current code, clarify consequential decisions, and define verification. Exclude general schedules, research-only questions, and merely rewriting settled plans.
+description: Create, review, and update implementation plans for repository features, bug fixes, refactors, migrations, and configuration changes. Grounds steps in current code, collects open decisions in one place, and defines how to verify. Not for general schedules, research-only questions, or rewriting a settled plan's wording.
 ---
 
 # Plan
 
-Turn a repository problem into actionable, verifiable work. Answer in chat unless a file is requested. This skill works without other skills or subagents; it owns planning, not implementation.
+Turns a repository problem into ordered, verifiable work. Answer in chat unless a file is requested. This skill plans; it does not implement unless the user also asked for that.
 
-## Establish Scope and Evidence
+## Start
 
-Identify the desired behavior, constraints, exclusions, and requested mode: create, review, or update. Inspect relevant repository instructions, implementation, configuration, tests, and supplied findings. Verify existing paths and commands; label proposed new files. Keep observed behavior, user decisions, assumptions, and proposals distinct.
-
-Read only matching references; paths are relative to this skill.
+Identify the desired behavior, constraints, exclusions, and mode (create, review, update). Read repository instructions, the relevant code, config, tests, and supplied findings. Verify that paths and commands exist. Label new files as new. Then read what matches. Paths are relative to this skill.
 
 | Situation | Read |
 |---|---|
-| Bug fix, unexplained failure, or performance regression | `references/diagnosis.md` |
-| Supplied plan to review or update | `references/reviewing.md` |
-| Multiple milestones, migrations, or coordinated changes | `references/complex-work.md` |
-| Acceptance criteria and checks, before delivering any plan | `references/verification.md` |
+| Any new plan (the output shape) | `references/plan-format.md` |
+| Bug, unexplained failure, performance regression | `references/diagnosis.md` |
+| User supplied a plan to review or update | `references/reviewing.md` |
+| Several milestones, migration, cross-module change | `references/complex-work.md` and `references/structured-thinking.md` |
+| Many dependencies or competing hypotheses | `references/structured-thinking.md` |
+| Plan relies on a library or framework API | `research/references/library-docs.md` |
+| Before delivering | `references/verification.md` |
 
-Resolve factual gaps through bounded inspection or investigation. Use the user's `research` skill when available for substantial investigation; otherwise gather supporting evidence directly. Follow source restrictions and environment tool requirements. Keep investigation proportional to what could change the plan.
+## Fixed Rules
 
-For missing goals or decisions that change scope, behavior, or approach, ask focused numbered rounds with a recommendation. Find discoverable facts yourself. Carry answers forward; mark unresolved decisions beside affected steps. A blocked step need not block independent work.
+- **Open decisions go in one section near the top**, each with a recommendation, then are marked at the steps they affect. Never leave a decision only inside a step.
+- Ask a question only when the answer changes scope, behavior, or approach and the repo cannot answer it. Number the questions and give a recommendation for each. Carry answers forward.
+- Choose the smallest approach that works. Keep agreed decisions unless new evidence challenges them.
+- Each step names the change, the files or modules, dependencies when needed, and an observable completion check. Prerequisites come first.
+- Keep implementation detail short. If the plan needs a full API contract or design rationale, write it in a document (`documentation/references/api-spec.md` or `design-doc.md`) and link to it.
+- An unresolved cause gets investigation steps and a decision point. Do not assert a fix.
+- Checks run during planning, and their results, go in the chat reply. The plan contains acceptance criteria and checks to run later.
+- Wording follows the `writing` skill. The plan stays in the language of an existing plan unless translation is requested.
 
-## Build the Plan
-
-Choose the smallest supported approach and explain meaningful tradeoffs. Preserve agreed decisions unless new evidence challenges them. Scale detail to the task; use milestones only when they improve execution.
-
-Each step should give the intended change, relevant files or modules, dependencies where needed, and an observable completion check. Explain implementation details that prevent ambiguity; leave routine code edits to the implementer. Order prerequisites before dependent work.
-
-Cover the outcome, scope, approach, ordered steps, verification, and consequential gaps without forcing a fixed template. For a small change, a short sequence can suffice. An unresolved cause gets investigation steps and a decision point, not an asserted fix.
-
-## Deliver and Hand Off
-
-Before delivery, check that consequential steps follow evidence, dependencies are ordered, and acceptance criteria cover the requested behavior. Label proposed checks separately from checks actually run. Distinguish work ready to implement from investigation or blocked decisions.
-
-Use the user's `writing` skill when available; otherwise use concise prose, Title Case headings, and the current user language. Preserve an existing plan's language unless translation is requested.
-
-A planning-only request ends with the plan. An already authorized implementation request may continue through the normal coding workflow. The plan grants no additional permissions. During implementation, adapt minor details to evidence; surface changes affecting agreed scope or behavior and resolve consequential choices before dependent work.
-
-The `tests/` directory is for maintainers, not routine planning.
+Planning-only requests end with the plan. Authorizing implementation separately does not add permissions beyond what the user granted.

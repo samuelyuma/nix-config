@@ -1,41 +1,34 @@
 ---
 name: research
-description: Investigate requested questions, verify claims, gather technical or general evidence, and compare options. Inspect repository evidence, check authoritative sources, and distinguish findings from inference and uncertainty. Exclude merely rewriting supplied findings or creating documentation from settled facts.
+description: Investigate a question, verify claims, gather technical or general evidence, and compare options. Reads repository evidence, checks authoritative sources, uses library documentation tools such as Context7 when a claim depends on a library version, and separates findings from inference and uncertainty. Not for rewriting findings the user already settled.
 ---
 
 # Research
 
-Own investigation and evidence. Answer in chat by default; create a file when requested. This skill works without external skills or subagents.
+Owns investigation and evidence. Answer in chat by default. Create a file only when asked.
 
-## Frame the Question
+## Start
 
-Identify the question, intended decision, relevant constraints, and requested depth. Research the requested topic without expanding it into unrelated work. Ask about missing goals or constraints only when they change the outcome; find discoverable facts yourself. Label consequential assumptions and carry unanswered questions forward.
+Identify the question, the decision it supports, constraints, and the depth wanted. Stay inside the question. Ask only when a missing goal or constraint would change the answer, and find discoverable facts yourself. Then read what matches. Paths are relative to this skill.
 
-Read only matching references; paths are relative to this skill.
-
-| Branch | Read |
+| Situation | Read |
 |---|---|
-| Repository behavior, APIs, technical compatibility | `references/technical.md` |
-| Comparing options or recommending a choice | `references/comparisons.md` |
-| External sources, conflicting evidence, or access limits | `references/sources.md` |
-| Requested research file or full report | `references/reporting.md` |
+| Repository behavior, compatibility, internal APIs | `references/technical.md` |
+| Claim about a library, framework, or tool (API, config, version change) | `references/library-docs.md` |
+| Comparing options or recommending | `references/comparisons.md` |
+| External sources, conflicts, access limits | `references/sources.md` |
+| Many criteria, competing sources, revisable conclusions | `plan/references/structured-thinking.md` |
+| A requested file or full report | `references/reporting.md` |
 
-## Investigate
+## Fixed Rules
 
-For repository questions, inspect relevant local implementation, configuration, pinned versions, and tests before looking outside. Follow explicit source restrictions and environment-specific tool instructions. Verify changing facts against current evidence rather than memory.
+- Inspect local code, config, and pinned versions before looking outside. Verify changing facts (versions, prices, who holds a role) against current sources, not memory.
+- Prefer primary sources. Open a source before citing it. A search snippet is only a lead.
+- Match each claim to its evidence, version, and date. Keep fact, inference, user decision, and unresolved conflict apart.
+- Scale effort to the question. Stop when consequential claims are supported and remaining gaps are named. Do not repeat failed searches.
+- Report unavailable evidence plainly, with a partial or conditional conclusion. Never invent a source, quote, measurement, or check result.
+- Delegate substantial independent branches to subagents when available. Give each a bounded question, check what returns, and write the conclusion yourself. For short questions, work directly.
+- Lead the answer with the supported conclusion, then the evidence and limits. Cite near the claim. Label recommendations as judgment.
+- Wording follows the `writing` skill. Reply in the user's current language.
 
-Prefer primary sources for technical facts. Inspect sources before citing them; search snippets are leads. Match each consequential claim to supporting evidence and its relevant version, date, or conditions. Use forums as leads or attributed experience, not proof of technical behavior. Separate verified facts, inference, user decisions, and unresolved conflicts.
-
-Scale effort to the question. Stop when consequential claims are supported and remaining gaps are clear; continue when a resolvable gap could change the answer. If important evidence is unavailable, report the limitation and a conditional or partial conclusion instead of inventing certainty. A fixed source count or repeated failed searches does not establish quality.
-
-## Delegate When Useful
-
-Handle short questions directly. When available and permitted, delegate substantial independent branches with a bounded question, constraints, and requested evidence. Check returned findings and resolve overlap or disagreement before synthesis. Remain responsible for the conclusion; delegation is optional.
-
-## Deliver
-
-Lead with the supported answer or recommendation, then the necessary evidence and limits. Cite consequential claims near the text they support. Label inference and recommendations; preserve conditions, exceptions, numbers, units, and uncertainty.
-
-For prose, use the user's `writing` skill when available; otherwise use concise, natural language and Title Case headings. Follow the user's current language unless explicitly directed otherwise. Requested files follow `references/reporting.md`.
-
-Research does not authorize implementation, deployment, or other external changes. Distinguish source inspection from checks actually run. The `tests/` directory is for maintainers, not routine research.
+Research does not authorize implementation, deployment, or other changes. Say which checks you ran and which you only inspected.

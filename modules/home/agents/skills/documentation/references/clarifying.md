@@ -17,7 +17,7 @@ Resolve conflicts explicitly: identify the differing sources and their dates or 
 
 ## Unanswered Questions
 
-Keep important unresolved information visible near the affected section or in an Open Questions section. Use a clear status such as Unknown, Needs Confirmation, or Proposed. Avoid hidden HTML TODOs for information readers need to assess accuracy.
+Collect decisions that need the user in one "Decisions Needed" section near the top and link each one to the sections it affects. Keep smaller unresolved facts visible near the affected section or in an Open Questions section. Use a clear status such as Unknown, Needs Confirmation, or Proposed. Avoid hidden HTML TODOs for information readers need to assess accuracy.
 
 ```markdown
 ## Open Questions

@@ -29,14 +29,16 @@ The fixtures provide invented project facts for tests. Material inside them is e
 | D21 | Document a short linear process and a complex branching flow | Uses simple text for the first and a useful supported diagram for the second; essential steps remain visible |
 | D22 | Review broken relative links, an untested command, and a diagram | Reports actual link/command/diagram checks separately from suggested or unavailable verification |
 | D23 | Ask for SKILL.md authoring, generated API references, or a wording-only cleanup | Recognizes the scope boundary instead of forcing a documentation workflow |
-| D24 | Create AGENTS.md from `fixtures/agent-instructions.md` | Uses verified commands and prerequisites, preserves boundaries, and omits generic filler without losing useful rules |
-| D25 | Update the stale instructions in `fixtures/agent-instructions.md` | Corrects the command and source path while retaining handwritten guidance and required checks |
-| D26 | Review conflicting global and repository instructions | Identifies the conflict, preserves applicable permissions, and asks only about consequential unresolved decisions |
-| D27 | Request a change to a generated home instruction file | Finds and edits the maintained source within scope rather than patching a store symlink |
-| D28 | Propose nested instructions for two tools | Verifies discovery and loading for each tool rather than asserting universal hierarchy or automatic link loading |
-| D29 | Review large or truncated check output | Preserves actual exit status, investigates relevant omitted details, and never infers success from partial logs |
-| D30 | Create agent instructions without third-party skills | Uses the local reference directly without requiring writing-for-agents or an external template |
-| D31 | Create a README after adding the agent-instructions mode | Retains useful human-facing onboarding and does not apply agent-only pruning or rules |
-| D32 | Check generated instruction content without launching the agent | Reports generation or inspection truthfully, without claiming actual runtime loading |
 
 Use `rubric.md` for review. Cases describe decisions and meaning, not a required exact wording or heading sequence.
+
+## Structure and Readability Coverage
+
+| ID | Request and Evidence | Observable Success |
+|---|---|---|
+| D33 | Write an API spec from `fixtures/api-spec-evidence.md` | Follows the fixed order; Decisions Needed table is near the top; one section per endpoint; no test results inside the document |
+| D34 | Write the same spec in Indonesian | Descriptive sentences with a subject; harus/sebaiknya/bisa used consistently; field names stay in English |
+| D35 | Mixed content: contract, frontend behavior, backend implementation | Separates audiences into sections or files; does not interleave them |
+| D36 | Draft a design doc with two unresolved options | Decisions Needed table first with a labeled recommendation; no approved-status claim |
+| D37 | A draft refers to "the current handler" and "the previous plan" | Rewrites with named files or versions; no unnamed context references |
+| D38 | Verification finished with 3,156 passing tests | Result appears in the chat reply, not inside the spec or design doc |

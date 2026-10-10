@@ -1,48 +1,41 @@
 ---
 name: documentation
-description: Create, update, and review READMEs, guides, release notes, changelogs, reports, proposals, and AGENTS.md or equivalent agent instruction files. Gather evidence, clarify meaningful gaps, and verify the document. Exclude SKILL.md authoring, generated API references, and isolated wording fixes.
+description: Create, update, and review technical documents such as API specs, design docs and proposals, READMEs, workflow guides, release notes, changelogs, status reports, and research reports. Gathers evidence, asks about material gaps, and verifies the result. Not for SKILL.md or AGENTS.md files, generated API references, or wording-only cleanup.
 ---
 
 # Documentation
 
-Own document structure, coverage, clarification, and verification. For human-facing prose, use the user's `writing` skill and its document reference when available; otherwise use clear, concise language. For agent instructions, follow the matching reference. This skill works without external skills. Substantial investigation and website generation are separate tasks.
+Owns document type, structure, coverage, clarification, and verification. Sentence-level wording belongs to the `writing` skill (use it if available; read its Indonesian file for Indonesian output). Agent instruction files (AGENTS.md and similar) belong to the `agent-instructions` skill.
 
-## Choose the Document
+## Start
 
-Identify audience, purpose, destination, and whether the request is creation, updating, or review. Read only the matching reference; paths are relative to this skill.
+Decide three things before writing: who reads it, what decision or action it supports, and which document type it is. Then read the matching reference. Paths are relative to this skill.
 
-| Document | Reference |
+| Document | Read |
 |---|---|
-| Project overview and onboarding | `references/root-readme.md` |
-| Existing feature | `references/feature-readme.md` |
-| Operational or application workflow | `references/workflow-guide.md` |
-| Release announcement | `references/release-notes.md` |
-| Versioned change history | `references/changelogs.md` |
+| API spec, endpoint contract, event protocol | `references/api-spec.md` |
+| Design doc, proposal, decision record | `references/design-doc.md` |
+| README (project or feature) | `references/readme.md` |
+| Deployment, CI/CD, operational or app workflow | `references/workflow-guide.md` |
+| Release notes or changelog | `references/release.md` |
 | Weekly or status report | `references/reports.md` |
 | Research findings | `references/research-reports.md` |
-| Proposed work or decision | `references/proposals.md` |
-| Agent instructions (`AGENTS.md`, equivalent files) | `references/agent-instructions.md` |
+| Missing facts or conflicting evidence | `references/clarifying.md` |
+| Table, diagram, alert, collapsible | `references/rich-elements.md` |
+| Before delivering anything | `references/verification.md` |
 
-Treat skeletons as options. Include sections that serve the reader, omit irrelevant ones, and mark necessary gaps.
+Do not read all references. Most tasks need the type file plus `verification.md`.
 
-## Gather Evidence and Clarify
+## Fixed Rules
 
-Read relevant implementation, configuration, history, existing documents, supplied notes, and cited sources. Inspect only material needed for the task. Distinguish verified facts, user decisions, proposals, and unknowns. Never read or reproduce secret values; document configuration names from safe sources.
+- **One document, one audience, one purpose.** If the content mixes contract, frontend behavior, and backend implementation, split it into sections for each audience or into separate files.
+- **Decisions first.** Put open decisions in one section near the top ("Decisions Needed"), then link to the sections they affect. Do not bury a decision in a paragraph.
+- **Self-contained.** A new reader must understand it without chat history. Name things instead of writing "the current handler" or "the previous plan".
+- **Process evidence stays in chat.** Test results, which files were inspected, and what could not be checked go in the reply, not in the document. A report document is the exception.
+- **Evidence over memory.** Read the code, config, and sources for every command, number, and behavior. Mark gaps as unknown. Never invent owners, dates, or results.
+- **Keep what works.** In updates, keep existing structure, language, handwritten content, and citations unless a rewrite was requested. Report meaningful removals.
+- **Language.** An update keeps the document's language. A new document follows an explicit request, then the language of nearby docs, then the user's message. Chat replies follow the user's current message.
+- **Library facts.** Verify API or config claims about a library with `research/references/library-docs.md` before writing them.
+- **Long contracts or heavy reasoning.** For a document whose structure is unclear, a short pass with the sequential thinking tool (see `plan/references/structured-thinking.md`) can help outline it. Do not paste the reasoning into the document.
 
-Ground commands, metrics, rationale, release status, plans, blockers, and validation claims in evidence. Cite implementation or external sources where readers need to verify a claim. Separate substantial new investigation from drafting; agree its scope when required.
-
-For missing facts, unclear decisions, or conflicting evidence that affects the result, read `references/clarifying.md`. Ask focused rounds after checking available sources, label recommendations, and incorporate answers. Keep unanswered material questions visible in working drafts. An optional unsupported claim can be omitted; an important unresolved claim keeps the document a draft.
-
-## Write or Update
-
-Follow the requested destination, otherwise existing conventions. Ask about placement only when the choice matters. Keep useful structure and handwritten content during focused updates. Reorganize when requested; rewrite fully only when requested. Report meaningful removals.
-
-Updates retain the document's language unless translation is requested. New documents use explicit language, then surrounding document conventions, then the current user message. Chat follows the user's language. Keep identifiers and commands exact; use Title Case for headings you write.
-
-Read `references/rich-elements.md` when a table, diagram, alert, collapsible section, badge, or contents list improves reading. Required instructions stay visible. Use ordinary prose rather than decorative formatting.
-
-## Verify and Deliver
-
-Read `references/verification.md` before completion. Check claims, paths, links, commands, and any diagrams against evidence. Distinguish checks actually run from suggested checks. Deliver the document, summarize meaningful changes, and identify unresolved questions or verification limits.
-
-The `tests/` directory is for maintainers, not routine documentation.
+Documentation work does not authorize implementation, deployment, or publishing.

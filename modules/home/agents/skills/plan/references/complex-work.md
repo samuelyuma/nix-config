@@ -1,6 +1,6 @@
 # Complex Work
 
-Read for multiple milestones, migrations, or changes coordinated across modules or systems. Use the smallest structure that makes ordering and validation clear.
+Read for multiple milestones, migrations, or changes coordinated across modules or systems. Use the smallest structure that makes ordering and validation clear. For many dependencies, think through the order first (see `structured-thinking.md`).
 
 Group work into milestones with observable outcomes. Resolve high-impact uncertainty early through a bounded investigation or prototype when needed. Respect dependencies; identify genuinely independent work without requiring parallel agents or inventing owners.
 

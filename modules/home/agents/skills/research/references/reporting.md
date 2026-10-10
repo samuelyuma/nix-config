@@ -2,7 +2,7 @@
 
 Create a file only when requested. Follow the requested destination, otherwise an established convention; clarify placement when it materially affects the result. Updating research notes does not authorize rewriting unrelated documentation.
 
-For a full report, use the user's `documentation` skill and its research-report reference when available. That skill organizes the investigated findings; it does not replace the investigation. Optional local skill paths are `../../documentation/SKILL.md` and `../../documentation/references/research-reports.md`, relative to this reference. Use the fallback below when unavailable.
+For a full report, use the `documentation` skill (its research-report reference) when it is available. That skill organizes findings; it does not replace the investigation. Use the fallback below when it is not available.
 
 ## Standalone Fallback
 

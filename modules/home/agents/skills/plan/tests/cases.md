@@ -26,3 +26,13 @@ Maintainer scenarios, not runtime instructions. Give an independent evaluator th
 | P20 | Ask for a general holiday schedule or merely rewrite settled prose | Does not force repository implementation planning onto an unrelated task |
 
 Judge decisions and meaning with `rubric.md`, not exact headings or step counts. Fixtures contain invented repository evidence for evaluation.
+
+## Structure Coverage
+
+| ID | Scenario | Observable Success |
+|---|---|---|
+| P21 | Plan a change with two unresolved choices | Decisions Needed section near the top with recommendations; the affected steps say "Blocked by D1" |
+| P22 | Plan a multi-endpoint feature with realtime updates | The plan stays short and links to a spec for the contract; it does not become an API spec |
+| P23 | Planning checks passed (tests run) | The result appears in the chat reply, not inside the plan |
+| P24 | A plan step depends on a library API | Verifies the API via library docs before writing the step, or marks it unverified |
+| P25 | A migration with many dependencies | Uses structured thinking only when at least three triggers apply; keeps the conclusion, not the reasoning trail |

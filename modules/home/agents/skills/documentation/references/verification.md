@@ -1,26 +1,33 @@
 # Verification
 
-Before delivery, check the requested scope and document type against the result. Verify correctness before polishing presentation.
+Check the result against the request and document type before delivery. Verify correctness before polish.
 
 ## Evidence and Meaning
 
-- Trace consequential factual claims to inspected implementation, supplied information, or supporting sources. Keep inference, decisions, proposals, and unknowns distinguishable.
-- Check release and reporting boundaries. Preserve conditions, exceptions, negations, measurements, units, and required order.
-- Ensure focused updates retain useful handwritten material and citations. Explain meaningful removals; check that a reorganization was requested.
-- Keep unresolved material questions visible and drafts labelled. Remove markers only when resolved. A lack of evidence is not proof of absence.
-- For agent instructions, also apply the scope, ownership, and permission checks in `agent-instructions.md`; a generation check does not establish runtime loading.
+- Trace each consequential claim to inspected code, supplied information, or a source. Keep inference, decisions, proposals, and unknowns distinguishable.
+- Check release and report boundaries. Keep conditions, exceptions, negations, numbers, units, and required order.
+- Updates must keep useful handwritten content and citations. Explain meaningful removals.
+- Keep material unknowns visible and label the document Draft when they affect correctness. Remove a marker only when resolved. Missing evidence is not proof of absence.
+
+## Structure Check
+
+- Is there one audience and one purpose? If not, split.
+- Are open decisions in one place near the top, linked to affected sections?
+- Does every rule say who acts and how strict it is (must, should, may)?
+- Can a new reader follow it without chat history?
+- Is process evidence (test results, inspection notes) absent from the document?
 
 ## Commands and Links
 
-- Check commands and flags against actual task definitions, help, configuration, or authoritative sources appropriate to the task. Verify prerequisites, working directory, and sequence.
-- Check paths relative to the destination document. Distinguish existing files from paths intentionally created by instructions. Resolve local links and anchors; check external targets when practical.
-- Run safe, relevant checks when available and authorized. Do not execute destructive, deployment, or external mutation steps merely to validate their documentation. Report inspected commands separately from commands actually run.
-- Follow repository-required checks after file changes. Report failure or inability to run them accurately.
+- Check commands and flags against task definitions, help output, config, or authoritative sources. Check prerequisites, working directory, and order.
+- Check paths relative to the destination file. Resolve local links and anchors. Check external links when practical.
+- Run safe, relevant checks when allowed. Do not run destructive, deployment, or external-write steps just to validate documentation. Report commands inspected separately from commands run.
+- Follow the repository's required checks after file changes and report failures honestly.
 
 ## Presentation and Delivery
 
-Check language selection, headings, fences, tables, and any collapsibles. Inspect diagrams against evidence; use an available renderer or parser when practical. A manual syntax review is not a rendering test.
+Check headings, fences, tables, and collapsibles. Check diagrams against the evidence with a renderer or parser if available. A manual read of Mermaid is not a rendering test.
 
-For Markdown, confirm the relevant destination's support for rich elements when their presentation matters. For external source claims, preserve citations and access limits. Remove drafting chatter from the reader-facing document.
+For library or framework claims, confirm them with `research/references/library-docs.md`.
 
-Deliver to the requested destination or established convention. Report what changed, meaningful removals, remaining questions, and actual verification results. Do not claim a document is ready when material gaps remain; deliver it explicitly as a draft instead.
+Deliver to the requested place. In the reply, say what changed, what was removed on purpose, what is still open, and which checks actually ran. Do not call a document ready when material gaps remain. Deliver it as a Draft.

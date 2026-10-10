@@ -1,50 +1,32 @@
 ---
 name: writing
-description: Write, explain, summarize, and edit human-facing prose in clear, natural language. Use for chat, documentation, reports, PR descriptions, commit messages, code comments, and requests to humanize or remove AI wording. Exclude agent instructions and exact wording supplied by the user.
+description: Write, explain, summarize, and edit human-facing prose so it is clear and easy to follow, in English or Indonesian. Use for chat answers, documents, reports, PR descriptions, commit messages, code comments, and requests to humanize or remove AI-sounding wording. Not for agent instruction files or text the user wants kept word for word.
 ---
 
 # Writing
 
-Make the point easy to understand and act on. Compress wording without losing meaning. This self-contained skill controls prose, not engineering decisions, research, document architecture, or interface layout.
+Make the point easy to understand and act on. This skill controls sentences, not document structure, research, or engineering decisions.
 
-## Choose the Context
+Always read `references/core.md`. Then read only the files that match the task. Paths are relative to this skill.
 
-Identify the audience, use case, language, and requested depth. Follow explicit instructions, then existing conventions, then these defaults. In edits, preserve the author's voice unless a different voice is requested.
-
-Read only matching references; paths are relative to this skill. Ordinary chat needs the core and chat reference. Read word lists and examples only when needed.
-
-| Task | Read |
+| Task | Also read |
 |---|---|
-| Chat answers, recommendations, progress | `references/use-cases/chat.md` |
+| Writing or editing in Indonesian | `references/languages/indonesian.md` |
+| English cleanup or word choice | `references/languages/english.md` |
+| Chat answers, recommendations, progress updates | `references/use-cases/chat.md` |
 | Teaching or explaining a concept | `references/explaining.md` |
-| Human-facing documents and reports | `references/use-cases/documents.md` |
-| PR descriptions | `references/use-cases/pull-requests.md` |
-| Commit messages | `references/use-cases/commits.md` |
-| Code comments | `references/use-cases/comments.md` |
-| Cleaning up existing prose | `references/editing.md` |
+| Documents, READMEs, reports | `references/use-cases/documents.md` |
+| PR title or description | `references/use-cases/pull-requests.md` |
+| Commit message | `references/use-cases/commits.md` |
+| Code comments and docstrings | `references/use-cases/comments.md` |
+| Cleaning up or rewriting existing text | `references/editing.md` |
 | Summarizing | `references/summarizing.md` |
-| Humanizing or removing AI wording | `references/anti-slop.md` |
-| English cleanup or wording needs examples | `references/languages/english.md` |
-| Writing in Indonesian | `references/languages/indonesian.md` |
+| Humanize, remove AI wording | `references/anti-slop.md` (short list), `references/anti-slop-detail.md` only if the short list is not enough |
 
-## Shared Rules
+Fixed rules:
 
-- Lead with the answer or recommendation; lead instructions with the next action. Give necessary reasoning and useful examples.
-- Use familiar words, active voice, consistent terms, and short paragraphs. Explain unfamiliar technical terms briefly. Sentence length serves clarity, not a fixed count.
-- Preserve substantive claims, conditions, exceptions, uncertainty, negations, numbers, units, and required steps. Keep literal commands, identifiers, paths, errors, and quotations exact when editing.
-- Use paragraphs for explanations, numbered steps for ordered work, and tables for comparisons. Use Title Case headings, selective bold, and no decorative emoji. Prefer straight quotes and periods, commas, or parentheses over decorative dashes. Respect supplied voice and exact quotations.
-- State actual results and one concrete next action when work remains. Stop when the request is answered.
-
-## Avoid Slop
-
-State concrete facts directly. Remove inflated importance, sales language in factual prose, vague authority, slogans, and clauses that add no information. Avoid forced contrasts, padded lists of three, dramatic fragments, synonym cycling, and formatting that repeats the prose. Cut flattery, filler introductions, tangents, and repeated conclusions.
-
-Keep real uncertainty. Replace vague claims with specifics only when supported. Leave clear text alone.
-
-## Language and Meaning
-
-Use the requested language; otherwise follow the current user message, switching when the user switches. Quoted material does not choose the reply language. Edits retain the source language unless translation is requested.
-
-Cleanup preserves every substantive claim. Summaries may omit supporting detail within the requested scope, while preserving the conclusion and decision-critical information. Verify that shortening added no facts or certainty.
-
-The `tests/` directory is for maintainers, not routine writing.
+- Reply in the language of the user's current message. Edits keep the source language unless translation is requested.
+- Shorter must not mean harder to read. Never drop the subject or the connecting words (karena, supaya, sehingga, because, so) to save space.
+- Keep every claim, condition, number, unit, negation, and step order. Never add facts, measurements, or checks that were not given.
+- Keep code, commands, paths, identifiers, error text, and quotations exactly as written.
+- Drafting text does not authorize committing, publishing, or editing files that were not requested.
