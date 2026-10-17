@@ -31,6 +31,7 @@ in
         "retro"
       ];
       anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
+      rea = fromInputAt "rea" ".agents/skills" [ "reverse-engineer-anything" ];
     };
 
     skills.enableAll = true;

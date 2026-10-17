@@ -19,6 +19,7 @@ let
   inherit (inputs.self.packages.${host.system})
     docker-credential-osxkeychain
     opencode
+    rea-agents
     rtk
     workshop-runner
     ;
@@ -53,7 +54,11 @@ in
     dotenv-cli
     moon
     pipreqs
+    rea-agents
     tree-sitter
+
+    # Reverse engineering
+    ghidra
 
     # Language and development tooling
     air
@@ -62,6 +67,7 @@ in
     go
     golangci-lint
     gopls
+    jdk21
     (lib.lowPrio corepack)
     nodejs
     rtk

@@ -7,8 +7,8 @@ Declarative Nix configuration for one macOS system.
 - `flake.nix` and `flake/`: inputs, outputs, and flake helpers.
 - `hosts/darwin/` and `modules/darwin/`: host and system configuration.
 - `modules/home/`: Home Manager configuration by domain.
-- `modules/home/agents/`: OpenCode, personal skills, and RTK integration.
-- `pkgs/`: custom OpenCode and RTK packages.
+- `modules/home/agents/`: OpenCode, REA, personal skills, and RTK integration.
+- `pkgs/`: custom OpenCode, REA, and RTK packages.
 - `.agents/skills/`: skills for maintaining this repository.
 
 ## Usage
@@ -75,6 +75,14 @@ repository.
 The OpenCode CLI is pinned in `pkgs/opencode/default.nix`.
 Update its version and archive hash together, then activate; the package
 disables OpenCode's self-updater so Nix remains the version owner.
+
+The REA CLI and MCP server are pinned in `pkgs/rea-agents.nix`. When bumping
+the version, update the archive and lockfile hashes there, move the `rea`
+input in `flake.nix` to the matching release tag, then activate. Native
+binary analysis uses the Ghidra release from the locked nixpkgs input;
+`GHIDRA_INSTALL_DIR` and `JAVA_HOME` are declared in
+`modules/home/agents/rea.nix` and `modules/darwin/mcp.nix`. Keep the Ghidra
+release line aligned with the one REA supports when bumping either side.
 
 ### Removing a Homebrew Cask
 

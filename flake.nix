@@ -38,6 +38,11 @@
       url = "github:anthropics/skills";
       flake = false;
     };
+    # Kept on the release tag that pkgs/rea-agents.nix packages.
+    rea = {
+      url = "github:morluto/rea/rea-agents-6.5.0";
+      flake = false;
+    };
     # Package source (consumed by pkgs/).
     rtk = {
       url = "github:rtk-ai/rtk/v0.48.0";
@@ -75,6 +80,7 @@
         inherit activate;
         docker-credential-osxkeychain = pkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
         opencode = pkgs.callPackage ./pkgs/opencode { };
+        rea-agents = pkgs.callPackage ./pkgs/rea-agents.nix { };
         rtk = pkgs.callPackage ./pkgs/rtk.nix { src = inputs.rtk; };
         workshop-runner = pkgs.callPackage ./pkgs/workshop-runner.nix { };
       };
