@@ -79,6 +79,7 @@
       packages.${host.system} = {
         inherit activate;
         docker-credential-osxkeychain = pkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
+        nxc = pkgs.callPackage ./pkgs/nxc { repo = "${host.homeDirectory}/nix-config"; };
         opencode = pkgs.callPackage ./pkgs/opencode { };
         rea-agents = pkgs.callPackage ./pkgs/rea-agents.nix { };
         rtk = pkgs.callPackage ./pkgs/rtk.nix { src = inputs.rtk; };

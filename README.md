@@ -8,7 +8,7 @@ Declarative Nix configuration for one macOS system.
 - `hosts/darwin/` and `modules/darwin/`: host and system configuration.
 - `modules/home/`: Home Manager configuration by domain.
 - `modules/home/agents/`: OpenCode, REA, personal skills, and RTK integration.
-- `pkgs/`: custom OpenCode, REA, and RTK packages.
+- `pkgs/`: custom OpenCode, REA, RTK, and `nxc` packages.
 - `.agents/skills/`: skills for maintaining this repository.
 
 ## Usage
@@ -29,6 +29,36 @@ Entering the development shell installs Git hooks. Formatting and lint checks ru
 Apply the configuration yourself with `nix run .#activate`. The command handles elevation internally. Reload the shell afterward with `exec zsh -l`. Roll back a problematic generation with `sudo darwin-rebuild --rollback`.
 
 Before using Rust tools on a fresh installation, run `rustup default stable` once to install and select the default toolchain. The workshop runner uses its `cargo` command.
+
+### Everyday Commands
+
+After the first activation, `nxc` is available from any directory. It manages
+this repository and does not replace `nh` or any existing shell alias.
+
+```console
+nxc apply          # activate the configuration
+nxc build          # build without activating
+nxc check          # formatting, lint, flake checks, and the system build
+nxc fmt            # format the repository
+nxc update         # update all flake inputs
+nxc search ripgrep # search nixpkgs packages
+nxc options fonts  # search NixOS, Home Manager, and nix-darwin options
+nxc try ripgrep    # temporary shell with a package from the pinned nixpkgs
+nxc edit packages  # edit modules/home/packages/default.nix
+nxc path           # print the repository path
+```
+
+`nxc` uses `nh` internally for builds and searches, but `nh` is not installed
+as a separate command. Add permanent packages to
+`modules/home/packages/default.nix` and activate; use `nxc try` for temporary
+tools.
+
+`nxc rollback` rolls back the previous generation. `nxc edit` accepts `flake`,
+`hosts`, `packages`, `shell`, `nix`, `darwin`, or `readme`, and falls back to a
+path relative to the repository. With no target, it opens the repository root.
+
+If the repository moves, run `nix run .#activate` from the new location or set
+`NXC_REPO` for the current shell.
 
 ## Agent Skills
 

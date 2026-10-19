@@ -17,7 +17,7 @@ nix build .#darwinConfigurations.darwin.system
 
 ## Boundaries
 
-- Never run `nix run .#activate` or `darwin-rebuild switch`; ask the user to apply.
+- Never run `nix run .#activate`, `nxc apply`, or `darwin-rebuild switch`; ask the user to apply.
 - Never open, decrypt, or edit `secrets/secrets.yaml`. Reference secrets through `config.sops.placeholder."<section>/<key>"`.
 - Home Manager places read-only store symlinks in `~`. Change the Nix source rather than patching those files in place, including with `rtk init`.
 
@@ -35,6 +35,7 @@ nix build .#darwinConfigurations.darwin.system
 - `modules/darwin/`: system config; `modules/home/<domain>/`: Home Manager config.
 - `modules/home/agents/`: OpenCode, skills, and RTK.
 - `pkgs/`: custom derivations exposed as flake packages.
+- `pkgs/nxc/default.nix`: the `nxc` repo CLI; installed by `modules/home/nix/default.nix`. Edit the Nix source, not installed wrappers.
 - `secrets/`: sops encrypted. Never read or print.
 - MCP configuration for Codex, OpenCode, and Antigravity is rendered by sops-nix from `modules/darwin/mcp.nix`. Codex uses `/etc/codex/config.toml`; edit the module, not the rendered files.
 - Repo instructions live here. Personal global defaults live in `modules/home/agents/global-agents.md`. `modules/home/agents/rtk.nix` generates `~/.config/opencode/AGENTS.md` from that file, and `~/.codex/AGENTS.md` from that file followed by the RTK instructions. Edit the sources, not the generated files.

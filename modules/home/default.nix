@@ -4,6 +4,7 @@
   imports = [
     ./agents
     ./editor
+    ./nix
     ./packages
     ./security
     ./shell
