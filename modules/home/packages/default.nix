@@ -34,6 +34,7 @@ in
 
     # Shell tools
     gum
+    zinit
 
     # Files and text
     bat

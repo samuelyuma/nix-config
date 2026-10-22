@@ -6,6 +6,30 @@
   ...
 }:
 
+let
+  omzPlugins = "${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins";
+
+  zinitInit = ''
+    typeset -gA ZINIT
+    ZINIT[NO_ALIASES]=1
+    ZINIT[HOME_DIR]="${config.home.homeDirectory}/.local/share/zinit"
+    source ${pkgs.zinit}/share/zinit/zinit.zsh
+    mkdir -p "$ZSH_CACHE_DIR/completions"
+
+    zinit load ${omzPlugins}/git
+    zinit load ${omzPlugins}/docker
+    zinit load ${omzPlugins}/bun
+    zinit load ${omzPlugins}/uv
+
+    if (( $+commands[dotnet] )); then
+      zinit load ${omzPlugins}/dotnet
+    fi
+    if (( $+commands[go] )); then
+      zinit load ${omzPlugins}/golang
+    fi
+  '';
+in
+
 {
   home.sessionVariables.BAT_THEME = "base16";
 
@@ -36,16 +60,6 @@
       autosuggestion.enable = true;
       historySubstringSearch.enable = true;
       syntaxHighlighting.enable = true;
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "bun"
-          "docker"
-          "git"
-          "uv"
-        ];
-      };
 
       plugins = [
         {
@@ -92,8 +106,9 @@
           exec /bin/zsh -l
         }
 
-        # Clear Oh My Zsh's alias before Home Manager initializes zoxide.
+        # Keep zoxide's `zi` binding; zinit runs with NO_ALIASES.
         unalias zi 2>/dev/null || true
+        ${zinitInit}
       '';
     };
 
