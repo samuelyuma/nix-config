@@ -19,9 +19,7 @@ let
   inherit (inputs.self.packages.${host.system})
     docker-credential-osxkeychain
     opencode
-    rea-agents
     rtk
-    workshop-runner
     ;
 in
 
@@ -33,7 +31,6 @@ in
     git-lfs
 
     # Shell tools
-    gum
     zinit
 
     # Files and text
@@ -45,21 +42,15 @@ in
 
     # Terminal applications
     antigravity-acp
-    jnv
     lazydocker
     opencode
-    serpl
 
     # Development utilities
     agent-browser
     dotenv-cli
     moon
     pipreqs
-    rea-agents
     tree-sitter
-
-    # Reverse engineering
-    ghidra
 
     # Language and development tooling
     air
@@ -68,16 +59,12 @@ in
     go
     golangci-lint
     gopls
-    jdk21
     (lib.lowPrio corepack)
     nodejs
     rtk
-    rustup
     typst
     uv
     repomix
-    code2prompt
-    workshop-runner
 
     # Containers and migrations
     colima

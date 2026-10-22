@@ -39,7 +39,7 @@ nix-config/
 ├── modules/
 │   ├── darwin/          # system configuration and MCP rendering
 │   └── home/
-│       ├── agents/      # OpenCode, REA, skills, and RTK
+│       ├── agents/      # OpenCode, skills, and RTK
 │       ├── editor/      # Neovim and language tooling
 │       ├── nix/         # nxc installation
 │       ├── packages/    # permanent user packages
@@ -47,7 +47,7 @@ nix-config/
 │       ├── shell/       # zsh, starship, direnv, and CLI tools
 │       ├── terminal/    # Ghostty configuration
 │       └── vcs/         # Git and credentials
-├── pkgs/                # custom packages (nxc, OpenCode, REA, RTK, ...)
+├── pkgs/                # custom packages (nxc, OpenCode, RTK, ...)
 ├── secrets/             # sops-encrypted secrets
 ├── docs/                # detailed project documentation
 ├── .agents/             # repository maintenance skills
@@ -71,8 +71,6 @@ nxc help
   use `nxc apply`.
 - `nix develop` installs Git hooks: formatting and lint checks run before
   commits; the full flake check runs before pushes.
-- Run `rustup default stable` once before using Rust tools or the workshop
-  runner.
 
 ## Checks
 
@@ -184,14 +182,6 @@ flowchart TD
 - The OpenCode CLI is pinned in `pkgs/opencode/default.nix`. Update its version
   and archive hash together, then activate. Its self-updater is disabled so Nix
   remains the version owner.
-- The REA CLI and MCP server are pinned in `pkgs/rea-agents.nix`. When bumping,
-  update the archive and lockfile hashes, move the `rea` input in `flake.nix` to
-  the matching release tag, then activate.
-  - Native binary analysis uses the Ghidra release from the locked nixpkgs
-    input.
-  - `GHIDRA_INSTALL_DIR` and `JAVA_HOME` are declared in
-    `modules/home/agents/rea.nix` and `modules/darwin/mcp.nix`.
-  - Keep the Ghidra release line aligned with the one REA supports.
 
 ### Removing a Homebrew Cask
 

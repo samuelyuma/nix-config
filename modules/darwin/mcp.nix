@@ -1,14 +1,12 @@
 {
   config,
   host,
-  inputs,
   lib,
   pkgs,
   ...
 }:
 let
   homeConfig = config.home-manager.users.${host.username};
-  rea-agents = inputs.self.packages.${host.system}.rea-agents;
 
   servers = {
     github = {
@@ -31,25 +29,6 @@ let
       url = "https://mcp.context7.com/mcp";
       headers = {
         Authorization = "Bearer ${config.sops.placeholder."context7/token"}";
-      };
-    };
-    rea = {
-      command = "${rea-agents}/bin/rea";
-      args = [ "mcp" ];
-      # The full tool catalog is several megabytes per request. These
-      # profiles advertise smaller schemas; REA still validates complete
-      # inputs and outputs on the server.
-      env = {
-        REA_MCP_INPUT_SCHEMA_PROFILE = "compact";
-        REA_MCP_OUTPUT_SCHEMA_PROFILE = "off";
-        # GUI-launched agents do not inherit shell session variables, so the
-        # native-analysis engine is pointed at explicitly.
-        GHIDRA_INSTALL_DIR = "${pkgs.ghidra}/lib/ghidra";
-        JAVA_HOME = "${pkgs.jdk21}";
-      };
-      codex = {
-        startup_timeout_sec = 30;
-        tool_timeout_sec = 450;
       };
     };
   };

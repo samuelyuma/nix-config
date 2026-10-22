@@ -28,7 +28,6 @@ nix-config/
 │       │   ├── global-agents.md
 │       │   ├── opencode/
 │       │   │   └── default.nix
-│       │   ├── rea.nix
 │       │   ├── rtk.nix
 │       │   ├── rtk-codex.md
 │       │   ├── skills.nix
@@ -62,9 +61,7 @@ nix-config/
 │   ├── opencode/
 │   │   └── default.nix
 │   ├── docker-credential-osxkeychain.nix
-│   ├── rea-agents.nix
-│   ├── rtk.nix
-│   └── workshop-runner.nix
+│   └── rtk.nix
 ├── secrets/
 │   └── secrets.yaml
 ├── docs/
@@ -97,7 +94,7 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 | `hosts/darwin/` | `default.nix` | macOS host entry that imports system modules and Home Manager. |
 | `modules/darwin/` | `default.nix`, `mcp.nix` | System configuration, Homebrew, fonts, and MCP rendering. |
 | `modules/home/` | Domain modules | User environment managed by Home Manager. |
-| `modules/home/agents/` | OpenCode, REA, RTK, and skills | Agent tooling and instruction sources. |
+| `modules/home/agents/` | OpenCode, RTK, and skills | Agent tooling and instruction sources. |
 | `modules/home/editor/` | Neovim/nixvim modules | Editor, languages, formatting, and tests. |
 | `modules/home/nix/` | `default.nix` | Installs the repository `nxc` CLI. |
 | `modules/home/packages/` | `default.nix` | Permanent user packages. |
@@ -119,9 +116,8 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 | `modules/darwin/default.nix` | macOS host configuration, Homebrew casks, and fonts. |
 | `modules/darwin/mcp.nix` | Shared MCP server definitions; renders OpenCode, Codex, and Antigravity configs from sops placeholders. |
 | `modules/home/default.nix` | Imports every Home Manager domain. |
-| `modules/home/agents/default.nix` | Imports OpenCode, REA, RTK, and skill configuration. |
+| `modules/home/agents/default.nix` | Imports OpenCode, RTK, and skill configuration. |
 | `modules/home/agents/opencode/default.nix` | OpenCode CLI configuration. |
-| `modules/home/agents/rea.nix` | REA environment variables for Ghidra and the JDK. |
 | `modules/home/agents/rtk.nix` | Renders global `AGENTS.md` files for OpenCode and Codex. |
 | `modules/home/agents/skills.nix` | Skill sources and agent targets. |
 | `modules/home/editor/default.nix` | Nixvim core configuration. |
