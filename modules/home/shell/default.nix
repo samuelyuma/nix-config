@@ -100,10 +100,11 @@ in
       };
 
       initContent = lib.mkOrder 850 ''
+        # Re-exec the login shell so the full zsh configuration is read again.
+        # Clear Home Manager's guards so session variables are refreshed too.
         reload() {
           unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
-          export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
-          exec /bin/zsh -l
+          exec zsh -l
         }
 
         # Keep zoxide's `zi` binding; zinit runs with NO_ALIASES.

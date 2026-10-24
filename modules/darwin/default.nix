@@ -10,7 +10,6 @@
     onActivation.cleanup = "uninstall";
 
     casks = [
-      "arc"
       "chatgpt"
       "codex"
       "discord"
