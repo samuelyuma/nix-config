@@ -13,6 +13,7 @@
       "chatgpt"
       "codex"
       "discord"
+      "dockdoor"
       "ghostty"
       "google-chrome"
       "helium-browser"

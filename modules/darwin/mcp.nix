@@ -99,7 +99,13 @@ in
         path = "/etc/codex/config.toml";
         owner = host.username;
         mode = "0400";
-        file = (pkgs.formats.toml { }).generate "codex-config.toml" { mcp_servers = codexServers; };
+        file = (pkgs.formats.toml { }).generate "codex-config.toml" {
+          mcp_servers = codexServers;
+          agents = {
+            default_subagent_model = "gpt-6.1-terra";
+            default_subagent_reasoning_effort = "xhigh";
+          };
+        };
       };
       "antigravity-mcp.json" = {
         path = "${host.homeDirectory}/.gemini/config/mcp_config.json";

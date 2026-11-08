@@ -31,6 +31,7 @@ in
     git-lfs
 
     # Shell tools
+    shellcheck
     zinit
 
     # Files and text
@@ -56,7 +57,7 @@ in
     air
     bun
     dotnet-sdk_10
-    go
+    inputs.nixpkgs-go.legacyPackages.${host.system}.go_1_27
     golangci-lint
     gopls
     (lib.lowPrio corepack)

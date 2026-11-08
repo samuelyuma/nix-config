@@ -16,6 +16,8 @@ let
     source ${pkgs.zinit}/share/zinit/zinit.zsh
     mkdir -p "$ZSH_CACHE_DIR/completions"
 
+    # Git aliases depend on helpers defined outside the plugin.
+    source ${pkgs.oh-my-zsh}/share/oh-my-zsh/lib/git.zsh
     zinit load ${omzPlugins}/git
     zinit load ${omzPlugins}/docker
     zinit load ${omzPlugins}/bun
@@ -58,7 +60,6 @@ in
       enable = true;
       enableCompletion = true;
       autosuggestion.enable = true;
-      historySubstringSearch.enable = true;
       syntaxHighlighting.enable = true;
 
       plugins = [
