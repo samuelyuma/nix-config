@@ -68,14 +68,16 @@ writeShellApplication {
     warn_untracked() {
       local untracked
       if command -v git >/dev/null 2>&1 && git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        untracked=$(git -C "$repo" ls-files --others --exclude-standard -- '*.nix')
+        untracked=$(git -C "$repo" status --porcelain 2>/dev/null | grep '^??' || true)
         if [ -n "$untracked" ]; then
-          printf 'nxc: warning: untracked Nix files are invisible to flakes:\n%s\n' "$untracked" >&2
+          printf 'warning: untracked files in %s will not be visible to Nix flakes:\n%s\n' "$repo" "$untracked" >&2
+          printf 'hint: run git add <file> to stage them\n' >&2
         fi
       fi
     }
 
-    repo="$(find_repo)" || exit 1
+    resolved_repo=$(find_repo) || exit 1
+    repo="$resolved_repo"
 
     command="''${1:-help}"
     shift || true
@@ -118,38 +120,38 @@ writeShellApplication {
         ;;
       update)
         cd "$repo" || exit 1
+        if [ "$#" -eq 0 ]; then
+          exec nix flake update
+        fi
         exec nix flake update "$@"
         ;;
       search)
         if [ "$#" -eq 0 ]; then
-          printf 'nxc: search requires a query\n' >&2
-          usage >&2
-          exit 2
+          printf 'nxc: search requires at least one query term\n' >&2
+          exit 1
         fi
-        exec nh search packages "$@"
+        exec nh search "$@"
         ;;
       options)
         if [ "$#" -eq 0 ]; then
-          printf 'nxc: options requires a query\n' >&2
-          usage >&2
-          exit 2
+          printf 'nxc: options requires at least one query term\n' >&2
+          exit 1
         fi
-        exec nh search options "$@"
+        cd "$repo" || exit 1
+        exec nix run "nixpkgs#manix" -- "$@"
         ;;
       try)
         if [ "$#" -eq 0 ]; then
-          printf 'nxc: try requires at least one package\n' >&2
-          usage >&2
-          exit 2
+          printf 'nxc: try requires at least one package name\n' >&2
+          exit 1
         fi
         packages=()
+        command_args=()
         while [ "$#" -gt 0 ]; do
           case "$1" in
-            --)
+            --command)
               shift
-              break
-              ;;
-            -*)
+              command_args=("$@")
               break
               ;;
             *)
@@ -158,16 +160,16 @@ writeShellApplication {
               ;;
           esac
         done
-        if [ "''${#packages[@]}" -eq 0 ]; then
-          printf 'nxc: try requires at least one package\n' >&2
-          usage >&2
-          exit 2
+        cd "$repo" || exit 1
+        if [ "''${#command_args[@]}" -gt 0 ]; then
+          exec nix shell "''${packages[@]}" --command "''${command_args[@]}"
         fi
-        exec nix shell --inputs-from "$repo" "''${packages[@]}" "$@"
+        exec nix shell "''${packages[@]}"
         ;;
       rollback)
+        cd "$repo" || exit 1
         if [ "$is_linux" -eq 1 ]; then
-          exec home-manager rollback
+          exec home-manager generations
         fi
         exec sudo darwin-rebuild --rollback
         ;;
@@ -207,8 +209,8 @@ writeShellApplication {
           darwin)
             path="$repo/modules/darwin/default.nix"
             ;;
-          vps)
-            path="$repo/hosts/vps/default.nix"
+          linux)
+            path="$repo/hosts/linux/default.nix"
             ;;
           readme)
             path="$repo/README.md"
@@ -236,9 +238,4 @@ writeShellApplication {
         ;;
     esac
   '';
-
-  meta = {
-    description = "Manage the nix-config flake";
-    mainProgram = "nxc";
-  };
 }

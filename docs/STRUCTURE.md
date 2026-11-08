@@ -17,7 +17,7 @@ nix-config/
 ├── hosts/
 │   ├── darwin/
 │   │   └── default.nix
-│   └── vps/
+│   └── linux/
 │       └── default.nix
 ├── modules/
 │   ├── darwin/
@@ -74,7 +74,7 @@ nix-config/
 │   └── secrets.yaml
 ├── docs/
 │   ├── STRUCTURE.md
-│   └── VPS.md
+│   └── LINUX.md
 ├── .agents/
 │   └── skills/
 │       ├── add-skill-source/
@@ -97,11 +97,11 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 
 | Path | Contents | Purpose |
 | --- | --- | --- |
-| `flake.nix` | Inputs, packages, checks, `darwinConfigurations.darwin`, and `homeConfigurations.vps` | Main evaluation entry point. |
+| `flake.nix` | Inputs, packages, checks, `darwinConfigurations.darwin`, and `homeConfigurations.linux` | Main evaluation entry point. |
 | `flake.lock` | Locked input revisions | Reproducible builds. |
 | `flake/` | `activate.nix`, `devshell.nix`, `git-hooks.nix`, `hosts.nix` | Activation app, development shell, Git hooks, and host values. |
 | `hosts/darwin/` | `default.nix` | macOS host entry that imports system modules and Home Manager. |
-| `hosts/vps/` | `default.nix` | Ubuntu VPS host entry using standalone Home Manager. |
+| `hosts/linux/` | `default.nix` | Linux host entry using standalone Home Manager. |
 | `modules/darwin/` | `default.nix`, `mcp.nix` | System configuration, Homebrew, fonts, and macOS MCP rendering. |
 | `modules/shared/` | `mcp-servers.nix` | Shared MCP server definitions used by macOS and Linux. |
 | `modules/home/` | Domain modules | User environment managed by Home Manager. |
@@ -115,7 +115,7 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 | `modules/home/vcs/` | `git.nix` | Git settings and credential helper. |
 | `pkgs/` | Custom derivations | Packages exposed by the flake. |
 | `secrets/` | `secrets.yaml` | sops-encrypted secrets; never commit plaintext. |
-| `docs/` | Project documentation | Detailed references and the VPS guide. |
+| `docs/` | Project documentation | Detailed references and the Linux setup guide. |
 | `.agents/skills/` | Repository maintenance skills | Repeatable maintenance workflows. |
 | `AGENTS.md` | Repository instructions for agents | Scope, checks, and boundaries. |
 | `README.md` | Project overview | Setup, commands, and workflows. |
@@ -149,11 +149,11 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 ## How Modules Are Wired
 
 `flake.nix` imports `flake/hosts.nix`, exposes packages and checks, and builds
-`darwinConfigurations.darwin` for macOS and `homeConfigurations.vps` for the
-Ubuntu VPS.
+`darwinConfigurations.darwin` for macOS and `homeConfigurations.linux` for the
+Linux host.
 
 On macOS, `hosts/darwin/default.nix` imports `modules/darwin` and wires Home
-Manager to `modules/home`. On the VPS, `hosts/vps/default.nix` configures
+Manager to `modules/home`. On Linux, `hosts/linux/default.nix` configures
 standalone Home Manager with `modules/home` directly.
 
 `modules/home/default.nix` imports each user domain, and each domain's
@@ -176,6 +176,6 @@ configured host profile.
 | Add a personal skill | `modules/home/agents/skills/<name>/SKILL.md` |
 | Add a secret | Follow the sops workflow, then reference `config.sops.placeholder."<section>/<key>"`. |
 | Change host values | `flake/hosts.nix` |
-| Change VPS host settings | `hosts/vps/default.nix` |
+| Change Linux host settings | `hosts/linux/default.nix` |
 | Change CLI behavior | `pkgs/nxc/default.nix` |
 | Update project docs | `README.md` or `docs/` |

@@ -1,13 +1,13 @@
-# VPS Host
+# Linux Host
 
-The `vps` host runs Ubuntu with standalone Home Manager. It does not use
+The `linux` host runs standalone Home Manager on GNU/Linux (including Ubuntu VPS setups and other distributions). It does not use
 NixOS or nix-darwin. System services such as Docker, Tailscale, and the T3 Code
 service stay under the distribution and the official installers; user tooling,
 dotfiles, agent configuration, and skills come from this flake.
 
 | Item | Value |
 | --- | --- |
-| Host name | `vps` |
+| Host name | `linux` |
 | System | `x86_64-linux` |
 | User | `yumx` |
 | Home | `/home/yumx` |
@@ -120,12 +120,12 @@ private age key to the VPS.
 From `~/nix-config`, use the pinned Home Manager CLI exposed by the flake:
 
 ```console
-nix run .#home-manager -- switch --flake .#vps
+nix run .#home-manager -- switch --flake .#linux
 exec zsh -l
 nxc path
 ```
 
-`nxc` points at `~/nix-config` and uses the `vps` Home Manager configuration for
+`nxc` points at `~/nix-config` and uses the `linux` Home Manager configuration for
 `apply`, `build`, `check`, and `rollback`.
 
 Verify the user environment:
@@ -277,7 +277,7 @@ T3 Code stays on its official installer and updater. Do not add it to Nix.
 
 ### Provider Setup
 
-Open **Settings → Providers** on the `vps` environment.
+Open **Settings → Providers** on the `linux` environment.
 
 | Provider | Setup |
 | --- | --- |
@@ -351,7 +351,7 @@ Use these defaults on the 4 GB host:
 - If a build runs out of memory, limit it:
 
   ```console
-  nix build .#homeConfigurations.vps.activationPackage --max-jobs 1 --cores 2
+  nix build .#homeConfigurations.linux.activationPackage --max-jobs 1 --cores 2
   ```
 
   The first activation compiles the custom `rtk` package. Expect it to take a
@@ -372,7 +372,7 @@ t3 update
 - `nxc update` updates all flake inputs.
 - `nxc check` formats, lints, evaluates the flake, and builds the Home Manager
   activation package.
-- `nxc apply` runs `nh home switch` for `vps`.
+- `nxc apply` runs `nh home switch` for `linux`.
 - `t3 update` updates T3 Code and its service; Nix does not own that binary.
 - Re-run `agent-browser install` after a major agent-browser update if Chrome
   needs to be refreshed.

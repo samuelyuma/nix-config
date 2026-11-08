@@ -61,11 +61,11 @@
       hosts = import ./flake/hosts.nix;
       inherit (hosts)
         darwin
-        vps
+        linux
         ;
 
       darwinPkgs = nixpkgs.legacyPackages.${darwin.system};
-      vpsPkgs = nixpkgs.legacyPackages.${vps.system};
+      linuxPkgs = nixpkgs.legacyPackages.${linux.system};
 
       localChecks = pkgs: host: import ./flake/git-hooks.nix { inherit inputs pkgs host; };
 
@@ -90,7 +90,7 @@
     {
       formatter = {
         ${darwin.system} = darwinPkgs.nixfmt-tree;
-        ${vps.system} = vpsPkgs.nixfmt-tree;
+        ${linux.system} = linuxPkgs.nixfmt-tree;
       };
 
       packages = {
@@ -98,8 +98,8 @@
           inherit activate;
           docker-credential-osxkeychain = darwinPkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
         };
-        ${vps.system} = (mkPackages vps vpsPkgs) // {
-          home-manager = inputs.home-manager.packages.${vps.system}.home-manager;
+        ${linux.system} = (mkPackages linux linuxPkgs) // {
+          home-manager = inputs.home-manager.packages.${linux.system}.home-manager;
         };
       };
 
@@ -124,8 +124,8 @@
             darwinPkgs.runCommand "sops-activation-order" { } "touch $out";
         };
 
-        ${vps.system} = {
-          home-manager = self.homeConfigurations.vps.activationPackage;
+        ${linux.system} = {
+          home-manager = self.homeConfigurations.linux.activationPackage;
         };
       };
 
@@ -134,9 +134,9 @@
           pkgs = darwinPkgs;
           localChecks = localChecks darwinPkgs darwin;
         };
-        ${vps.system}.default = import ./flake/devshell.nix {
-          pkgs = vpsPkgs;
-          localChecks = localChecks vpsPkgs vps;
+        ${linux.system}.default = import ./flake/devshell.nix {
+          pkgs = linuxPkgs;
+          localChecks = localChecks linuxPkgs linux;
         };
       };
 
@@ -170,17 +170,17 @@
         ];
       };
 
-      homeConfigurations.vps = home-manager.lib.homeManagerConfiguration {
-        pkgs = vpsPkgs;
+      homeConfigurations.linux = home-manager.lib.homeManagerConfiguration {
+        pkgs = linuxPkgs;
         extraSpecialArgs = {
-          host = vps;
+          host = linux;
           inherit inputs;
         };
         modules = [
           nixvim.homeModules.nixvim
           sops-nix.homeManagerModules.sops
           agent-skills-nix.homeManagerModules.default
-          ./hosts/vps
+          ./hosts/linux
         ];
       };
     };

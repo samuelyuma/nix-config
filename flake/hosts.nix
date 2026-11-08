@@ -1,7 +1,7 @@
 let
   username = "yumx";
   darwinHome = "/Users/${username}";
-  vpsHome = "/home/${username}";
+  linuxHome = "/home/${username}";
 in
 {
   darwin = {
@@ -14,12 +14,12 @@ in
     githubGitCredentials = true;
   };
 
-  vps = {
-    name = "vps";
+  linux = {
+    name = "linux";
     profile = "linux";
     inherit username;
-    homeDirectory = vpsHome;
-    dotfilesDirectory = "${vpsHome}/nix-config";
+    homeDirectory = linuxHome;
+    dotfilesDirectory = "${linuxHome}/nix-config";
     system = "x86_64-linux";
     githubGitCredentials = true;
   };
