@@ -1,5 +1,6 @@
 {
   config,
+  host,
   lib,
   pkgs,
   ...
@@ -15,7 +16,9 @@
     sessionVariables.SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 
     # Keep the upstream SOPS script, but run it after the current launch agent is installed.
-    activation.sops-nix = lib.hm.dag.entryAfter [ "setupLaunchAgents" ] (lib.mkDefault "");
+    activation.sops-nix = lib.mkIf (host.profile == "darwin") (
+      lib.hm.dag.entryAfter [ "setupLaunchAgents" ] (lib.mkDefault "")
+    );
   };
 
   sops = {

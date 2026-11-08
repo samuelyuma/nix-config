@@ -1,19 +1,26 @@
 # AGENTS.md
 
-Nix-darwin + Home Manager flake for one macOS machine (`aarch64-darwin`, user
-`yumx`). Full tree and module map: [docs/STRUCTURE.md](docs/STRUCTURE.md).
+Nix-darwin + Home Manager flake for macOS (`aarch64-darwin`) and standalone
+Home Manager for an Ubuntu VPS (`x86_64-linux`), both for user `yumx`. Full
+tree and module map: [docs/STRUCTURE.md](docs/STRUCTURE.md).
 
 ## Checks
 
 Before finishing, run `nxc check` from the repository root. If `nxc` is not
-available, run the commands in [README Checks](README.md#checks).
+available, run the commands in [README Checks](README.md#checks). On macOS, the
+host build checks `darwinConfigurations.darwin.system`; on the VPS, it checks
+`homeConfigurations.vps.activationPackage`.
 
 ## Guardrails
 
 - Ask the user to apply; agents never run activation (`nix run .#activate`,
-  `nxc apply`, or `darwin-rebuild switch`).
+  `nxc apply`, `darwin-rebuild switch`, or `home-manager switch`).
 - Use `config.sops.placeholder."<section>/<key>"` for secrets; never open,
   decrypt, or edit `secrets/secrets.yaml`.
+- Never run `sops updatekeys`, modify age private keys, or run sudo commands.
+- VPS system services (Docker, Tailscale, T3 Code) stay under their official
+  installers; do not add NixOS modules or root system services.
+- T3 Code is managed by its official installer and updater, not Nix.
 - Edit the Nix source; Home Manager's symlinks in `~` are read-only, including
   for `rtk init`.
 
@@ -31,7 +38,10 @@ available, run the commands in [README Checks](README.md#checks).
 
 - Instructions: repo rules in this file; personal defaults in
   `modules/home/agents/global-agents.md` (copied by `rtk.nix`).
-- Source files: `pkgs/nxc/default.nix` for `nxc`, `modules/darwin/mcp.nix` for
-  MCP. Codex reads the generated `/etc/codex/config.toml`.
+- Source files: `pkgs/nxc/default.nix` for `nxc`, `modules/shared/mcp-servers.nix`
+  for shared MCP server definitions, `modules/darwin/mcp.nix` for macOS MCP
+  rendering, and `modules/home/agents/mcp.nix` for Linux MCP rendering. Codex
+  reads `/etc/codex/config.toml` on macOS and `~/.codex/config.toml` on the VPS.
+- VPS provisioning guide: [docs/VPS.md](docs/VPS.md).
 - Maintenance skills:
   `.agents/skills/{bump-opencode,add-skill-source,add-sops-secret}/SKILL.md`.

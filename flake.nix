@@ -58,49 +58,94 @@
       ...
     }:
     let
-      host = import ./flake/hosts.nix;
-      pkgs = nixpkgs.legacyPackages.${host.system};
-      localChecks = import ./flake/git-hooks.nix { inherit inputs pkgs host; };
+      hosts = import ./flake/hosts.nix;
+      inherit (hosts)
+        darwin
+        vps
+        ;
+
+      darwinPkgs = nixpkgs.legacyPackages.${darwin.system};
+      vpsPkgs = nixpkgs.legacyPackages.${vps.system};
+
+      localChecks = pkgs: host: import ./flake/git-hooks.nix { inherit inputs pkgs host; };
+
       activate = import ./flake/activate.nix {
-        inherit
-          inputs
-          pkgs
-          host
-          self
-          ;
+        inherit inputs;
+        pkgs = darwinPkgs;
+        host = darwin;
+        inherit self;
       };
-    in
-    {
-      formatter.${host.system} = pkgs.nixfmt-tree;
-      packages.${host.system} = {
-        inherit activate;
-        docker-credential-osxkeychain = pkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
-        nxc = pkgs.callPackage ./pkgs/nxc { repo = "${host.homeDirectory}/nix-config"; };
+
+      mkPackages = host: pkgs: {
+        nxc = pkgs.callPackage ./pkgs/nxc {
+          repo = "${host.homeDirectory}/nix-config";
+          hostName = host.name;
+          isLinux = host.profile == "linux";
+          homeManager = inputs.home-manager.packages.${host.system}.home-manager;
+        };
         opencode = pkgs.callPackage ./pkgs/opencode { };
         rtk = pkgs.callPackage ./pkgs/rtk.nix { src = inputs.rtk; };
       };
-      apps.${host.system}.activate = {
+    in
+    {
+      formatter = {
+        ${darwin.system} = darwinPkgs.nixfmt-tree;
+        ${vps.system} = vpsPkgs.nixfmt-tree;
+      };
+
+      packages = {
+        ${darwin.system} = (mkPackages darwin darwinPkgs) // {
+          inherit activate;
+          docker-credential-osxkeychain = darwinPkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
+        };
+        ${vps.system} = (mkPackages vps vpsPkgs) // {
+          home-manager = inputs.home-manager.packages.${vps.system}.home-manager;
+        };
+      };
+
+      apps.${darwin.system}.activate = {
         type = "app";
         program = "${activate}/bin/activate";
       };
-      checks.${host.system} = {
-        darwin = self.darwinConfigurations.darwin.system;
-        hooks = localChecks;
-        sops-activation-order =
-          let
-            dag = import (home-manager.outPath + "/modules/lib/dag.nix") { inherit (pkgs) lib; };
-            activation =
-              self.darwinConfigurations.darwin.config.home-manager.users.${host.username}.home.activation;
-            order = map (entry: entry.name) (dag.topoSort activation).result;
-            index = name: pkgs.lib.lists.findFirstIndex (entry: entry == name) null order;
-          in
-          assert index "setupLaunchAgents" < index "sops-nix";
-          pkgs.runCommand "sops-activation-order" { } "touch $out";
+
+      checks = {
+        ${darwin.system} = {
+          darwin = self.darwinConfigurations.darwin.system;
+          hooks = localChecks darwinPkgs darwin;
+          sops-activation-order =
+            let
+              dag = import (home-manager.outPath + "/modules/lib/dag.nix") { inherit (darwinPkgs) lib; };
+              activation =
+                self.darwinConfigurations.darwin.config.home-manager.users.${darwin.username}.home.activation;
+              order = map (entry: entry.name) (dag.topoSort activation).result;
+              index = name: darwinPkgs.lib.lists.findFirstIndex (entry: entry == name) null order;
+            in
+            assert index "setupLaunchAgents" < index "sops-nix";
+            darwinPkgs.runCommand "sops-activation-order" { } "touch $out";
+        };
+
+        ${vps.system} = {
+          home-manager = self.homeConfigurations.vps.activationPackage;
+        };
       };
-      devShells.${host.system}.default = import ./flake/devshell.nix { inherit pkgs localChecks; };
+
+      devShells = {
+        ${darwin.system}.default = import ./flake/devshell.nix {
+          pkgs = darwinPkgs;
+          localChecks = localChecks darwinPkgs darwin;
+        };
+        ${vps.system}.default = import ./flake/devshell.nix {
+          pkgs = vpsPkgs;
+          localChecks = localChecks vpsPkgs vps;
+        };
+      };
+
       darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
-        inherit (host) system;
-        specialArgs = { inherit host inputs; };
+        inherit (darwin) system;
+        specialArgs = {
+          host = darwin;
+          inherit inputs;
+        };
         modules = [
           ./hosts/darwin
           home-manager.darwinModules.home-manager
@@ -108,7 +153,10 @@
           {
             home-manager = {
               backupFileExtension = "hm-backup";
-              extraSpecialArgs = { inherit host inputs; };
+              extraSpecialArgs = {
+                host = darwin;
+                inherit inputs;
+              };
               sharedModules = [
                 nixvim.homeModules.nixvim
                 sops-nix.homeManagerModules.sops
@@ -116,9 +164,23 @@
               ];
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${host.username} = import ./modules/home;
+              users.${darwin.username} = import ./modules/home;
             };
           }
+        ];
+      };
+
+      homeConfigurations.vps = home-manager.lib.homeManagerConfiguration {
+        pkgs = vpsPkgs;
+        extraSpecialArgs = {
+          host = vps;
+          inherit inputs;
+        };
+        modules = [
+          nixvim.homeModules.nixvim
+          sops-nix.homeManagerModules.sops
+          agent-skills-nix.homeManagerModules.default
+          ./hosts/vps
         ];
       };
     };

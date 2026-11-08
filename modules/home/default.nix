@@ -1,4 +1,4 @@
-{ host, ... }:
+{ host, lib, ... }:
 
 {
   imports = [
@@ -8,9 +8,9 @@
     ./packages
     ./security
     ./shell
-    ./terminal
     ./vcs/git.nix
-  ];
+  ]
+  ++ lib.optionals (host.profile == "darwin") [ ./terminal ];
 
   home = {
     inherit (host) homeDirectory username;

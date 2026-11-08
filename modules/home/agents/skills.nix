@@ -12,8 +12,14 @@ in
 {
   programs.agent-skills = {
     enable = true;
-    targets.opencode.enable = true;
-    targets.codex.enable = true;
+    targets = {
+      opencode.enable = true;
+      codex.enable = true;
+      antigravity = {
+        enable = true;
+        dest = "$HOME/.gemini/config/skills";
+      };
+    };
 
     sources = {
       local.path = ./skills;

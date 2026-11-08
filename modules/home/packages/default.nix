@@ -1,85 +1,9 @@
-{
-  pkgs,
-  lib,
-  inputs,
-  host,
-  ...
-}:
-let
-  antigravity-acp = pkgs.antigravity-acp.overrideAttrs (
-    finalAttrs: _: {
-      version = "1.3.0";
-      src = pkgs.fetchurl {
-        url = "https://dl.google.com/agy-extensions/releases/macos/agy-acp-server-${finalAttrs.version}-darwin-arm64.zip";
-        hash = "sha256-fNlwRfe0/oEXWhB83xb5xRSE48eKUWLK5BUzi7aqW4g=";
-      };
-    }
-  );
-
-  inherit (inputs.self.packages.${host.system})
-    docker-credential-osxkeychain
-    opencode
-    rtk
-    ;
-in
+{ host, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    # Version control
-    gh
-    git-filter-repo
-    git-lfs
-
-    # Shell tools
-    shellcheck
-    zinit
-
-    # Files and text
-    bat
-    eza
-    fd
-    ripgrep
-    tree
-
-    # Terminal applications
-    antigravity-acp
-    lazydocker
-    opencode
-
-    # Development utilities
-    agent-browser
-    dotenv-cli
-    moon
-    pipreqs
-    tree-sitter
-
-    # Language and development tooling
-    air
-    bun
-    dotnet-sdk_10
-    inputs.nixpkgs-go.legacyPackages.${host.system}.go_1_27
-    golangci-lint
-    gopls
-    (lib.lowPrio corepack)
-    nodejs
-    rtk
-    typst
-    uv
-    repomix
-
-    # Containers and migrations
-    colima
-    docker
-    docker-buildx
-    docker-compose
-    docker-credential-osxkeychain
-    go-migrate
-
-    # macOS utilities
-    mactop
-    mole-cleaner
-
-    # Python tooling
-    ruff
-  ];
+  imports = [
+    ./common.nix
+  ]
+  ++ lib.optionals (host.profile == "darwin") [ ./darwin.nix ]
+  ++ lib.optionals (host.profile == "linux") [ ./linux.nix ];
 }

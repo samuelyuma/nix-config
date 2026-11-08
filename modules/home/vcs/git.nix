@@ -10,7 +10,8 @@
   programs.git = {
     enable = true;
 
-    package = pkgs.git.override { osxkeychainSupport = false; };
+    package =
+      if host.profile == "darwin" then pkgs.git.override { osxkeychainSupport = false; } else pkgs.git;
 
     settings = {
       user = {

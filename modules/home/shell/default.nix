@@ -20,9 +20,13 @@ let
     source ${pkgs.oh-my-zsh}/share/oh-my-zsh/lib/git.zsh
     zinit load ${omzPlugins}/git
     zinit load ${omzPlugins}/docker
-    zinit load ${omzPlugins}/bun
-    zinit load ${omzPlugins}/uv
 
+    if (( $+commands[bun] )); then
+      zinit load ${omzPlugins}/bun
+    fi
+    if (( $+commands[uv] )); then
+      zinit load ${omzPlugins}/uv
+    fi
     if (( $+commands[dotnet] )); then
       zinit load ${omzPlugins}/dotnet
     fi
@@ -37,8 +41,10 @@ in
 
   home.sessionPath = [
     "/etc/profiles/per-user/${host.username}/bin"
-    "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
+  ]
+  ++ lib.optionals (host.profile == "darwin") [
+    "/run/current-system/sw/bin"
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
     "/usr/local/bin"
@@ -46,8 +52,18 @@ in
     "/bin"
     "/usr/sbin"
     "/sbin"
-    "${config.home.homeDirectory}/.local/bin"
-  ];
+  ]
+  ++ lib.optionals (host.profile == "linux") [
+    "${config.home.profileDirectory}/bin"
+    "${config.home.homeDirectory}/.nix-profile/bin"
+    "/usr/local/bin"
+    "/usr/local/sbin"
+    "/usr/bin"
+    "/bin"
+    "/usr/sbin"
+    "/sbin"
+  ]
+  ++ [ "${config.home.homeDirectory}/.local/bin" ];
 
   programs = {
     starship = {
@@ -97,6 +113,8 @@ in
         path = "print -l $path";
 
         zshconf = "nano ${host.dotfilesDirectory}/modules/home/shell/default.nix";
+      }
+      // lib.optionalAttrs (host.profile == "darwin") {
         ghosttyconf = "nano ${host.dotfilesDirectory}/modules/home/terminal/ghostty.conf";
       };
 

@@ -1,18 +1,36 @@
 {
   lib,
+  stdenv,
   stdenvNoCC,
   fetchurl,
   gnutar,
   makeWrapper,
   ripgrep,
+  autoPatchelfHook,
 }:
+let
+  inherit (stdenvNoCC) hostPlatform;
+  inherit (hostPlatform) isDarwin;
+
+  platform =
+    if isDarwin && hostPlatform.isAarch64 then
+      "darwin-arm64"
+    else if hostPlatform.isLinux && hostPlatform.isx86_64 then
+      "linux-x64"
+    else
+      throw "opencode: unsupported platform ${hostPlatform.system}";
+in
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "opencode";
   version = "2.1.4";
 
   src = fetchurl {
-    url = "https://registry.npmjs.org/@opencode/cli-darwin-arm64/-/cli-darwin-arm64-${finalAttrs.version}.tgz";
-    hash = "sha256-2qL+BPJ4hQkNzK7tng1lFLyAp4ScywqdlFIbODhRv6U=";
+    url = "https://registry.npmjs.org/@opencode/cli-${platform}/-/cli-${platform}-${finalAttrs.version}.tgz";
+    hash =
+      if isDarwin then
+        "sha256-2qL+BPJ4hQkNzK7tng1lFLyAp4ScywqdlFIbODhRv6U="
+      else
+        "sha256-zgWr4tzhBBORyOyM242gZvZA/UcecqyEbcsInEQeEeE=";
   };
 
   dontUnpack = true;
@@ -23,7 +41,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     gnutar
     makeWrapper
-  ];
+  ]
+  ++ lib.optional (!isDarwin) autoPatchelfHook;
+
+  buildInputs = lib.optionals (!isDarwin) [ stdenv.cc.cc.lib ];
 
   installPhase = ''
     runHook preInstall
@@ -43,6 +64,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://opencode.ai/";
     license = lib.licenses.mit;
     mainProgram = "opencode";
-    platforms = [ "aarch64-darwin" ];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-linux"
+    ];
   };
 })

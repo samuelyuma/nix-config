@@ -15,17 +15,22 @@ nix-config/
 │   ├── git-hooks.nix
 │   └── hosts.nix
 ├── hosts/
-│   └── darwin/
+│   ├── darwin/
+│   │   └── default.nix
+│   └── vps/
 │       └── default.nix
 ├── modules/
 │   ├── darwin/
 │   │   ├── default.nix
 │   │   └── mcp.nix
+│   ├── shared/
+│   │   └── mcp-servers.nix
 │   └── home/
 │       ├── default.nix
 │       ├── agents/
 │       │   ├── default.nix
 │       │   ├── global-agents.md
+│       │   ├── mcp.nix
 │       │   ├── opencode/
 │       │   │   └── default.nix
 │       │   ├── rtk.nix
@@ -44,7 +49,10 @@ nix-config/
 │       ├── nix/
 │       │   └── default.nix
 │       ├── packages/
-│       │   └── default.nix
+│       │   ├── common.nix
+│       │   ├── darwin.nix
+│       │   ├── default.nix
+│       │   └── linux.nix
 │       ├── security/
 │       │   └── default.nix
 │       ├── shell/
@@ -65,7 +73,8 @@ nix-config/
 ├── secrets/
 │   └── secrets.yaml
 ├── docs/
-│   └── STRUCTURE.md
+│   ├── STRUCTURE.md
+│   └── VPS.md
 ├── .agents/
 │   └── skills/
 │       ├── add-skill-source/
@@ -88,23 +97,25 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 
 | Path | Contents | Purpose |
 | --- | --- | --- |
-| `flake.nix` | Inputs, packages, checks, and `darwinConfigurations.darwin` | Main evaluation entry point. |
+| `flake.nix` | Inputs, packages, checks, `darwinConfigurations.darwin`, and `homeConfigurations.vps` | Main evaluation entry point. |
 | `flake.lock` | Locked input revisions | Reproducible builds. |
 | `flake/` | `activate.nix`, `devshell.nix`, `git-hooks.nix`, `hosts.nix` | Activation app, development shell, Git hooks, and host values. |
 | `hosts/darwin/` | `default.nix` | macOS host entry that imports system modules and Home Manager. |
-| `modules/darwin/` | `default.nix`, `mcp.nix` | System configuration, Homebrew, fonts, and MCP rendering. |
+| `hosts/vps/` | `default.nix` | Ubuntu VPS host entry using standalone Home Manager. |
+| `modules/darwin/` | `default.nix`, `mcp.nix` | System configuration, Homebrew, fonts, and macOS MCP rendering. |
+| `modules/shared/` | `mcp-servers.nix` | Shared MCP server definitions used by macOS and Linux. |
 | `modules/home/` | Domain modules | User environment managed by Home Manager. |
-| `modules/home/agents/` | OpenCode, RTK, and skills | Agent tooling and instruction sources. |
+| `modules/home/agents/` | OpenCode, RTK, skills, and Linux MCP rendering | Agent tooling, instruction sources, and MCP configurations. |
 | `modules/home/editor/` | Neovim/nixvim modules | Editor, languages, formatting, and tests. |
 | `modules/home/nix/` | `default.nix` | Installs the repository `nxc` CLI. |
-| `modules/home/packages/` | `default.nix` | Permanent user packages. |
+| `modules/home/packages/` | `common.nix`, `darwin.nix`, `linux.nix`, `default.nix` | User packages partitioned by platform. |
 | `modules/home/security/` | `default.nix` | sops-nix and age key configuration. |
-| `modules/home/shell/` | `default.nix`, `starship.toml` | zsh, prompt, history, and CLI integrations. |
+| `modules/home/shell/` | `default.nix`, `starship.toml` | zsh, Starship, Atuin, direnv, fzf, zoxide, and aliases. |
 | `modules/home/terminal/` | `default.nix`, `ghostty.conf` | Ghostty terminal configuration. |
 | `modules/home/vcs/` | `git.nix` | Git settings and credential helper. |
 | `pkgs/` | Custom derivations | Packages exposed by the flake. |
 | `secrets/` | `secrets.yaml` | sops-encrypted secrets; never commit plaintext. |
-| `docs/` | Project documentation | Detailed references such as this page. |
+| `docs/` | Project documentation | Detailed references and the VPS guide. |
 | `.agents/skills/` | Repository maintenance skills | Repeatable maintenance workflows. |
 | `AGENTS.md` | Repository instructions for agents | Scope, checks, and boundaries. |
 | `README.md` | Project overview | Setup, commands, and workflows. |
@@ -114,17 +125,22 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 | Module | Responsibility |
 | --- | --- |
 | `modules/darwin/default.nix` | macOS host configuration, Homebrew casks, and fonts. |
-| `modules/darwin/mcp.nix` | Shared MCP server definitions; renders OpenCode, Codex, and Antigravity configs from sops placeholders. |
+| `modules/darwin/mcp.nix` | System-level MCP rendering on macOS (`/etc/codex/config.toml`, OpenCode, Antigravity). |
+| `modules/shared/mcp-servers.nix` | Shared MCP server definitions converting sops placeholders into MCP config structures. |
 | `modules/home/default.nix` | Imports every Home Manager domain. |
-| `modules/home/agents/default.nix` | Imports OpenCode, RTK, and skill configuration. |
+| `modules/home/agents/default.nix` | Imports OpenCode, RTK, skill configuration, and platform MCP rendering. |
+| `modules/home/agents/mcp.nix` | User-level MCP rendering on Linux (`~/.codex/config.toml`, OpenCode, Antigravity). |
 | `modules/home/agents/opencode/default.nix` | OpenCode CLI configuration. |
-| `modules/home/agents/rtk.nix` | Renders global `AGENTS.md` files for OpenCode and Codex. |
+| `modules/home/agents/rtk.nix` | Renders global `AGENTS.md` files for OpenCode, Codex, and Antigravity. |
 | `modules/home/agents/skills.nix` | Skill sources and agent targets. |
 | `modules/home/editor/default.nix` | Nixvim core configuration. |
 | `modules/home/editor/languages.nix` | LSP, completion, formatting, and Tree-sitter setup. |
 | `modules/home/editor/testing.nix` | Neotest adapters and test keymaps. |
 | `modules/home/nix/default.nix` | Installs `nxc` from the flake. |
-| `modules/home/packages/default.nix` | Permanent packages and custom flake packages. |
+| `modules/home/packages/default.nix` | Platform-aware package loader; imports `common.nix` and platform packages. |
+| `modules/home/packages/common.nix` | Packages common to both macOS and Linux. |
+| `modules/home/packages/darwin.nix` | Packages specific to macOS (Colima, Go toolchain, Antigravity ACP override, etc.). |
+| `modules/home/packages/linux.nix` | Packages specific to Linux (Codex CLI). |
 | `modules/home/security/default.nix` | sops-nix, age key, and related packages. |
 | `modules/home/shell/default.nix` | zsh, Starship, Atuin, direnv, fzf, zoxide, and aliases. |
 | `modules/home/terminal/default.nix` | Installs the Ghostty configuration file. |
@@ -133,26 +149,33 @@ plus optional `references/`, `assets/`, and `tests/` folders.
 ## How Modules Are Wired
 
 `flake.nix` imports `flake/hosts.nix`, exposes packages and checks, and builds
-`darwinConfigurations.darwin`. The host entry at `hosts/darwin/default.nix`
-imports `modules/darwin` and wires Home Manager to `modules/home`.
-`modules/home/default.nix` imports each user domain, and each domain's
-`default.nix` imports its own submodules.
+`darwinConfigurations.darwin` for macOS and `homeConfigurations.vps` for the
+Ubuntu VPS.
 
-New modules therefore belong in the matching domain folder and must be imported
-from that folder's `default.nix`.
+On macOS, `hosts/darwin/default.nix` imports `modules/darwin` and wires Home
+Manager to `modules/home`. On the VPS, `hosts/vps/default.nix` configures
+standalone Home Manager with `modules/home` directly.
+
+`modules/home/default.nix` imports each user domain, and each domain's
+`default.nix` imports its own submodules. `modules/home/packages/default.nix`
+imports `common.nix` plus either `darwin.nix` or `linux.nix` based on the
+configured host profile.
 
 ## Where to Make Changes
 
 | Change | Edit |
 | --- | --- |
-| Add a user package | `modules/home/packages/default.nix` |
+| Add a shared user package | `modules/home/packages/common.nix` |
+| Add a macOS user package | `modules/home/packages/darwin.nix` |
+| Add a Linux user package | `modules/home/packages/linux.nix` |
 | Add a Home Manager module | Create it under `modules/home/<domain>/` and import it from that domain's `default.nix`. |
-| Add a system module | Create it under `modules/darwin/` and import it from `modules/darwin/default.nix`. |
+| Add a macOS system module | Create it under `modules/darwin/` and import it from `modules/darwin/default.nix`. |
 | Add a custom package | Create it under `pkgs/<name>/` and expose it in `flake.nix`. |
-| Change MCP servers | `modules/darwin/mcp.nix` |
+| Change MCP servers | `modules/shared/mcp-servers.nix` |
 | Add an agent skill source | `modules/home/agents/skills.nix` |
 | Add a personal skill | `modules/home/agents/skills/<name>/SKILL.md` |
 | Add a secret | Follow the sops workflow, then reference `config.sops.placeholder."<section>/<key>"`. |
 | Change host values | `flake/hosts.nix` |
+| Change VPS host settings | `hosts/vps/default.nix` |
 | Change CLI behavior | `pkgs/nxc/default.nix` |
 | Update project docs | `README.md` or `docs/` |

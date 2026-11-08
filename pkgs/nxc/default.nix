@@ -2,14 +2,19 @@
   lib,
   writeShellApplication,
   nh,
+  homeManager ? null,
+  hostName,
+  isLinux ? false,
   repo,
 }:
 
 writeShellApplication {
   name = "nxc";
-  runtimeInputs = [ nh ];
+  runtimeInputs = [ nh ] ++ lib.optional isLinux homeManager;
   text = ''
     repo=${lib.escapeShellArg repo}
+    host_name=${lib.escapeShellArg hostName}
+    is_linux=${if isLinux then "1" else "0"}
 
     usage() {
       cat <<'EOF'
@@ -39,10 +44,12 @@ writeShellApplication {
     }
 
     find_repo() {
-      local candidate
+      local candidate expected_host
+      expected_host="hosts/$host_name/default.nix"
+
       if [ -n "''${NXC_REPO:-}" ]; then
         candidate="$NXC_REPO"
-        if [ ! -f "$candidate/flake.nix" ] || [ ! -f "$candidate/hosts/darwin/default.nix" ]; then
+        if [ ! -f "$candidate/flake.nix" ] || [ ! -f "$candidate/$expected_host" ]; then
           printf 'nxc: NXC_REPO does not point to the nix-config flake: %s\n' "$candidate" >&2
           return 1
         fi
@@ -50,7 +57,7 @@ writeShellApplication {
         return 0
       fi
 
-      if [ ! -d "$repo" ] || [ ! -f "$repo/flake.nix" ] || [ ! -f "$repo/hosts/darwin/default.nix" ]; then
+      if [ ! -d "$repo" ] || [ ! -f "$repo/flake.nix" ] || [ ! -f "$repo/$expected_host" ]; then
         printf 'nxc: repository not found at %s\n' "$repo" >&2
         printf 'nxc: set NXC_REPO to the repository path\n' >&2
         return 1
@@ -77,11 +84,17 @@ writeShellApplication {
       apply)
         warn_untracked
         cd "$repo" || exit 1
+        if [ "$is_linux" -eq 1 ]; then
+          exec nh home switch "$repo" -c "$host_name"
+        fi
         exec nix run .#activate
         ;;
       build)
         warn_untracked
         cd "$repo" || exit 1
+        if [ "$is_linux" -eq 1 ]; then
+          exec nh home build "$repo" -c "$host_name" -o result
+        fi
         exec nh darwin build . -H darwin -o result
         ;;
       check)
@@ -90,7 +103,11 @@ writeShellApplication {
         nix fmt -- --ci
         nix develop -c bash -c 'statix check . && deadnix .'
         nix flake check
-        nix build .#darwinConfigurations.darwin.system --no-link
+        if [ "$is_linux" -eq 1 ]; then
+          nix build ".#homeConfigurations.''${host_name}.activationPackage" --no-link
+        else
+          nix build .#darwinConfigurations.darwin.system --no-link
+        fi
         ;;
       fmt)
         cd "$repo" || exit 1
@@ -149,6 +166,9 @@ writeShellApplication {
         exec nix shell --inputs-from "$repo" "''${packages[@]}" "$@"
         ;;
       rollback)
+        if [ "$is_linux" -eq 1 ]; then
+          exec home-manager rollback
+        fi
         exec sudo darwin-rebuild --rollback
         ;;
       edit)
@@ -166,14 +186,29 @@ writeShellApplication {
           packages)
             path="$repo/modules/home/packages/default.nix"
             ;;
+          packages-common)
+            path="$repo/modules/home/packages/common.nix"
+            ;;
+          packages-darwin)
+            path="$repo/modules/home/packages/darwin.nix"
+            ;;
+          packages-linux)
+            path="$repo/modules/home/packages/linux.nix"
+            ;;
           shell)
             path="$repo/modules/home/shell/default.nix"
             ;;
           nix)
             path="$repo/modules/home/nix/default.nix"
             ;;
+          mcp)
+            path="$repo/modules/shared/mcp-servers.nix"
+            ;;
           darwin)
             path="$repo/modules/darwin/default.nix"
+            ;;
+          vps)
+            path="$repo/hosts/vps/default.nix"
             ;;
           readme)
             path="$repo/README.md"

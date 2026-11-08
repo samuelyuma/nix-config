@@ -1,13 +1,15 @@
 # nix-config
 
-Declarative nix-darwin and Home Manager configuration for one macOS machine
-(`aarch64-darwin`, user `yumx`).
+Declarative configuration for one macOS machine (`aarch64-darwin`) and one
+Ubuntu VPS (`x86_64-linux`), both for user `yumx`. The Mac uses nix-darwin and
+Home Manager; the VPS uses standalone Home Manager on top of Ubuntu.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Layout](#layout)
   - [Detailed Structure](docs/STRUCTURE.md)
+- [VPS Host](#vps-host)
 - [Quick Start](#quick-start)
 - [Checks](#checks)
 - [Everyday Commands](#everyday-commands)
@@ -22,11 +24,17 @@ Declarative nix-darwin and Home Manager configuration for one macOS machine
 
 ## Overview
 
-- Nix-darwin manages the system; Home Manager manages user packages and dotfiles.
-- The flake uses the existing Determinate Nix installation (`nix.enable = false`).
+- Nix-darwin manages the macOS system; Home Manager manages user packages and
+  dotfiles.
+- On the VPS, Ubuntu manages the system and standalone Home Manager manages the
+  user environment. Docker, Tailscale, and T3 Code stay under their own
+  installers.
+- The flake uses the existing Determinate Nix installation on the Mac
+  (`nix.enable = false`). The VPS uses the Determinate Nix installer as well.
 - Nix with `nix-command` and `flakes` is required; `direnv` is optional.
-- `nxc` is the repository CLI. Home Manager installs it, so it is available
-  from any directory after the first activation.
+- `nxc` is the repository CLI. Home Manager installs it on both hosts, so it is
+  available from any directory after the first activation. It selects the
+  matching host configuration automatically.
 
 ## Layout
 
@@ -35,17 +43,20 @@ nix-config/
 ├── flake.nix            # flake inputs and outputs
 ├── flake.lock           # locked input revisions
 ├── flake/               # activation, dev shell, Git hooks, host wiring
-├── hosts/               # machine entry points
+├── hosts/
+│   ├── darwin/          # macOS system entry point
+│   └── vps/             # Ubuntu standalone Home Manager entry point
 ├── modules/
-│   ├── darwin/          # system configuration and MCP rendering
+│   ├── darwin/          # macOS system configuration and MCP rendering
+│   ├── shared/          # MCP definitions shared by both hosts
 │   └── home/
-│       ├── agents/      # OpenCode, skills, and RTK
+│       ├── agents/      # agents, skills, RTK, and Linux MCP rendering
 │       ├── editor/      # Neovim and language tooling
 │       ├── nix/         # nxc installation
-│       ├── packages/    # permanent user packages
+│       ├── packages/    # common, macOS, and Linux user packages
 │       ├── security/    # sops and age setup
 │       ├── shell/       # zsh, starship, direnv, and CLI tools
-│       ├── terminal/    # Ghostty configuration
+│       ├── terminal/    # Ghostty configuration (macOS)
 │       └── vcs/         # Git and credentials
 ├── pkgs/                # custom packages (nxc, OpenCode, RTK, ...)
 ├── secrets/             # sops-encrypted secrets
@@ -57,7 +68,27 @@ nix-config/
 
 See [docs/STRUCTURE.md](docs/STRUCTURE.md) for the full tree and module map.
 
+## VPS Host
+
+The `vps` host is a headless Ubuntu machine managed by standalone Home Manager.
+It provides the same agent tooling, skills, instructions, and MCP servers as the
+Mac, plus Docker CLI plugins and a T3 Code service path. Provisioning, Tailscale,
+Docker, T3 Connect, and resource tuning are documented in [docs/VPS.md](docs/VPS.md).
+
+First activation on the VPS:
+
+```console
+nix run .#home-manager -- switch --flake .#vps
+exec zsh -l
+nxc path
+```
+
+After that, use the same `nxc` workflow as on the Mac. `nxc apply` runs
+`home-manager switch` on the VPS and `darwin-rebuild switch` on the Mac.
+
 ## Quick Start
+
+macOS:
 
 ```console
 nix develop
@@ -83,7 +114,15 @@ nix flake check
 nix build .#darwinConfigurations.darwin.system
 ```
 
-After `nxc` is installed, `nxc check` runs the same checks from any directory.
+On the VPS, the last command is:
+
+```console
+nix build .#homeConfigurations.vps.activationPackage
+```
+
+After `nxc` is installed, `nxc check` runs the checks for the current host from
+any directory. The Mac checks do not build the Linux activation package; run
+`nxc check` on the VPS to validate that path.
 
 ## Everyday Commands
 
@@ -92,35 +131,40 @@ alias.
 
 | Command | Description |
 | --- | --- |
-| `nxc apply` | Activate the configuration. |
+| `nxc apply` | Activate the configuration for the current host. |
 | `nxc build` | Build without activating; writes `result`. |
-| `nxc check` | Run formatting, lint, flake checks, and the system build. |
+| `nxc check` | Run formatting, lint, flake checks, and the host build. |
 | `nxc fmt` | Format the repository. |
 | `nxc update` | Update all flake inputs. |
 | `nxc search ripgrep` | Search nixpkgs packages. |
 | `nxc options fonts` | Search NixOS, Home Manager, and nix-darwin options. |
 | `nxc try ripgrep` | Open a temporary shell with packages from pinned nixpkgs. |
-| `nxc rollback` | Roll back the previous system generation. |
+| `nxc rollback` | Roll back the previous generation. |
 | `nxc edit packages` | Edit `modules/home/packages/default.nix`. |
+| `nxc edit vps` | Edit `hosts/vps/default.nix`. |
+| `nxc edit mcp` | Edit `modules/shared/mcp-servers.nix`. |
 | `nxc path` | Print the repository path. |
 | `nxc help` | Show all commands. |
 
 Details:
 
-- `nxc apply` uses the same activation path as `nix run .#activate`.
+- `nxc apply` uses `nix run .#activate` on the Mac and `nh home switch` on the
+  VPS.
 - `nxc build` uses `nh` internally and writes `result`; `nh` is not installed
   separately.
 - `nxc check` runs the checks above. `nxc fmt --ci` checks formatting, and
   `nxc update nixpkgs` updates one input; omit the name to update all inputs.
 - `nxc try ripgrep --command rg --version` runs one command instead of opening
   a shell.
-- `nxc edit` accepts `flake`, `hosts`, `packages`, `shell`, `nix`, `darwin`, or
-  `readme`; other values are paths relative to the repository. With no target,
-  it opens the repository root. The editor comes from `VISUAL`, then `EDITOR`,
-  then `nvim`.
-- `nxc rollback` uses `sudo`. Set `NXC_REPO` to override the repository path.
-- Add permanent packages with `nxc edit packages`; use `nxc try` for temporary
-  tools.
+- `nxc edit` accepts `flake`, `hosts`, `packages`, `packages-common`,
+  `packages-darwin`, `packages-linux`, `shell`, `nix`, `mcp`, `darwin`, `vps`,
+  or `readme`; other values are paths relative to the repository. With no
+  target, it opens the repository root. The editor comes from `VISUAL`, then
+  `EDITOR`, then `nvim`.
+- `nxc rollback` uses `sudo darwin-rebuild` on the Mac and `home-manager
+  rollback` on the VPS. Set `NXC_REPO` to override the repository path.
+- Add permanent packages with `nxc edit packages-common`, `packages-darwin`, or
+  `packages-linux`; use `nxc try` for temporary tools.
 
 ## Daily Workflow
 
@@ -137,11 +181,17 @@ flowchart TD
     Apply -->|bad generation| Rollback["nxc rollback"]
 ```
 
+The same loop applies on the VPS; `nxc apply` switches the Home Manager
+generation there instead of the nix-darwin system.
+
 ## Agent Skills
 
 - Skills are selected in [skills.nix](modules/home/agents/skills.nix) and
-  installed into `~/.codex/skills` and `~/.config/opencode/skills` during
-  activation.
+  installed into `~/.codex/skills`, `~/.config/opencode/skills`, and
+  `~/.gemini/config/skills` during activation.
+- Global instructions are rendered for OpenCode (`~/.config/opencode/AGENTS.md`),
+  Codex (`~/.codex/AGENTS.md`), and Antigravity
+  (`~/.gemini/config/AGENTS.md`).
 - Personal skills live in `modules/home/agents/skills/`:
   - [writing](modules/home/agents/skills/writing/SKILL.md): clear prose for
     chat, documents, PR descriptions, commit messages, and code comments.
