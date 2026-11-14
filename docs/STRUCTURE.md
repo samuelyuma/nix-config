@@ -81,6 +81,7 @@ nix-config/
 ├── .pre-commit-config.yaml
 ├── .sops.yaml
 ├── AGENTS.md
+├── LICENSE
 └── README.md
 ```
 

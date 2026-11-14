@@ -21,6 +21,7 @@ Linux uses standalone Home Manager.
 - [Secrets (sops-nix)](#secrets-sops-nix)
   - [Generating the Tokens](#generating-the-tokens)
   - [MCP Configuration](#mcp-configuration)
+- [License](#license)
 
 ## Overview
 
@@ -316,3 +317,7 @@ When migrating from the previous MCP merger:
 - Remove obsolete `playwright` entries.
 - User-level entries override system defaults; other Codex settings can remain
   in that file.
+
+## License
+
+[MIT](LICENSE).
