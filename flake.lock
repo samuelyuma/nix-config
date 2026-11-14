@@ -234,6 +234,22 @@
         "type": "github"
       }
     },
+    "personal-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794636422,
+        "narHash": "sha256-ZzeAQfFBaTaMgq6frK0papSH4OHUAApkWGqYq4DLQR8=",
+        "owner": "samuelyuma",
+        "repo": "agent-skills",
+        "rev": "9663822d74b8f975eb5e3b57d31265cbb0e0924a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "samuelyuma",
+        "repo": "agent-skills",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-browser": "agent-browser",
@@ -246,6 +262,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-go": "nixpkgs-go",
         "nixvim": "nixvim",
+        "personal-skills": "personal-skills",
         "rtk": "rtk",
         "sops-nix": "sops-nix"
       }

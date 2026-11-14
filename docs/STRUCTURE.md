@@ -35,13 +35,7 @@ nix-config/
 │       │   │   └── default.nix
 │       │   ├── rtk.nix
 │       │   ├── rtk-codex.md
-│       │   ├── skills.nix
-│       │   └── skills/
-│       │       ├── agent-instructions/
-│       │       ├── documentation/
-│       │       ├── plan/
-│       │       ├── research/
-│       │       └── writing/
+│       │   └── skills.nix
 │       ├── editor/
 │       │   ├── default.nix
 │       │   ├── languages.nix
@@ -90,8 +84,9 @@ nix-config/
 └── README.md
 ```
 
-Each personal skill under `modules/home/agents/skills/` contains a `SKILL.md`
-plus optional `references/`, `assets/`, and `tests/` folders.
+Personal skills live in [agent-skills](https://github.com/samuelyuma/agent-skills).
+The `personal-skills` flake input pins that repository, and
+`modules/home/agents/skills.nix` selects the skills to install.
 
 ## Directory Guide
 
@@ -173,7 +168,7 @@ configured host profile.
 | Add a custom package | Create it under `pkgs/<name>/` and expose it in `flake.nix`. |
 | Change MCP servers | `modules/shared/mcp-servers.nix` |
 | Add an agent skill source | `modules/home/agents/skills.nix` |
-| Add a personal skill | `modules/home/agents/skills/<name>/SKILL.md` |
+| Add a personal skill | Add it to [agent-skills](https://github.com/samuelyuma/agent-skills), select it in `modules/home/agents/skills.nix`, and update the `personal-skills` input. |
 | Add a secret | Follow the sops workflow, then reference `config.sops.placeholder."<section>/<key>"`. |
 | Change host values | `flake/hosts.nix` |
 | Change Linux host settings | `hosts/linux/default.nix` |

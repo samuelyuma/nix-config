@@ -22,7 +22,13 @@ in
     };
 
     sources = {
-      local.path = ./skills;
+      personal-skills = fromInput "personal-skills" [
+        "agent-instructions"
+        "documentation"
+        "plan"
+        "research"
+        "writing"
+      ];
       agent-browser = fromInput "agent-browser" [ "agent-browser" ];
       grill = fromInputAt "grill" "skills/productivity" [
         "grilling"

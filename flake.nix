@@ -27,6 +27,10 @@
     };
 
     # Skill sources (consumed by modules/home/agents/skills.nix)
+    personal-skills = {
+      url = "github:samuelyuma/agent-skills";
+      flake = false;
+    };
     agent-browser = {
       url = "github:vercel-labs/agent-browser";
       flake = false;
