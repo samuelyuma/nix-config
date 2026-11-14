@@ -43,6 +43,18 @@
       url = "github:anthropics/skills";
       flake = false;
     };
+    tactile-design = {
+      url = "github:kosta4a/tactile-design";
+      flake = false;
+    };
+    emil-skills = {
+      url = "github:emilkowalski/skills";
+      flake = false;
+    };
+    security-audit-skill = {
+      url = "github:cloudflare/security-audit-skill";
+      flake = false;
+    };
     # Package source (consumed by pkgs/).
     rtk = {
       url = "github:rtk-ai/rtk/v0.48.0";

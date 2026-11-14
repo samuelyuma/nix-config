@@ -43,6 +43,12 @@ in
         "retro"
       ];
       anthropic-skills = fromInput "anthropic-skills" [ "skill-creator" ];
+      tactile-design = fromInput "tactile-design" [ "tactile-design" ];
+      emil-skills = fromInput "emil-skills" [
+        "break-ui"
+        "emil-design-eng"
+      ];
+      security-audit-skill = fromInput "security-audit-skill" [ "security-audit" ];
     };
 
     skills.enableAll = true;

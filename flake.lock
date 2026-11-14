@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "emil-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794591986,
+        "narHash": "sha256-quZAP7AFWI0bPyQSI6yf2tYHpHn0ZnDoNlBwBvyJ9Gs=",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "rev": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -255,6 +271,7 @@
         "agent-browser": "agent-browser",
         "agent-skills-nix": "agent-skills-nix",
         "anthropic-skills": "anthropic-skills",
+        "emil-skills": "emil-skills",
         "git-hooks": "git-hooks",
         "grill": "grill",
         "home-manager": "home-manager",
@@ -264,7 +281,9 @@
         "nixvim": "nixvim",
         "personal-skills": "personal-skills",
         "rtk": "rtk",
-        "sops-nix": "sops-nix"
+        "security-audit-skill": "security-audit-skill",
+        "sops-nix": "sops-nix",
+        "tactile-design": "tactile-design"
       }
     },
     "rtk": {
@@ -281,6 +300,22 @@
         "owner": "rtk-ai",
         "ref": "v0.48.0",
         "repo": "rtk",
+        "type": "github"
+      }
+    },
+    "security-audit-skill": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789414134,
+        "narHash": "sha256-oVVACjotkHvllQGxEP8yWaEt4c3GxT0d909TUM5P3NM=",
+        "owner": "cloudflare",
+        "repo": "security-audit-skill",
+        "rev": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cloudflare",
+        "repo": "security-audit-skill",
         "type": "github"
       }
     },
@@ -318,6 +353,22 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tactile-design": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793574985,
+        "narHash": "sha256-2h42YIDBuXMm7CE4gcagGBdwVNKXeWF0SL9EIyKt2sk=",
+        "owner": "kosta4a",
+        "repo": "tactile-design",
+        "rev": "30495a2db7cb59a72bacea106118ffeab7af00d9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kosta4a",
+        "repo": "tactile-design",
         "type": "github"
       }
     }
