@@ -1,9 +1,8 @@
 # nix-config
 
 Declarative configuration for macOS (`aarch64-darwin`) and Linux
-(`x86_64-linux`, including Ubuntu VPS and generic Linux systems), both for
-user `yumx`. The Mac uses nix-darwin and Home Manager; Linux uses standalone
-Home Manager.
+(`x86_64-linux`), both for user `yumx`. The Mac uses nix-darwin and Home Manager;
+Linux uses standalone Home Manager.
 
 ## Table of Contents
 
@@ -71,9 +70,9 @@ See [docs/STRUCTURE.md](docs/STRUCTURE.md) for the full tree and module map.
 
 ## Linux Host
 
-The `linux` host runs standalone Home Manager on GNU/Linux (including Ubuntu
-VPS systems). It provides the same agent tooling, skills, instructions, and
-MCP servers as the Mac, plus Docker CLI plugins and a T3 Code service path.
+The `linux` host runs standalone Home Manager on GNU/Linux. It provides the
+same agent tooling, skills, instructions, and MCP servers as the Mac, plus
+Docker CLI plugins and a T3 Code service path.
 Provisioning, Tailscale, Docker, T3 Connect, and resource tuning are documented
 in [docs/LINUX.md](docs/LINUX.md).
 
