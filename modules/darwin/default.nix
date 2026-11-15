@@ -1,7 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [ ./mcp.nix ];
+
+  environment.systemPackages = [
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.kiri
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.monocode
+  ];
 
   fonts.packages = [ pkgs.nerd-fonts.geist-mono ];
 
@@ -12,6 +17,7 @@
     casks = [
       "chatgpt"
       "codex"
+      "dbx"
       "discord"
       "dockdoor"
       "ghostty"
@@ -24,7 +30,6 @@
       "opencode-desktop"
       "spotify"
       "steam"
-      "t3-code"
       "telegram"
       "the-unarchiver"
       "whatsapp"

@@ -18,9 +18,8 @@ host build checks `darwinConfigurations.darwin.system`; on Linux, it checks
 - Use `config.sops.placeholder."<section>/<key>"` for secrets; never open,
   decrypt, or edit `secrets/secrets.yaml`.
 - Never run `sops updatekeys`, modify age private keys, or run sudo commands.
-- Linux system services (Docker, Tailscale, T3 Code) stay under their official
+- Linux system services (Docker, Tailscale) stay under their official
   installers; do not add NixOS modules or root system services.
-- T3 Code is managed by its official installer and updater, not Nix.
 - Edit the Nix source; Home Manager's symlinks in `~` are read-only, including
   for `rtk init`.
 

@@ -32,7 +32,6 @@ in
     moon
 
     # macOS containers and utilities
-    colima
     docker-credential-osxkeychain
     mactop
     mole-cleaner

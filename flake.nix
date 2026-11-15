@@ -113,6 +113,8 @@
         ${darwin.system} = (mkPackages darwin darwinPkgs) // {
           inherit activate;
           docker-credential-osxkeychain = darwinPkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
+          kiri = darwinPkgs.callPackage ./pkgs/kiri { };
+          monocode = darwinPkgs.callPackage ./pkgs/monocode { };
         };
         ${linux.system} = (mkPackages linux linuxPkgs) // {
           home-manager = inputs.home-manager.packages.${linux.system}.home-manager;

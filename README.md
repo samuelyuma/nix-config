@@ -28,7 +28,7 @@ Linux uses standalone Home Manager.
 - Nix-darwin manages the macOS system; Home Manager manages user packages and
   dotfiles.
 - On Linux, the distribution manages the system and standalone Home Manager
-  manages the user environment. Docker, Tailscale, and T3 Code stay under their
+  manages the user environment. Docker and Tailscale stay under their
   own installers.
 - The flake uses the existing Determinate Nix installation on the Mac
   (`nix.enable = false`). Linux uses the Determinate Nix installer as well.
@@ -73,8 +73,8 @@ See [docs/STRUCTURE.md](docs/STRUCTURE.md) for the full tree and module map.
 
 The `linux` host runs standalone Home Manager on GNU/Linux. It provides the
 same agent tooling, skills, instructions, and MCP servers as the Mac, plus
-Docker CLI plugins and a T3 Code service path.
-Provisioning, Tailscale, Docker, T3 Connect, and resource tuning are documented
+Docker CLI plugins.
+Provisioning, Tailscale, Docker, and resource tuning are documented
 in [docs/LINUX.md](docs/LINUX.md).
 
 First activation on Linux:
