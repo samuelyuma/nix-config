@@ -34,6 +34,14 @@ let
       zinit load ${omzPlugins}/golang
     fi
   '';
+
+  # Kiri's first-launch setup skips profiles containing this marker. These
+  # profiles are Home Manager symlinks, so Kiri cannot write the marker itself.
+  # Prefer the app's CLI so Kiri recognizes it as the same installation.
+  kiriShellPath = ''
+    # Added by Kiri: its docker and kiri commands (kiri setup --uninstall removes this)
+    export PATH="$HOME/.kiri/bin:$PATH"
+  '';
 in
 
 {
@@ -77,6 +85,7 @@ in
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      profileExtra = lib.optionalString (host.profile == "darwin") kiriShellPath;
 
       plugins = [
         {
@@ -119,6 +128,8 @@ in
       };
 
       initContent = lib.mkOrder 850 ''
+        ${lib.optionalString (host.profile == "darwin") kiriShellPath}
+
         # Re-exec the login shell so the full zsh configuration is read again.
         # Clear Home Manager's guards so session variables are refreshed too.
         reload() {

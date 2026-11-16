@@ -28,6 +28,7 @@
       "markdown-preview"
       "obsidian"
       "opencode-desktop"
+      "sourcetree"
       "spotify"
       "steam"
       "telegram"
