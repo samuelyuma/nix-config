@@ -112,6 +112,7 @@
       packages = {
         ${darwin.system} = (mkPackages darwin darwinPkgs) // {
           inherit activate;
+          anyscp = darwinPkgs.callPackage ./pkgs/anyscp { };
           docker-credential-osxkeychain = darwinPkgs.callPackage ./pkgs/docker-credential-osxkeychain.nix { };
           kiri = darwinPkgs.callPackage ./pkgs/kiri { };
           monocode = darwinPkgs.callPackage ./pkgs/monocode { };

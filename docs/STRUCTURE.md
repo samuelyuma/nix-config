@@ -135,7 +135,7 @@ The `personal-skills` flake input pins that repository, and
 | `modules/home/nix/default.nix` | Installs `nxc` from the flake. |
 | `modules/home/packages/default.nix` | Platform-aware package loader; imports `common.nix` and platform packages. |
 | `modules/home/packages/common.nix` | Packages common to both macOS and Linux. |
-| `modules/home/packages/darwin.nix` | Packages specific to macOS (Colima, Go toolchain, Antigravity ACP override, etc.). |
+| `modules/home/packages/darwin.nix` | Packages specific to macOS (Go toolchain, Antigravity ACP override, etc.). |
 | `modules/home/packages/linux.nix` | Packages specific to Linux (Codex CLI). |
 | `modules/home/security/default.nix` | sops-nix, age key, and related packages. |
 | `modules/home/shell/default.nix` | zsh, Starship, Atuin, direnv, fzf, zoxide, and aliases. |

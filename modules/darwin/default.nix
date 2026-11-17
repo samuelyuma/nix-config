@@ -4,6 +4,7 @@
   imports = [ ./mcp.nix ];
 
   environment.systemPackages = [
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.anyscp
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.kiri
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.monocode
   ];
