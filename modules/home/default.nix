@@ -10,7 +10,10 @@
     ./shell
     ./vcs/git.nix
   ]
-  ++ lib.optionals (host.profile == "darwin") [ ./terminal ];
+  ++ lib.optionals (host.profile == "darwin") [
+    ./editor/zed.nix
+    ./terminal
+  ];
 
   home = {
     inherit (host) homeDirectory username;
