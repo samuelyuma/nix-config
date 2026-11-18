@@ -87,6 +87,12 @@ in
       syntaxHighlighting.enable = true;
       profileExtra = lib.optionalString (host.profile == "darwin") kiriShellPath;
 
+      # macOS /etc/zshrc runs compinit before this file, so completion
+      # initialization would run twice. Skip the system copy on macOS.
+      envExtra = lib.optionalString (host.profile == "darwin") ''
+        export NOSYSZSHRC=1
+      '';
+
       plugins = [
         {
           name = "zsh-completions";
@@ -128,6 +134,9 @@ in
       };
 
       initContent = lib.mkOrder 850 ''
+        # /etc/zshrc normally loads bashcompinit; keep it when that file is skipped.
+        autoload -Uz bashcompinit && bashcompinit
+
         ${lib.optionalString (host.profile == "darwin") kiriShellPath}
 
         # Re-exec the login shell so the full zsh configuration is read again.
