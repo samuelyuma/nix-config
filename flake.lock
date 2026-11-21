@@ -162,6 +162,22 @@
         "type": "github"
       }
     },
+    "impeccable": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795039099,
+        "narHash": "sha256-vtmRhNPnX974JYvn5BKXeJ1JpBusS/0O57zTPVxbJPg=",
+        "owner": "pbakaus",
+        "repo": "impeccable",
+        "rev": "b49177d32788f2dc585c42831d845dacf1ebed2c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pbakaus",
+        "repo": "impeccable",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -275,6 +291,7 @@
         "git-hooks": "git-hooks",
         "grill": "grill",
         "home-manager": "home-manager",
+        "impeccable": "impeccable",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-go": "nixpkgs-go",

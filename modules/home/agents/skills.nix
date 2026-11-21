@@ -22,13 +22,11 @@ in
     };
 
     sources = {
-      personal-skills = fromInput "personal-skills" [
-        "agent-instructions"
-        "documentation"
-        "plan"
-        "research"
-        "writing"
-      ];
+      personal-skills = {
+        input = "personal-skills";
+        subdir = "skills";
+        filter.maxDepth = 1;
+      };
       agent-browser = fromInput "agent-browser" [ "agent-browser" ];
       grill = fromInputAt "grill" "skills/productivity" [
         "grilling"
@@ -49,6 +47,7 @@ in
         "emil-design-eng"
       ];
       security-audit-skill = fromInput "security-audit-skill" [ "security-audit" ];
+      impeccable = fromInputAt "impeccable" ".agents/skills" [ "impeccable" ];
     };
 
     skills.enableAll = true;

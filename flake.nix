@@ -55,6 +55,10 @@
       url = "github:cloudflare/security-audit-skill";
       flake = false;
     };
+    impeccable = {
+      url = "github:pbakaus/impeccable";
+      flake = false;
+    };
     # Package source (consumed by pkgs/).
     rtk = {
       url = "github:rtk-ai/rtk/v0.48.0";
