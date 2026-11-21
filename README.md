@@ -138,6 +138,7 @@ alias.
 | `nxc check` | Run formatting, lint, flake checks, and the host build. |
 | `nxc fmt` | Format the repository. |
 | `nxc update` | Update all flake inputs. |
+| `nxc sync-skills` | Update the personal agent-skills input. |
 | `nxc search ripgrep` | Search nixpkgs packages. |
 | `nxc options fonts` | Search NixOS, Home Manager, and nix-darwin options. |
 | `nxc try ripgrep` | Open a temporary shell with packages from pinned nixpkgs. |
@@ -150,8 +151,9 @@ alias.
 
 Details:
 
-- `nxc apply` uses `nix run .#activate` on the Mac and `nh home switch` on
-  Linux.
+- `nxc apply` updates the `personal-skills` input first, then uses
+  `nix run .#activate` on the Mac and `nh home switch` on Linux. Set
+  `NXC_SYNC_SKILLS=0` to apply the pinned revision instead.
 - `nxc build` uses `nh` internally and writes `result`; `nh` is not installed
   separately.
 - `nxc check` runs the checks above. `nxc fmt --ci` checks formatting, and
@@ -195,13 +197,14 @@ generation there instead of the nix-darwin system.
   Codex (`~/.codex/AGENTS.md`), and Antigravity
   (`~/.gemini/config/AGENTS.md`).
 - Personal skills are maintained in
-  [agent-skills](https://github.com/samuelyuma/agent-skills): `agent-instructions`,
-  `documentation`, `plan`, `research`, and `writing`. The `personal-skills` flake
-  input pins their published revision in `flake.lock`.
+  [agent-skills](https://github.com/samuelyuma/agent-skills). Every skill under
+  its `skills/` directory is enabled, so new skills are installed without
+  editing `skills.nix`.
+- The `personal-skills` flake input pins their published revision in
+  `flake.lock`. `nxc apply` updates that input first, and `nxc sync-skills`
+  updates it without applying. Set `NXC_SYNC_SKILLS=0` to skip the update.
 - Other skill sources and selections are listed in `skills.nix`.
 - Repository maintenance skills live in `.agents/skills/`.
-- After publishing changes to personal skills, run `nix flake update personal-skills`,
-  then `nxc check` and `nxc apply` to install the updated revision.
 
 ## Updating
 

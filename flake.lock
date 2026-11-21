@@ -269,11 +269,11 @@
     "personal-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1794636422,
-        "narHash": "sha256-ZzeAQfFBaTaMgq6frK0papSH4OHUAApkWGqYq4DLQR8=",
+        "lastModified": 1795233454,
+        "narHash": "sha256-IRJcOKQn5FnNGqPQw+Akxi8AUdRD3ejy/q2KzXFZc5k=",
         "owner": "samuelyuma",
         "repo": "agent-skills",
-        "rev": "9663822d74b8f975eb5e3b57d31265cbb0e0924a",
+        "rev": "3c6aeadf5c4b4afe9fad83cf89d358d036ba09a5",
         "type": "github"
       },
       "original": {

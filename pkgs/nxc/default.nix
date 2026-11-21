@@ -29,6 +29,7 @@ writeShellApplication {
       check              Run formatting, lint, flake checks, and the system build
       fmt [args...]      Format the repository
       update [input...]  Update flake inputs (all inputs when omitted)
+      sync-skills        Update the personal agent-skills input
       search <query...>  Search nixpkgs packages
       options <query...> Search NixOS, Home Manager, and nix-darwin options
       try <pkg...>       Open a shell with packages from the pinned nixpkgs
@@ -39,6 +40,7 @@ writeShellApplication {
 
     Environment:
       NXC_REPO           Override the repository path
+      NXC_SYNC_SKILLS    Set to 0 to skip syncing personal skills on apply
       VISUAL, EDITOR     Editor used by `nxc edit` (default: nvim)
     EOF
     }
@@ -82,10 +84,20 @@ writeShellApplication {
     command="''${1:-help}"
     shift || true
 
+    sync_personal_skills() {
+      if [ "''${NXC_SYNC_SKILLS:-1}" = "0" ]; then
+        return 0
+      fi
+      if ! nix flake update personal-skills; then
+        printf 'warning: could not update personal skills; using the pinned revision\n' >&2
+      fi
+    }
+
     case "$command" in
       apply)
         warn_untracked
         cd "$repo" || exit 1
+        sync_personal_skills
         if [ "$is_linux" -eq 1 ]; then
           exec nh home switch "$repo" -c "$host_name"
         fi
@@ -124,6 +136,10 @@ writeShellApplication {
           exec nix flake update
         fi
         exec nix flake update "$@"
+        ;;
+      sync-skills)
+        cd "$repo" || exit 1
+        exec nix flake update personal-skills
         ;;
       search)
         if [ "$#" -eq 0 ]; then
