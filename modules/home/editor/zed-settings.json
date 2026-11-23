@@ -3,11 +3,16 @@
   "theme": "Neovim default dark",
   "theme_overrides": {
     "Neovim default dark": {
+      "background": "#14161b",
       "border": "#2c2e33",
       "editor.document_highlight.bracket_background": "#00000000",
+      "editor.document_highlight.read_background": "#4f525840",
+      "editor.document_highlight.write_background": "#4f525840",
+      "editor.highlighted_line.background": "#1c1e24",
       "syntax": {
-        "keyword": { "color": "#ffcaff" },
-        "function": { "color": "#a6dbff" },
+        "keyword": { "color": "#ffcaff", "font_weight": 400 },
+        "label": { "color": "#e0e2ea", "font_weight": 400 },
+        "function": { "color": "#a6dbff", "font_weight": 400 },
         "constructor": { "color": "#8cf8f7" },
         "tag": { "color": "#8cf8f7" },
         "type": { "color": "#8cf8f7" },
@@ -77,10 +82,10 @@
   "scrollbar": {
     "show": "never"
   },
-  "when_closing_with_no_tabs": "keep_window_open",
+  "when_closing_with_no_tabs": "close_window",
   "close_on_file_delete": true,
   "restore_on_file_reopen": false,
-  "restore_on_startup": "empty_tab",
+  "restore_on_startup": "launchpad",
 
   // Editor
   "base_keymap": "VSCode",
