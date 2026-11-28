@@ -45,7 +45,15 @@ let
 in
 
 {
-  home.sessionVariables.BAT_THEME = "base16";
+  home.sessionVariables = {
+    BAT_THEME = "base16";
+  }
+  // lib.optionalAttrs (host.profile == "darwin") {
+    # Global .NET tools are apphosts and do not find the SDK inside the Nix
+    # store on their own. Keep this in sync with dotnet-sdk_10 in
+    # modules/home/packages/darwin.nix.
+    DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
+  };
 
   home.sessionPath = [
     "/etc/profiles/per-user/${host.username}/bin"
@@ -53,6 +61,7 @@ in
   ]
   ++ lib.optionals (host.profile == "darwin") [
     "/run/current-system/sw/bin"
+    "${config.home.homeDirectory}/.dotnet/tools"
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
     "/usr/local/bin"
