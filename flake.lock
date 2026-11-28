@@ -271,15 +271,15 @@
       "locked": {
         "lastModified": 1795233454,
         "narHash": "sha256-IRJcOKQn5FnNGqPQw+Akxi8AUdRD3ejy/q2KzXFZc5k=",
-        "owner": "samuelyuma",
-        "repo": "agent-skills",
+        "ref": "refs/heads/main",
         "rev": "3c6aeadf5c4b4afe9fad83cf89d358d036ba09a5",
-        "type": "github"
+        "revCount": 3,
+        "type": "git",
+        "url": "https://github.com/samuelyuma/agent-skills"
       },
       "original": {
-        "owner": "samuelyuma",
-        "repo": "agent-skills",
-        "type": "github"
+        "type": "git",
+        "url": "https://github.com/samuelyuma/agent-skills"
       }
     },
     "root": {

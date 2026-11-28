@@ -28,7 +28,7 @@
 
     # Skill sources (consumed by modules/home/agents/skills.nix)
     personal-skills = {
-      url = "github:samuelyuma/agent-skills";
+      url = "git+https://github.com/samuelyuma/agent-skills";
       flake = false;
     };
     agent-browser = {
