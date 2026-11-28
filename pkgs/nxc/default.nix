@@ -28,6 +28,7 @@ writeShellApplication {
       build              Build the configuration without activating
       check              Run formatting, lint, flake checks, and the system build
       fmt [args...]      Format the repository
+      outdated [input...] Preview package changes (defaults to nixpkgs and nixpkgs-go)
       update [input...]  Update flake inputs (all inputs when omitted)
       sync-skills        Update the personal agent-skills input
       search <query...>  Search nixpkgs packages
@@ -39,7 +40,7 @@ writeShellApplication {
       help               Show this help
 
     Environment:
-      NXC_REPO           Override the repository path
+      NXC_REPO           Override repository discovery (current directory, then default)
       NXC_SYNC_SKILLS    Set to 0 to skip syncing personal skills on apply
       VISUAL, EDITOR     Editor used by `nxc edit` (default: nvim)
     EOF
@@ -56,6 +57,11 @@ writeShellApplication {
           return 1
         fi
         printf '%s\n' "$candidate"
+        return 0
+      fi
+
+      if [ -f "$PWD/flake.nix" ] && [ -f "$PWD/$expected_host" ]; then
+        printf '%s\n' "$PWD"
         return 0
       fi
 
@@ -93,6 +99,14 @@ writeShellApplication {
       fi
     }
 
+    host_build_target() {
+      if [ "$is_linux" -eq 1 ]; then
+        printf '.#homeConfigurations.%s.activationPackage\n' "$host_name"
+      else
+        printf '.#darwinConfigurations.darwin.system\n'
+      fi
+    }
+
     case "$command" in
       apply)
         warn_untracked
@@ -117,11 +131,7 @@ writeShellApplication {
         nix fmt -- --ci
         nix develop -c bash -c 'statix check . && deadnix .'
         nix flake check
-        if [ "$is_linux" -eq 1 ]; then
-          nix build ".#homeConfigurations.''${host_name}.activationPackage" --no-link
-        else
-          nix build .#darwinConfigurations.darwin.system --no-link
-        fi
+        nix build "$(host_build_target)" --no-link
         ;;
       fmt)
         cd "$repo" || exit 1
@@ -129,6 +139,36 @@ writeShellApplication {
           exec nix fmt
         fi
         exec nix fmt -- "$@"
+        ;;
+      outdated)
+        warn_untracked
+        cd "$repo" || exit 1
+        if [ "$#" -eq 0 ]; then
+          set -- nixpkgs nixpkgs-go
+        fi
+        temp_dir=$(cd "''${TMPDIR:-/tmp}" && pwd -P)
+        preview_lock=$(mktemp "$temp_dir/nxc-outdated.XXXXXXXX")
+        trap 'rm -f -- "$preview_lock"' EXIT
+        nix flake update --output-lock-file "$preview_lock" -- "$@"
+        if cmp -s flake.lock "$preview_lock"; then
+          printf 'Selected inputs are up to date.\n'
+          exit 0
+        fi
+
+        target=$(host_build_target)
+        printf 'Evaluating current and preview configurations...\n' >&2
+        before_drv=$(nix eval "$target.drvPath" --raw --no-write-lock-file)
+        after_drv=$(nix eval "$target.drvPath" --raw --no-write-lock-file \
+          --reference-lock-file "$preview_lock")
+        if [ "$before_drv" = "$after_drv" ]; then
+          printf 'Selected inputs changed, but the host configuration is unchanged.\n'
+          exit 0
+        fi
+
+        printf 'Building current and preview configurations as needed...\n' >&2
+        before=$(nix build "$before_drv^out" --no-link --print-out-paths)
+        after=$(nix build "$after_drv^out" --no-link --print-out-paths)
+        nix store diff-closures "$before" "$after"
         ;;
       update)
         cd "$repo" || exit 1

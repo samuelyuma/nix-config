@@ -131,12 +131,16 @@ any directory. The Mac checks do not build the Linux activation package; run
 `nxc` manages this repository and does not replace `nh` or any existing shell
 alias.
 
+From the repository root, `nxc` uses the current directory automatically. From
+elsewhere, it uses `~/nix-config` by default. Set `NXC_REPO` to override either.
+
 | Command | Description |
 | --- | --- |
 | `nxc apply` | Activate the configuration for the current host. |
 | `nxc build` | Build without activating; writes `result`. |
 | `nxc check` | Run formatting, lint, flake checks, and the host build. |
 | `nxc fmt` | Format the repository. |
+| `nxc outdated` | Preview package changes from updating `nixpkgs` and `nixpkgs-go`. |
 | `nxc update` | Update all flake inputs. |
 | `nxc sync-skills` | Update the personal agent-skills input. |
 | `nxc search ripgrep` | Search nixpkgs packages. |
@@ -158,6 +162,13 @@ Details:
   separately.
 - `nxc check` runs the checks above. `nxc fmt --ci` checks formatting, and
   `nxc update nixpkgs` updates one input; omit the name to update all inputs.
+- `nxc outdated` previews input updates in a temporary lock file. If the updates
+  change the host derivation, it builds both configurations as needed and runs
+  `nix store diff-closures`.
+  The comparison includes dependencies and can take time to build. Pass input
+  names to narrow the preview, for example `nxc outdated nixpkgs`. The preview
+  leaves `flake.lock` and the active configuration untouched. Packages with
+  versions pinned in Nix source and Homebrew packages use separate update paths.
 - `nxc try ripgrep --command rg --version` runs one command instead of opening
   a shell.
 - `nxc edit` accepts `flake`, `hosts`, `packages`, `packages-common`,
