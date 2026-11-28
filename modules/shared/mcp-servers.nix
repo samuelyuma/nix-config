@@ -70,10 +70,17 @@ in
   inherit servers;
 
   codexConfig = {
+    approval_policy = "never";
+    model = "gpt-6.2-sol";
+    model_reasoning_effort = "low";
+    sandbox_mode = "danger-full-access";
+    service_tier = "default";
     mcp_servers = codexServers;
     agents = {
+      enabled = true;
+      max_concurrent_threads_per_session = 1000;
       default_subagent_model = "gpt-6.1-terra";
-      default_subagent_reasoning_effort = "xhigh";
+      default_subagent_reasoning_effort = "high";
     };
   };
 
