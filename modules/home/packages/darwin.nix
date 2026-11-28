@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   inputs,
   host,
@@ -19,9 +20,13 @@ let
 in
 
 {
-  home.packages = with pkgs; [
-    antigravity-acp
+  # MonoCode expects this executable name and launches it without arguments.
+  home.file.".local/libexec/monocode/agy_acp_server.par".source =
+    pkgs.writeShellScript "agy_acp_server.par" ''
+      exec ${lib.getExe pkgs.antigravity-cli} acp "$@"
+    '';
 
+  home.packages = with pkgs; [
     # macOS-only language and development tooling
     air
     bun
@@ -30,6 +35,10 @@ in
     golangci-lint
     gopls
     moon
+
+    # AI coding tools
+    antigravity-acp
+    antigravity-cli
 
     # macOS containers and utilities
     docker-credential-osxkeychain

@@ -5,7 +5,12 @@
 
   nix.enable = false;
   nixpkgs.hostPlatform = host.system;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "antigravity-acp" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "antigravity-acp"
+      "antigravity-cli"
+    ];
   system.primaryUser = host.username;
   system.stateVersion = 6;
 
